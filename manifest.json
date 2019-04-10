@@ -1,0 +1,60 @@
+{
+  "name": "Stupify",
+  "version": "1.0",
+  "description": "Improve Spotify Search",
+  "permissions": [
+    "activeTab",
+    "declarativeContent",
+    "storage"
+  ],
+  "options_page": "options.html",
+  "background": {
+    "scripts": [
+      "background.js"
+    ],
+    "persistent": false
+  },
+  "page_action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "images/Spotify_Icon_RGB_Green.png",
+      "32": "images/Spotify_Icon_RGB_Green.png",
+      "48": "images/Spotify_Icon_RGB_Green.png",
+      "128": "images/Spotify_Icon_RGB_Green.png"
+    }
+  },
+  "icons": {
+    "16": "images/Spotify_Icon_RGB_Green.png",
+    "32": "images/Spotify_Icon_RGB_Green.png",
+    "48": "images/Spotify_Icon_RGB_Green.png",
+    "128": "images/Spotify_Icon_RGB_Green.png"
+  },
+  "commands": {
+     "open_stupify": {
+       "suggested_key": {
+         "default": "Ctrl+Shift+A",
+         "mac": "Command+Shift+A"
+       },
+         "description": "Open Stupify"
+     },
+     "_execute_browser_action": {
+       "suggested_key": {
+         "windows": "Ctrl+Shift+Y",
+         "mac": "Command+Shift+Y",
+         "chromeos": "Ctrl+Shift+U",
+         "linux": "Ctrl+Shift+J"
+      }
+     },
+     "_execute_page_action": {
+       "suggested_key": {
+         "default": "Ctrl+Shift+Z",
+         "windows": "Ctrl+Shift+Z",
+         "mac": "Alt+Shift+P"
+       }
+     }
+   },
+  "web_accessible_resources":[
+    "options.html"
+  ],
+  "manifest_version": 2
+}

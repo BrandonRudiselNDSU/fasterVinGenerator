@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Spotify Web Player Control</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+<img src="/images/spotify-logo.png" class="center" width="134" height="40">
+<div style="width:600px; background:#42464c; border:5px solid black;"> <!-- Search div -->
+    <input id="searchBox" type="text" name="keyword" style="width:90%;" placeholder="Search Spotify" autocomplete="off"
+           autofocus>
+    <input id="submitButton" type="submit" style="float: right; width:9%;" onclick="return search();"/>
+    <div>
+        <input id="songCheckbox" name="searchType" type="checkbox" value="song"><font color="white"> Song </font>
+        <input id="albumCheckbox" name="searchType" type="checkbox" value="album"><font color="white"> Album </font>
+        <input id="artistCheckbox" name="searchType" type="checkbox" value="artist"><font color="white"> Artist </font>
+        <input id="playlistCheckbox" name="searchType" type="checkbox" value="playlist"><font color="white">
+        Playlist</font>
+        <input id="genreCheckbox" name="searchType" type="checkbox" value="genre"><font color="white"> Genre</font>
+        <input id="profileCheckbox" name="searchType" type="checkbox" value="profile"><font color="white">
+        Profile</font>
+        <input id="podcastCheckbox" name="searchType" type="checkbox" value="podcast"><font color="white">
+        Podcast</font>
+        <input id="videoCheckbox" name="searchType" type="checkbox" value="video"><font color="white"> Video</font>
+    </div>
+</div>
+<div id="SearchResults" style="width:600px; height:300px; background:#42464c; border:5px solid black;">
+    <!-- User hint watermarks -->
+    <div id="watermark">(Ctrl + Shift + Z to Open and Close)</div>
+    <div id="watermark2">(Enter "/history" to View Search History)</div>
+
+    <!-- Search result div -->
+</div>
+<script src="popup.js"></script>
+<script src="eventListeners.js"></script>
+<link rel="stylesheet" href="style.css">
+</body>
+</html>
