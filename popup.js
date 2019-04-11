@@ -95,3 +95,5 @@ function getCheckedBoxes() {    //returns the values checked in the boxes
     txt = txt.trim();
     return txt;
 }
+
+

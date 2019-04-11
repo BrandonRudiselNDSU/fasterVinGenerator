@@ -34,6 +34,13 @@ p {
     overflow: auto;
 }
 
+#vin {
+    color: black;
+    position: absolute;
+    top: 40%;
+    left: 5%;
+}
+
 #joe {
     margin: 0;
     position: absolute;

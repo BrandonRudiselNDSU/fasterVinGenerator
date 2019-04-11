@@ -6,9 +6,8 @@
 </head>
 <body>
 <div style="width:600px; background:#42464c; border:5px solid black;"> <!-- Search div -->
-    <input id="searchBox" type="text" name="keyword" style="width:90%;" placeholder="Enter Command" autocomplete="off"
-           autofocus>
-    <input id="submitButton" type="submit" style="float: right; width:9%;" onclick="return search();"/>
+    <input id="searchBox" type="text" name="keyword" style="width:90%;" placeholder="Enter Command" autocomplete="off">
+    <input id="submitButton" type="submit" style="float: right; width:9%;" value="BAM!" onclick="return search();"/>
     <div>
         <input id="songCheckbox" name="searchType" type="checkbox" value="song"><font color="white"> Old Car </font>
         <input id="albumCheckbox" name="searchType" type="checkbox" value="album"><font color="white"> Cool Car </font>
@@ -17,6 +16,7 @@
 </div>
 <div id="SearchResults" style="width:600px; height:175px; background:#42464c; border:5px solid black;">
 
+    <input id="vin" type="text" name="keyword" style="width:60%;" value="example vin" autocomplete="off" autofocus>
     <img src="/images/joeFace.png" id="joe" width="152" height="171">
     <!-- User hint watermarks -->
     <div id="watermark">(Enter "/h" to View History)</div>
