@@ -37,7 +37,7 @@ p {
 #vinBox {
     color: black;
     position: absolute;
-    top: 40%;
+    top: 53%;
     left: 5%;
 }
 
@@ -58,4 +58,17 @@ p {
 .right {
   float: right;
   padding: 10px;
+}
+
+#header {
+    color: white;
+}
+
+#subheader {
+    color: white;
+    margin: 0;
+    position: absolute;
+    top: 46%;
+    left: -10%;
+    transform: translate(80%, -35%);
 }
