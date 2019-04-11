@@ -1,7 +1,7 @@
 {
-  "name": "Stupify",
+  "name": "Vinny",
   "version": "1.0",
-  "description": "Improve Spotify Search",
+  "description": "Vin Generator",
   "permissions": [
     "activeTab",
     "declarativeContent",
@@ -17,17 +17,17 @@
   "page_action": {
     "default_popup": "popup.html",
     "default_icon": {
-      "16": "images/Spotify_Icon_RGB_Green.png",
-      "32": "images/Spotify_Icon_RGB_Green.png",
-      "48": "images/Spotify_Icon_RGB_Green.png",
-      "128": "images/Spotify_Icon_RGB_Green.png"
+      "16": "images/joeFav.png",
+      "32": "images/joeFav.png",
+      "48": "images/joeFav.png",
+      "128": "images/joeFav.png"
     }
   },
   "icons": {
-    "16": "images/Spotify_Icon_RGB_Green.png",
-    "32": "images/Spotify_Icon_RGB_Green.png",
-    "48": "images/Spotify_Icon_RGB_Green.png",
-    "128": "images/Spotify_Icon_RGB_Green.png"
+    "16": "images/joeFav.png",
+    "32": "images/joeFav.png",
+    "48": "images/joeFav.png",
+    "128": "images/joeFav.png"
   },
   "commands": {
      "open_stupify": {
@@ -35,7 +35,7 @@
          "default": "Ctrl+Shift+A",
          "mac": "Command+Shift+A"
        },
-         "description": "Open Stupify"
+         "description": "Open Vinny"
      },
      "_execute_browser_action": {
        "suggested_key": {
