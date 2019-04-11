@@ -11,7 +11,7 @@ p {
 #watermark {
     margin: 0;
     position: absolute;
-    top: 50%;
+    top: 85%;
     left: 50%;
     transform: translate(-50%, -50%);
     opacity: 0.5;
@@ -22,7 +22,7 @@ p {
 #watermark2 {
     margin: 0;
     position: absolute;
-    top: 55%;
+    top: 91%;
     left: 50%;
     transform: translate(-50%, -50%);
     opacity: 0.5;
@@ -34,8 +34,21 @@ p {
     overflow: auto;
 }
 
+#joe {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(80%, -35%);
+}
+
 .center {
     display: block;
     margin-left: auto;
     margin-right: auto;
+}
+
+.right {
+  float: right;
+  padding: 10px;
 }

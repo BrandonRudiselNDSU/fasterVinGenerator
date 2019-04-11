@@ -1,33 +1,26 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Vinny Vin Generator</title>
+    <title>Vinny: Vin Generator</title>
     <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
-<img src="/images/joeFace.png" class="center" width="152" height="171">
 <div style="width:600px; background:#42464c; border:5px solid black;"> <!-- Search div -->
-    <input id="searchBox" type="text" name="keyword" style="width:90%;" placeholder="Search Spotify" autocomplete="off"
+    <input id="searchBox" type="text" name="keyword" style="width:90%;" placeholder="Enter Command" autocomplete="off"
            autofocus>
     <input id="submitButton" type="submit" style="float: right; width:9%;" onclick="return search();"/>
     <div>
-        <input id="songCheckbox" name="searchType" type="checkbox" value="song"><font color="white"> Song </font>
-        <input id="albumCheckbox" name="searchType" type="checkbox" value="album"><font color="white"> Album </font>
-        <input id="artistCheckbox" name="searchType" type="checkbox" value="artist"><font color="white"> Artist </font>
-        <input id="playlistCheckbox" name="searchType" type="checkbox" value="playlist"><font color="white">
-        Playlist</font>
-        <input id="genreCheckbox" name="searchType" type="checkbox" value="genre"><font color="white"> Genre</font>
-        <input id="profileCheckbox" name="searchType" type="checkbox" value="profile"><font color="white">
-        Profile</font>
-        <input id="podcastCheckbox" name="searchType" type="checkbox" value="podcast"><font color="white">
-        Podcast</font>
-        <input id="videoCheckbox" name="searchType" type="checkbox" value="video"><font color="white"> Video</font>
+        <input id="songCheckbox" name="searchType" type="checkbox" value="song"><font color="white"> Old Car </font>
+        <input id="albumCheckbox" name="searchType" type="checkbox" value="album"><font color="white"> Cool Car </font>
+
     </div>
 </div>
-<div id="SearchResults" style="width:600px; height:300px; background:#42464c; border:5px solid black;">
+<div id="SearchResults" style="width:600px; height:175px; background:#42464c; border:5px solid black;">
+
+    <img src="/images/joeFace.png" id="joe" width="152" height="171">
     <!-- User hint watermarks -->
-    <div id="watermark">(Ctrl + Shift + Z to Open and Close)</div>
-    <div id="watermark2">(Enter "/history" to View Search History)</div>
+    <div id="watermark">(Enter "/h" to View History)</div>
+    <div id="watermark2">(Ctrl + Shift + Z to Open and Close)</div>
 
     <!-- Search result div -->
 </div>
