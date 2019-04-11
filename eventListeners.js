@@ -16,7 +16,7 @@ vinBox.addEventListener("keyup", function(event) {
     if (event.keyCode === 17) {
         vinBox.addEventListener("keyup", function(event) {
             event.preventDefault();
-            if (event.keyCode === 67) {
+            if (event.keyCode === 67 && !copied) {
                 copy();
             }
         });

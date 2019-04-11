@@ -1,5 +1,7 @@
 var storage = window.localStorage;
 var searchCounter = storage.length;
+var copied = false;
+
 
 submitButton.onclick = function () {   //this function runs upon clicking the submit button
     var input = searchString = document.getElementById('searchBox').value;
@@ -32,6 +34,7 @@ submitButton.onclick = function () {   //this function runs upon clicking the su
 
     document.getElementById("searchBox").value = ""; //clean up search box
     document.getElementById("searchBox").focus();
+    copied = false;
 };
 
 function search(searchString, boxes) {  //handles searching
@@ -108,4 +111,5 @@ function copy() {
 
   /* Alert the copied text */
   alert("Copied the text: " + copyText.value);
+  copied = true;
 }
