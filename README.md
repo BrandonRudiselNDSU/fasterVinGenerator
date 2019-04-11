@@ -1,4 +1,4 @@
-# Vinny
+# Faster Vin Generator
 A Chrome extension to create random or semi-random VIN codes
 
 # Installation
