@@ -1,7 +1,7 @@
-# Stupify
-A Chrome extension to search Spotify like an expert. 
+# Vinny
+A Chrome extension to create random or semi-random VIN codes
 
 # Installation
 1. Go to chrome://extensions/
 2. Enable "Developer Mode"
-3. Press "Load unpacked extension" and find the "stupify" folder
+3. Click "Load unpacked extension" and find the "vinny" folder
