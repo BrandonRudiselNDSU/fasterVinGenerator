@@ -1,6 +1,9 @@
 //a file to hold key event listeners
 //these are necessary to get desirable function out of keyboard keys
 
+//run on popup
+showResult();
+
 //this function allows a user to hit enter to submit search when the search box is focused
 var searchBox = document.getElementById("searchBox");
 searchBox.addEventListener("keyup", function(event) {
