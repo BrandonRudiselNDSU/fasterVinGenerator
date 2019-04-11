@@ -99,32 +99,6 @@ function getCheckedBoxes() {    //returns the values checked in the boxes
     return txt;
 }
 
-function showResult(qry, str, fake) {
-    gry = "random";
-    str = "random";
-    fake = true;
-
-    if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
-        xmlhttp=new XMLHttpRequest();
-    } else {// code for IE6, IE5
-        xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-    }
-
-    xmlhttp.onreadystatechange=function() {
-        if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-            document.getElementById("vinBox").value = xmlhttp.responseText;
-        }
-    }
-    xmlhttp.open("GET","http://randomvin.com/getvin.php?type=fake"+(fake ? 'fake' : 'real'), true);
-    xmlhttp.send();
-}
-
-/*function getVinFromiFrame(){
-    var myIFrame = document.getElementById("stupid");
-    var content = myIFrame.contentWindow.document.innerHTML;
-    document.getElementById("vinBox").value = content;
-}*/
-
 function copy() {
   /* Get the text field */
   var copyText = document.getElementById("vinBox");
