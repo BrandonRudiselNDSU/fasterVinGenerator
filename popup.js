@@ -109,7 +109,7 @@ function showResult(qry, str, fake) {
     } else {// code for IE6, IE5
         xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
     }
-    
+
     xmlhttp.onreadystatechange=function() {
         if (xmlhttp.readyState==4 && xmlhttp.status==200) {
             document.getElementById("vinBox").value = xmlhttp.responseText;
