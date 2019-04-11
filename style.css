@@ -34,7 +34,7 @@ p {
     overflow: auto;
 }
 
-#vin {
+#vinBox {
     color: black;
     position: absolute;
     top: 40%;

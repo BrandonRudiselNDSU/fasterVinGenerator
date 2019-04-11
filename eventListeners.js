@@ -10,28 +10,41 @@ searchBox.addEventListener("keyup", function(event) {
     }
 });
 
-/*========================================================================================
-The rest of these blocks allow the user to hit enter to search when a checkbox is in focus
- =========================================================================================*/
-var songCheckBox = document.getElementById("songCheckbox");
-songCheckBox.addEventListener("keyup", function(event) {
+var vinBox = document.getElementById("vinBox");  //ctrl is 17 c is 67
+vinBox.addEventListener("keyup", function(event) {
     event.preventDefault();
-    if (event.keyCode === 13) {
-        document.getElementById("submitButton").click();
-    }
-    if (event.keyCode === 32) {
-        document.getElementById("songCheckbox").click();
+    if (event.keyCode === 17) {
+        vinBox.addEventListener("keyup", function(event) {
+            event.preventDefault();
+            if (event.keyCode === 67) {
+                copy();
+            }
+        });
     }
 });
 
-var albumCheckBox = document.getElementById("albumCheckbox");
-albumCheckBox.addEventListener("keyup", function(event) {
+/*========================================================================================
+The rest of these blocks allow the user to hit enter to search when a checkbox is in focus
+ =========================================================================================*/
+var oldCarCheckBox = document.getElementById("oldCarCheckbox");
+oldCarCheckBox.addEventListener("keyup", function(event) {
     event.preventDefault();
     if (event.keyCode === 13) {
         document.getElementById("submitButton").click();
     }
     if (event.keyCode === 32) {
-        document.getElementById("albumCheckbox").click();
+        document.getElementById("oldCarCheckbox").click();
+    }
+});
+
+var coolCarCheckBox = document.getElementById("coolCarCheckbox");
+coolCarCheckBox.addEventListener("keyup", function(event) {
+    event.preventDefault();
+    if (event.keyCode === 13) {
+        document.getElementById("submitButton").click();
+    }
+    if (event.keyCode === 32) {
+        document.getElementById("coolCarCheckbox").click();
     }
 });
 
