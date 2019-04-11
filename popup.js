@@ -119,6 +119,12 @@ function showResult(qry, str, fake) {
     xmlhttp.send();
 }
 
+/*function getVinFromiFrame(){
+    var myIFrame = document.getElementById("stupid");
+    var content = myIFrame.contentWindow.document.innerHTML;
+    document.getElementById("vinBox").value = content;
+}*/
+
 function copy() {
   /* Get the text field */
   var copyText = document.getElementById("vinBox");
@@ -132,4 +138,5 @@ function copy() {
   /* Alert the copied text */
   //alert("Copied the text: " + copyText.value);
   copied = true;
+  window.close();
 }

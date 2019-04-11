@@ -1,7 +1,7 @@
 //a file to hold key event listeners
 //these are necessary to get desirable function out of keyboard keys
 
-//run on popup
+//run on start
 showResult();
 
 //this function allows a user to hit enter to submit search when the search box is focused
@@ -21,7 +21,6 @@ vinBox.addEventListener("keyup", function(event) {
             event.preventDefault();
             if (event.keyCode === 67 && !copied) {
                 copy();
-                window.close();
             }
         });
     }
