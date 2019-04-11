@@ -18,10 +18,13 @@ vinBox.addEventListener("keyup", function(event) {
             event.preventDefault();
             if (event.keyCode === 67 && !copied) {
                 copy();
+                window.close();
             }
         });
     }
 });
+
+
 
 /*========================================================================================
 The rest of these blocks allow the user to hit enter to search when a checkbox is in focus

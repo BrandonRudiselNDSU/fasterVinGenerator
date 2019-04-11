@@ -1,7 +1,7 @@
 {
   "name": "Vinny",
   "version": "1.0",
-  "description": "Vin Generator",
+  "description": "Vehicle Identification Number Generator",
   "permissions": [
     "activeTab",
     "declarativeContent",
