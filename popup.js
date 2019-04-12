@@ -110,17 +110,9 @@ function getCheckedBoxes() {    //returns the values checked in the boxes
 }
 
 function copy() {
-    /* Get the text field */
     var copyText = document.getElementById("vinBox");
-
-    /* Select the text field */
     copyText.select();
-
-    /* Copy the text inside the text field */
     document.execCommand("copy");
-
-    /* Alert the copied text */
-    //alert("Copied the text: " + copyText.value);
     copied = true;
     window.close();
 }
@@ -139,6 +131,22 @@ function decodeVin(vin){
     	}
     });
 
+}
+
+getAllMakes();
+function getAllMakes(){
+    $.ajax({
+        url: "https://vpic.nhtsa.dot.gov/api/vehicles/GetAllMakes?format=json",
+        type: "GET",
+        dataType: "json",
+        success: function(result){
+        	console.log(result);
+        },
+        error: function(xhr, ajaxOptions, thrownError){
+        	console.log(xhr.status);
+        	console.log(thrownError);
+        }
+    });
 }
 
 function getRandomYear(){
