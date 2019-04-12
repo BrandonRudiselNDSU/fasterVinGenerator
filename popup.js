@@ -10,7 +10,7 @@ submitButton.onclick = function () {   //this function runs upon clicking the su
         if (input.charAt(1) == "h")  //is a list history command
             listHistory();
         else if (input.charAt(1) == "i") //is an info request
-            listInfo();
+            showInfo();
         else if (input.charAt(1) == "c") //is a clear history command
             clearHistory();
         else if (Number.isInteger(parseInt(input.charAt(1)))) { //is redoing a previous search
@@ -73,8 +73,8 @@ function listHistory() {     //lists search history
         '<font color=\"white\">' + historyString + '</font>';
 }
 
-function listHistory() {     //lists search history
-    var infoString = "info";
+function showInfo() {     //shows info
+    var infoString = "powered by hatred, and NHTSA";
 
     document.getElementById("SearchResults").innerHTML =
         '<font color=\"white\">' + infoString + '</font>';
@@ -125,9 +125,9 @@ function copy() {
 }
 
 $.ajax({
-	url: "https://vpic.nhtsa.dot.gov/api/vehicles/GetModelsForMakeId/440?format=json",
+	url: "https://vpic.nhtsa.dot.gov/api/vehicles/GetAllMakes?format=json",
 	type: "GET",
-	dataType: "json",
+	dataType: "xml",
 	success: function(result)
 	{
 		console.log(result);
