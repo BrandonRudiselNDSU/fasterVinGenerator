@@ -9,6 +9,8 @@ submitButton.onclick = function () {   //this function runs upon clicking the su
     if (input.charAt(0) == "/") {     //is a control command
         if (input.charAt(1) == "h")  //is a list history command
             listHistory();
+        else if (input.charAt(1) == "i") //is an info request
+            listInfo();
         else if (input.charAt(1) == "c") //is a clear history command
             clearHistory();
         else if (Number.isInteger(parseInt(input.charAt(1)))) { //is redoing a previous search
@@ -61,14 +63,21 @@ function search(searchString, boxes) {  //handles searching
 }
 
 function listHistory() {     //lists search history
-    var historyString = "Enter '/#' to search an item again</br>Enter '/clear' to clear Search History</br></br>";
+     var historyString = "Enter '/#' to search an item again</br>Enter '/clear' to clear Search History</br></br>";
 
-    for (var i = 1; i < searchCounter; i++) {
-        historyString += i + ": " + storage.getItem(localStorage.key(i)) + "</br>";
-    }
+     for (var i = 1; i < searchCounter; i++) {
+         historyString += i + ": " + storage.getItem(localStorage.key(i)) + "</br>";
+     }
+
+     document.getElementById("SearchResults").innerHTML =
+        '<font color=\"white\">' + historyString + '</font>';
+}
+
+function listHistory() {     //lists search history
+    var infoString = "info";
 
     document.getElementById("SearchResults").innerHTML =
-        '<font color=\"white\">' + historyString + '</font>';
+        '<font color=\"white\">' + infoString + '</font>';
 }
 
 function clearHistory() {    //clears search history
