@@ -31,7 +31,7 @@ submitButton.onclick = function () {   //this function runs upon clicking the su
         var boxes = getCheckedBoxes();
         boxes = boxes.split(" "); //prepare categories in array
 
-        search(searchString, boxes);
+        decodeVin(input);
     }
 
     document.getElementById("searchBox").value = ""; //clean up search box
@@ -74,7 +74,8 @@ function listHistory() {     //lists search history
 }
 
 function showInfo() {     //shows info
-    var infoString = "powered by hatred, and NHTSA";
+    var infoString = "powered by hatred, and NHTSA<br>" +
+    "Originally named 'vinny', hence the Joe Pesci iconography";
 
     document.getElementById("SearchResults").innerHTML =
         '<font color=\"white\">' + infoString + '</font>';
@@ -109,32 +110,33 @@ function getCheckedBoxes() {    //returns the values checked in the boxes
 }
 
 function copy() {
-  /* Get the text field */
-  var copyText = document.getElementById("vinBox");
+    /* Get the text field */
+    var copyText = document.getElementById("vinBox");
 
-  /* Select the text field */
-  copyText.select();
+    /* Select the text field */
+    copyText.select();
 
-  /* Copy the text inside the text field */
-  document.execCommand("copy");
+    /* Copy the text inside the text field */
+    document.execCommand("copy");
 
-  /* Alert the copied text */
-  //alert("Copied the text: " + copyText.value);
-  copied = true;
-  window.close();
+    /* Alert the copied text */
+    //alert("Copied the text: " + copyText.value);
+    copied = true;
+    window.close();
 }
 
-$.ajax({
-	url: "https://vpic.nhtsa.dot.gov/api/vehicles/GetAllMakes?format=json",
-	type: "GET",
-	dataType: "xml",
-	success: function(result)
-	{
-		console.log(result);
-	},
-	error: function(xhr, ajaxOptions, thrownError)
-	{
-		console.log(xhr.status);
-		console.log(thrownError);
-	}
-});
+function decodeVin(vin){
+    $.ajax({
+    	url: "https://vpic.nhtsa.dot.gov/api/vehicles/DecodeVin/" + vin + "?format=json",
+    	type: "GET",
+    	dataType: "json",
+    	success: function(result){
+    		console.log(result);
+    	},
+    	error: function(xhr, ajaxOptions, thrownError){
+    		console.log(xhr.status);
+    		console.log(thrownError);
+    	}
+    });
+
+}
