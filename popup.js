@@ -140,3 +140,7 @@ function decodeVin(vin){
     });
 
 }
+
+function getRandomYear(){
+    return Math.floor(Math.random() * 2018) + 1982;  // returns a random integer from 1982 to 2018
+}
