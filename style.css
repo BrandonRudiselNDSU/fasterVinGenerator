@@ -36,6 +36,7 @@ p {
 
 #vinBox {
     position: absolute;
+    font-family: "Courier New", Courier, monospace;
     font-size: 25px;
     background-color: #42464c;
     color: white;
@@ -95,7 +96,7 @@ p {
     margin: 0;
     position: absolute;
     top: 36%;
-    left: -17%;
+    left: -15%;
     transform: translate(80%, -35%);
 }
 

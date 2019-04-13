@@ -221,6 +221,7 @@ function getYear() {
     //seventh digit number = 1980-2009
     //seventh digit alphanumeric = 2010 - 2039
     return "4";
+
 }
 
 function getPlant() {
