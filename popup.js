@@ -5,7 +5,6 @@ var copied = false;
 genVin(); //gen vin on load
 submitButton.onclick = function () {   //this function runs upon clicking the submit button
     var input = searchString = document.getElementById('searchBox').value;
-    if (input.charAt(0) == "") location.reload();   //if nothing entered, refresh
     if (input.charAt(0) == "/") {     //is a control command
         if (input.charAt(1) == "h")  //is a list history command
             listHistory();
@@ -24,7 +23,11 @@ submitButton.onclick = function () {   //this function runs upon clicking the su
 
             search(searchString, boxes);
         }
-    } else {   //is a search
+    }
+    else if (input.charAt(0) == "") {
+        location.reload();   //if nothing entered, refresh
+    }
+    else {   //is a search
         var historySearch = searchString = document.getElementById('searchBox').value + " : " + getCheckedBoxes(); //
         storage.setItem(searchCounter, getTimeStamp() + " || " + historySearch);
         searchCounter++;
@@ -181,10 +184,10 @@ function getAttributes() {
 }
 
 function transliterate(char) {
-    return "0123456789.ABCDEFGH..JKLMN.P.R..STUVWXYZ".indexOf(char) % 10;
+    return "0123456789.ABCDEFGH..JKLMN.P.R..STUVWXYZ".indexOf(char) % 10;   //converts letters to numbers for calculation of check digit
 }
 
-function getCheckDigit(vin) {
+function getCheckDigit(vin) {   //returns numerical for vin entered that will act as the validity check
     var map = "0123456789X";
     var weights = "8765432X098765432";
     var sum = 0;
@@ -196,11 +199,13 @@ function getCheckDigit(vin) {
 }
 
 function getYear() {
-    return "4"  //2004
+    //seventh digit number = 1980-2009
+    //seventh digit alphanumeric = 2010 - 2039
+    return "4";
 }
 
 function getPlant() {
-    return "1"
+    return "1"  //ignore for now, should not matter
 }
 
 function getVehicleIdentifier() {
