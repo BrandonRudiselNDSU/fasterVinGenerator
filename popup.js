@@ -67,8 +67,10 @@ function search(searchString, boxes) {  //handles searching
 }
 
 function showInfo() {     //shows info
-    var infoString = "powered by hatred, and NHTSA<br>" +
-    "Originally named 'vinny', hence the Joe Pesci iconography";
+    var infoString = "Powered by hatred, and NHTSA<br>" +
+    "Originally named 'vinny', hence the Joe Pesci iconography</br>" +
+    "Why isn't it very random? vins r hard</br></br>" +
+    "Hit enter to go back";
 
     document.getElementById("SearchResults").innerHTML =
         '<font color=\"white\">' + infoString + '</font>';
