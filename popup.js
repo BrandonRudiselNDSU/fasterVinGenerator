@@ -70,7 +70,7 @@ function search(searchString, boxes) {  //handles searching
 function showInfo() {     //shows info
     var infoString = "Powered by hatred, and NHTSA<br>" +
     //"Originally named 'vinny', hence the Joe Pesci iconography</br>" +
-    "Why isn't it very random? vins r hard</br></br>" +
+    "Why isn't it very random? vins r hard</br>Made by Brandon Rudisel, if you want to complain about it email me.</br></br>" +
     "Hit enter to go back";
 
     document.getElementById("SearchResults").innerHTML =
@@ -160,23 +160,14 @@ function printVehicleInfo(vehicleDataArray){
 }
 
 function genVin(){  //test 1GCGG29V441240916
-    var vinPrefix = "";
-    var vinPostfix = "";
-    var vin = "";
-    vinPrefix += getCountry();
-    vinPrefix += getManufacturer();
-    vinPrefix += getBrand();
+    var vinPrefix = getPrefix();
+    var vinPostfix = getVehicleIdentifier().toString();
 
-    vinPrefix += getAttributes();
-    var tempCheckDigit = "A"; //temp check digit
+    var checkDigit = getCheckDigit(vinPrefix + vinPostfix);
+    var vinPrefix = setCharAt(vinPrefix, 7, checkDigit);
 
-    vinPostfix += getYear();
-    vinPostfix += getPlant();
+    vin = vinPrefix + vinPostfix;
 
-    vinPostfix += getVehicleIdentifier().toString();
-
-    var actualCheckDigit = getCheckDigit(vinPrefix + tempCheckDigit + vinPostfix);
-    vin = vinPrefix + actualCheckDigit + vinPostfix;
 
     document.getElementById("vinBox").value = vin;
     decodeVin(vin);
@@ -196,6 +187,19 @@ function getBrand() {
 
 function getAttributes() {
     return  "GG29V";
+}
+
+function getPrefix(){
+    //a prefix includes
+    //digit 1 country eg america
+    //digit 2 manufacturer eg GM
+    //digit 3 brand eg Chevy
+    //digits 4-8 vehicle attributes
+    //digit 9 temp check digit
+    //digit 10 year
+    //digit 11 plant
+    var rando = Math.floor(Math.random() * prefixArray.length) + 1;
+    return prefixArray[rando] + "1";
 }
 
 function transliterate(char) {
@@ -227,13 +231,10 @@ function getVehicleIdentifier() {
     return Math.floor(Math.random() * 999999) + 100000;  // returns a random integer between those numbers to get last 6 digits
 }
 
-
-
-
-
-
-
-
+function setCharAt(str,index,chr) {
+    if(index > str.length-1) return str;
+    return str.substr(0,index) + chr + str.substr(index+1);
+}
 
 
 
