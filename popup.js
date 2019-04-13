@@ -143,18 +143,23 @@ function printVehicleInfo(vehicleDataArray){
 }
 
 function genVin(){  //test 1GCGG29V441240916
+    var vinPrefix = "";
+    var vinPostfix = "";
     var vin = "";
-    vin += getCountry();
-    vin += getManufacturer();
-    vin += getBrand();
+    vinPrefix += getCountry();
+    vinPrefix += getManufacturer();
+    vinPrefix += getBrand();
 
-    vin += getAttributes();
-    vin += getCheckDigit();
+    vinPrefix += getAttributes();
+    var tempCheckDigit = "A"; //temp check digit
 
-    vin += getYear();
-    vin += getPlant();
+    vinPostfix += getYear();
+    vinPostfix += getPlant();
 
-    vin += getVehicleIdentifier().toString();
+    vinPostfix += getVehicleIdentifier().toString();
+
+    var actualCheckDigit = getCheckDigit(vinPrefix + tempCheckDigit + vinPostfix);
+    vin = vinPrefix + actualCheckDigit + vinPostfix;
 
     document.getElementById("vinBox").value = vin;
 }
@@ -175,8 +180,19 @@ function getAttributes() {
     return  "GG29V";
 }
 
-function getCheckDigit() {
-    return "4";
+function transliterate(char) {
+    return "0123456789.ABCDEFGH..JKLMN.P.R..STUVWXYZ".indexOf(char) % 10;
+}
+
+function getCheckDigit(vin) {
+    var map = "0123456789X";
+    var weights = "8765432X098765432";
+    var sum = 0;
+    for (var i = 0; i < 17; ++i) {
+        sum += transliterate(vin.charAt(i)) * map.indexOf(weights.charAt(i));
+    }
+
+    return map.charAt(sum % 11);
 }
 
 function getYear() {
