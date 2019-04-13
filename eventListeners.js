@@ -10,7 +10,6 @@ searchBox.addEventListener("keydown", function(event) {
     }
     if (event.keyCode === 17) {
         searchBox.addEventListener("keydown", function(event) {
-            event.preventDefault();
             if (event.keyCode === 67 && !copied) {
                 copy();
             }
@@ -23,7 +22,6 @@ The rest of these blocks allow the user to hit enter to search when a checkbox i
  =========================================================================================*/
 var oldCarCheckBox = document.getElementById("oldCarCheckbox");
 oldCarCheckBox.addEventListener("keydown", function(event) {
-    event.preventDefault();
     if (event.keyCode === 13) {
         document.getElementById("submitButton").click();
     }
@@ -34,7 +32,6 @@ oldCarCheckBox.addEventListener("keydown", function(event) {
 
 var coolCarCheckBox = document.getElementById("coolCarCheckbox");
 coolCarCheckBox.addEventListener("keydown", function(event) {
-    event.preventDefault();
     if (event.keyCode === 13) {
         document.getElementById("submitButton").click();
     }
