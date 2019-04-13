@@ -71,14 +71,14 @@ function showInfo() {     //shows info
 }
 
 function listHistory() {     //lists search history
-     var historyString = "Enter '/#' to search an item again</br>Enter '/clear' to clear Search History</br></br>";
+    var historyString = "Enter '/#' to search an item again</br>Enter '/clear' to clear Search History</br></br>";
+    var end = localStorage.length;
+    for (var i = 1; i < searchCounter; i++) {
+        historyString += i + ": " + storage.getItem(localStorage.key(end - i)) + "</br>";
+    }
 
-     for (var i = 1; i < searchCounter; i++) {
-         historyString += i + ": " + storage.getItem(localStorage.key(i)) + "</br>";
-     }
-
-     document.getElementById("SearchResults").innerHTML =
-        '<font color=\"white\">' + historyString + '</font>';
+    document.getElementById("SearchResults").innerHTML =
+       '<font color=\"white\">' + historyString + '</font>';
 }
 
 function clearHistory() {    //clears search history
@@ -142,11 +142,63 @@ function printVehicleInfo(vehicleDataArray){
 
 }
 
-function genVin(){
-    var prefixInt = Math.floor(Math.random() * 10) + 0;  // returns a random integer from 0 to 10 to get prefix
-    var postfixInt = Math.floor(Math.random() * 99999999) + 10000000;  // returns a random integer between those numbers to get postfix
-    var prefixArr = ["JF1GPAD60","KMHD25LE1","3B7HC13Z7","5XYKU4A12","JH4DA3350","1B7GL22Z3","5GZEV337X","2HGES2677","JH4DC2390","JH4KA2650","1FTEF14N5"];
+function genVin(){  //test 1GCGG29V441240916
     var vin = "";
-    vin = prefixArr[prefixInt] + postfixInt.toString();
+    vin += getCountry();
+    vin += getManufacturer();
+    vin += getBrand();
+
+    vin += getAttributes();
+    vin += getCheckDigit();
+
+    vin += getYear();
+    vin += getPlant();
+
+    vin += getVehicleIdentifier().toString();
+
     document.getElementById("vinBox").value = vin;
 }
+
+function getCountry() {
+    return "1"; //america
+}
+
+function getManufacturer() {
+    return "G"; //GM
+}
+
+function getBrand() {
+    return "C"   //Chev
+}
+
+function getAttributes() {
+    return  "GG29V";
+}
+
+function getCheckDigit() {
+    return "4";
+}
+
+function getYear() {
+    return "4"  //2004
+}
+
+function getPlant() {
+    return "1"
+}
+
+function getVehicleIdentifier() {
+    return Math.floor(Math.random() * 999999) + 100000;  // returns a random integer between those numbers to get last 6 digits
+}
+
+
+
+
+
+
+
+
+
+
+
+
