@@ -14,14 +14,15 @@ submitButton.onclick = function () {   //this function runs upon clicking the su
             clearHistory();
         else if (Number.isInteger(parseInt(input.charAt(1)))) { //is redoing a previous search
             // prepare search and category data for search
-            searchString = storage.getItem(input.charAt(1));
+            var end = storage.length;
+            searchString = storage.getItem(end - input.charAt(1));
             searchString = searchString.substr(searchString.indexOf("|| ") + 3, searchString.length - 1); //remove time stamp
             boxes = searchString.substr(searchString.indexOf(": ") + 2, searchString.length - 1); //grab categories
             boxes = boxes.trim();
             boxes = boxes.split(" "); //put categories in an array
             searchString = searchString.substr(0, searchString.indexOf(": ")); //remove categories from search phrase
 
-            search(searchString, boxes);
+            historyCopy(searchString);
         }
     }
     else if (input.charAt(0) == "") {
@@ -77,7 +78,7 @@ function showInfo() {     //shows info
 }
 
 function listHistory() {     //lists search history
-    var historyString = "Enter '/#' to search an item again</br>Enter '/clear' to clear Search History</br></br>";
+    var historyString = "Enter '/#' to copy an item to clipboard</br>Enter '/clear' to clear Search History</br></br>";
     var end = localStorage.length;
     for (var i = 1; i < searchCounter; i++) {
         historyString += i + ": " + storage.getItem(localStorage.key(end - i)) + "</br>";
@@ -117,6 +118,15 @@ function getCheckedBoxes() {    //returns the values checked in the boxes
 
 function copy() {
     var copyText = document.getElementById("vinBox");
+    copyText.select();
+    document.execCommand("copy");
+    copied = true;
+    window.close();
+}
+
+function historyCopy(text) {
+    document.getElementById("searchBox").value = text
+    var copyText = document.getElementById("searchBox");
     copyText.select();
     document.execCommand("copy");
     copied = true;
