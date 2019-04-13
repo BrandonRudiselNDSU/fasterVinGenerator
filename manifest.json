@@ -17,17 +17,17 @@
   "page_action": {
     "default_popup": "popup.html",
     "default_icon": {
-      "16": "images/joeFav.png",
-      "32": "images/joeFav.png",
-      "48": "images/joeFav.png",
-      "128": "images/joeFav.png"
+      "16": "images/v.png",
+      "32": "images/v.png",
+      "48": "images/v.png",
+      "128": "images/v.png"
     }
   },
   "icons": {
-    "16": "images/joeFav.png",
-    "32": "images/joeFav.png",
-    "48": "images/joeFav.png",
-    "128": "images/joeFav.png"
+    "16": "images/v.png",
+    "32": "images/v.png",
+    "48": "images/v.png",
+    "128": "images/v.png"
   },
   "commands": {
      "open_stupify": {
