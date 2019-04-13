@@ -123,7 +123,7 @@ function decodeVin(vin){
     	type: "GET",
     	dataType: "json",
     	success: function(result){
-    		console.log(result);
+    		printVehicleInfo(result.Results);
     	},
     	error: function(xhr, ajaxOptions, thrownError){
     		console.log(xhr.status);
@@ -133,20 +133,13 @@ function decodeVin(vin){
 
 }
 
-getAllMakes();
-function getAllMakes(){
-    $.ajax({
-        url: "https://vpic.nhtsa.dot.gov/api/vehicles/GetAllMakes?format=json",
-        type: "GET",
-        dataType: "json",
-        success: function(result){
-        	console.log(result);
-        },
-        error: function(xhr, ajaxOptions, thrownError){
-        	console.log(xhr.status);
-        	console.log(thrownError);
-        }
-    });
+function printVehicleInfo(vehicleDataArray){
+    //year make model
+    var vehicleString = vehicleDataArray[8].Value + "</br>" +
+        vehicleDataArray[5].Value + "</br>" + vehicleDataArray[7].Value;
+
+     document.getElementById("SearchResults").innerHTML = vehicleString;
+
 }
 
 function getRandomYear(){

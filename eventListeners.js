@@ -3,18 +3,12 @@
 
 //this function allows a user to hit enter to submit search when the search box is focused
 var searchBox = document.getElementById("searchBox");
-searchBox.addEventListener("keyup", function(event) {
-    event.preventDefault();
+searchBox.addEventListener("keydown", function(event) {
     if (event.keyCode === 13) {
         document.getElementById("submitButton").click();
     }
-});
-
-var vinBox = document.getElementById("vinBox");  //ctrl is 17 c is 67
-vinBox.addEventListener("keydown", function(event) {
-    event.preventDefault();
     if (event.keyCode === 17) {
-        vinBox.addEventListener("keydown", function(event) {
+        searchBox.addEventListener("keydown", function(event) {
             event.preventDefault();
             if (event.keyCode === 67 && !copied) {
                 copy();
@@ -22,8 +16,6 @@ vinBox.addEventListener("keydown", function(event) {
         });
     }
 });
-
-
 
 /*========================================================================================
 The rest of these blocks allow the user to hit enter to search when a checkbox is in focus
