@@ -40,7 +40,7 @@ p {
     background-color: #42464c;
     color: white;
     border: none;
-    top: 50%;
+    top: 45%;
     left: 10%;
 }
 
@@ -85,7 +85,7 @@ p {
     color: white;
     margin: 0;
     position: absolute;
-    top: 37%;
+    top: 27%;
     left: -25%;
     transform: translate(80%, -35%);
 }
@@ -94,7 +94,7 @@ p {
     color: white;
     margin: 0;
     position: absolute;
-    top: 46%;
+    top: 36%;
     left: -17%;
     transform: translate(80%, -35%);
 }

@@ -69,7 +69,7 @@ function search(searchString, boxes) {  //handles searching
 
 function showInfo() {     //shows info
     var infoString = "Powered by hatred, and NHTSA<br>" +
-    "Originally named 'vinny', hence the Joe Pesci iconography</br>" +
+    //"Originally named 'vinny', hence the Joe Pesci iconography</br>" +
     "Why isn't it very random? vins r hard</br></br>" +
     "Hit enter to go back";
 
@@ -91,8 +91,10 @@ function listHistory() {     //lists search history
 function clearHistory() {    //clears search history
     storage.clear();
     searchCounter = 1;
+    var clearText = "Search History Cleared</br></br>Hit Enter";
+
     document.getElementById("SearchResults").innerHTML =
-        '<font color=\"white\">' + "Search History Cleared" + '</font>';
+        '<font color=\"white\">' + clearText + '</font>';
     storage.setItem(0, ""); //placeholder string for the zero-ith position
 }
 
