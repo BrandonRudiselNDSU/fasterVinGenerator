@@ -37,11 +37,12 @@ p {
 #vinBox {
     color: black;
     position: absolute;
+    font-size: 25px;
     background-color: #42464c;
     color: white;
     border: none;
-    top: 53%;
-    left: 5%;
+    top: 50%;
+    left: 10%;
 }
 
 #joe {

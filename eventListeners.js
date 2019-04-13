@@ -21,17 +21,20 @@ searchBox.addEventListener("keydown", function(event) {
 The rest of these blocks allow the user to hit enter to search when a checkbox is in focus
  =========================================================================================*/
 var oldCarCheckBox = document.getElementById("oldCarCheckbox");
-oldCarCheckBox.addEventListener("keydown", function(event) {
+oldCarCheckBox.addEventListener("keyup", function(event) {
+    event.preventDefault();
     if (event.keyCode === 13) {
         document.getElementById("submitButton").click();
     }
     if (event.keyCode === 32) {
         document.getElementById("oldCarCheckbox").click();
+
     }
 });
 
 var coolCarCheckBox = document.getElementById("coolCarCheckbox");
-coolCarCheckBox.addEventListener("keydown", function(event) {
+coolCarCheckBox.addEventListener("keyup", function(event) {
+    event.preventDefault();
     if (event.keyCode === 13) {
         document.getElementById("submitButton").click();
     }
