@@ -164,7 +164,7 @@ function genVin(){  //test 1GCGG29V441240916
     var vinPostfix = getVehicleIdentifier().toString();
 
     var checkDigit = getCheckDigit(vinPrefix + vinPostfix);
-    var vinPrefix = setCharAt(vinPrefix, 7, checkDigit);
+    var vinPrefix = setCharAt(vinPrefix, 8, checkDigit);
 
     vin = vinPrefix + vinPostfix;
 
