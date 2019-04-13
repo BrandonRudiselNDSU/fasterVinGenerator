@@ -2,7 +2,7 @@ var storage = window.localStorage;
 var searchCounter = storage.length;
 var copied = false;
 
-
+genVin(); //gen vin on load
 submitButton.onclick = function () {   //this function runs upon clicking the submit button
     var input = searchString = document.getElementById('searchBox').value;
     if (input.charAt(0) == "") location.reload();   //if nothing entered, refresh
@@ -62,6 +62,14 @@ function search(searchString, boxes) {  //handles searching
         + output + '</font>';
 }
 
+function showInfo() {     //shows info
+    var infoString = "powered by hatred, and NHTSA<br>" +
+    "Originally named 'vinny', hence the Joe Pesci iconography";
+
+    document.getElementById("SearchResults").innerHTML =
+        '<font color=\"white\">' + infoString + '</font>';
+}
+
 function listHistory() {     //lists search history
      var historyString = "Enter '/#' to search an item again</br>Enter '/clear' to clear Search History</br></br>";
 
@@ -71,14 +79,6 @@ function listHistory() {     //lists search history
 
      document.getElementById("SearchResults").innerHTML =
         '<font color=\"white\">' + historyString + '</font>';
-}
-
-function showInfo() {     //shows info
-    var infoString = "powered by hatred, and NHTSA<br>" +
-    "Originally named 'vinny', hence the Joe Pesci iconography";
-
-    document.getElementById("SearchResults").innerHTML =
-        '<font color=\"white\">' + infoString + '</font>';
 }
 
 function clearHistory() {    //clears search history
@@ -142,6 +142,11 @@ function printVehicleInfo(vehicleDataArray){
 
 }
 
-function getRandomYear(){
-    return Math.floor(Math.random() * 2018) + 1982;  // returns a random integer from 1982 to 2018
+function genVin(){
+    var prefixInt = Math.floor(Math.random() * 10) + 0;  // returns a random integer from 0 to 10 to get prefix
+    var postfixInt = Math.floor(Math.random() * 99999999) + 10000000;  // returns a random integer between those numbers to get postfix
+    var prefixArr = ["JF1GPAD60","KMHD25LE1","3B7HC13Z7","5XYKU4A12","JH4DA3350","1B7GL22Z3","5GZEV337X","2HGES2677","JH4DC2390","JH4KA2650","1FTEF14N5"];
+    var vin = "";
+    vin = prefixArr[prefixInt] + postfixInt.toString();
+    document.getElementById("vinBox").value = vin;
 }
