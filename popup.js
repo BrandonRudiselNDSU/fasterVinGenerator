@@ -173,22 +173,6 @@ function genVin(){  //test 1GCGG29V441240916
     decodeVin(vin);
 }
 
-function getCountry() {
-    return "1"; //america
-}
-
-function getManufacturer() {
-    return "G"; //GM
-}
-
-function getBrand() {
-    return "C"   //Chev
-}
-
-function getAttributes() {
-    return  "GG29V";
-}
-
 function getPrefix(){
     //a prefix includes
     //digit 1 country eg america
@@ -215,17 +199,6 @@ function getCheckDigit(vin) {   //returns numerical for vin entered that will ac
     }
 
     return map.charAt(sum % 11);
-}
-
-function getYear() {
-    //seventh digit number = 1980-2009
-    //seventh digit alphanumeric = 2010 - 2039
-    return "4";
-
-}
-
-function getPlant() {
-    return "1"  //ignore for now, should not matter
 }
 
 function getVehicleIdentifier() {
