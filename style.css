@@ -35,7 +35,6 @@ p {
 }
 
 #vinBox {
-    color: black;
     position: absolute;
     font-size: 25px;
     background-color: #42464c;
@@ -60,8 +59,26 @@ p {
 }
 
 .right {
-  float: right;
-  padding: 10px;
+    float: right;
+    padding: 10px;
+}
+
+.decode {
+    position: absolute;
+    font-size: 10px;
+    background-color: #42464c;
+    color: white;
+    border: none;
+    top: 62%;
+    left: 10%;
+}
+
+#makeBox {
+    top: 69%;
+}
+
+#modelBox {
+    top: 76%;
 }
 
 #header {

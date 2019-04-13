@@ -35,6 +35,7 @@ submitButton.onclick = function () {   //this function runs upon clicking the su
         boxes = boxes.split(" "); //prepare categories in array
 
         decodeVin(input);
+        document.getElementById("vinBox").value = input
     }
 
     document.getElementById("searchBox").value = ""; //clean up search box
@@ -138,10 +139,9 @@ function decodeVin(vin){
 
 function printVehicleInfo(vehicleDataArray){
     //year make model
-    var vehicleString = vehicleDataArray[8].Value + "</br>" +
-        vehicleDataArray[5].Value + "</br>" + vehicleDataArray[7].Value;
-
-    document.getElementById("SearchResults").innerHTML = vehicleString;
+    document.getElementById("yearBox").value = vehicleDataArray[8].Value;
+    document.getElementById("makeBox").value = vehicleDataArray[5].Value;
+    document.getElementById("modelBox").value = vehicleDataArray[7].Value;
 
 }
 
@@ -165,6 +165,7 @@ function genVin(){  //test 1GCGG29V441240916
     vin = vinPrefix + actualCheckDigit + vinPostfix;
 
     document.getElementById("vinBox").value = vin;
+    decodeVin(vin);
 }
 
 function getCountry() {
