@@ -168,7 +168,7 @@ function getVin(){
 function getLudiValue() {    //returns the values checked in the boxes
     setBoxes();
     if(document.getElementById("speed").checked){
-        var millisecondsToWait = 250;
+        var millisecondsToWait = 200;
         setTimeout(function() {
             copy();
         }, millisecondsToWait);
