@@ -1,10 +1,11 @@
 var storage = window.localStorage;
 var searchCounter = storage.length;
-var copied = false;
 
-genVin(); //gen vin on load
+var badDataResults = "";
+getVin(); //gen vin on load
 submitButton.onclick = function () {   //this function runs upon clicking the submit button
     var input = searchString = document.getElementById('searchBox').value;
+    //dataClean(); //to search for specific results
     if (input.charAt(0) == "/") {     //is a control command
         if (input.charAt(1) == "h")  //is a list history command
             listHistory();
@@ -70,7 +71,7 @@ function search(searchString, boxes) {  //handles searching
 function showInfo() {     //shows info
     var infoString = "Powered by hatred, and NHTSA<br>" +
     //"Originally named 'vinny', hence the Joe Pesci iconography</br>" +
-    "Why isn't it very random? vins r hard</br>Made by Brandon Rudisel, if you want to complain about it email me.</br></br>" +
+    "</br>Made by Brandon Rudisel, if you want to complain about it email me.</br></br>" +
     "Hit enter to go back";
 
     document.getElementById("SearchResults").innerHTML =
@@ -122,7 +123,6 @@ function copy() {
     var copyText = document.getElementById("vinBox");
     copyText.select();
     document.execCommand("copy");
-    copied = true;
     window.close();
 }
 
@@ -131,7 +131,6 @@ function historyCopy(text) {
     var copyText = document.getElementById("searchBox");
     copyText.select();
     document.execCommand("copy");
-    copied = true;
     window.close();
 }
 
@@ -148,7 +147,6 @@ function decodeVin(vin){
     		console.log(thrownError);
     	}
     });
-
 }
 
 function printVehicleInfo(vehicleDataArray){
@@ -159,7 +157,15 @@ function printVehicleInfo(vehicleDataArray){
 
 }
 
-function genVin(){  //test 1GCGG29V441240916
+function getVin(){
+    var vin = vinArray[Math.floor(Math.random() * 4999)];
+
+    document.getElementById("vinBox").value = vin;
+    decodeVin(vin);
+}
+
+/*
+function genVin(){
     var vinPrefix = getPrefix();
     var vinPostfix = getVehicleIdentifier().toString();
 
@@ -184,6 +190,7 @@ function getPrefix(){
     //digit 11 plant
     var rando = Math.floor(Math.random() * prefixArray.length) + 1;
     return prefixArray[rando] + "1";
+
 }
 
 function transliterate(char) {
@@ -202,7 +209,7 @@ function getCheckDigit(vin) {   //returns numerical for vin entered that will ac
 }
 
 function getVehicleIdentifier() {
-    return Math.floor(Math.random() * 999999) + 100000;  // returns a random integer between those numbers to get last 6 digits
+    return Math.floor(Math.random() * 10) + 100000;  // returns a random integer between those numbers to get last 6 digits
 }
 
 function setCharAt(str,index,chr) {
@@ -210,6 +217,49 @@ function setCharAt(str,index,chr) {
     return str.substr(0,index) + chr + str.substr(index+1);
 }
 
+function dataClean(){
+    var vin;
+    var list = "";
+    for(var i = 0; i < 10000; i++){
+        vin = genVinPrefixGiven(prefixArray[i]);
+        var result = decodeVinAsyncOff(vin,i);
+    }
+    alert(badDataResults);
+}
 
+function genVinPrefixGiven(vinPrefix){
+    var vinPostfix = getVehicleIdentifier().toString();
 
+    var checkDigit = getCheckDigit(vinPrefix + vinPostfix);
+    var vinPrefix = setCharAt(vinPrefix, 8, checkDigit);
 
+    vin = vinPrefix + vinPostfix;
+    return vin;
+
+}
+
+function testData(vin, result, index){
+    var testString = result[7].Value
+    if (testString == null){
+        alert("bad data for vin: " + vin + " on index: " + index);
+        //badDataResults += index + ",";
+    }
+
+}
+
+function decodeVinAsyncOff(vin, index){
+    $.ajax({
+    	url: "https://vpic.nhtsa.dot.gov/api/vehicles/DecodeVin/" + vin + "?format=json",
+    	type: "GET",
+    	dataType: "json",
+    	async: false,
+    	success: function(result){
+            testData(vin, result.Results, index);
+    	},
+    	error: function(xhr, ajaxOptions, thrownError){
+    		console.log(xhr.status);
+    		console.log(thrownError);
+    	}
+    });
+}
+*/

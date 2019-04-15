@@ -10,7 +10,7 @@ searchBox.addEventListener("keydown", function(event) {
     }
     if (event.keyCode === 17) {
         searchBox.addEventListener("keydown", function(event) {
-            if (event.keyCode === 67 && !copied) {
+            if (event.keyCode === 67) {
                 copy();
             }
         });
