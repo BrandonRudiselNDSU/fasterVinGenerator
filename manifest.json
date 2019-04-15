@@ -7,7 +7,6 @@
     "declarativeContent",
     "storage"
   ],
-  "options_page": "options.html",
   "background": {
     "scripts": [
       "background.js"
@@ -30,12 +29,12 @@
     "128": "images/v.png"
   },
   "commands": {
-     "open_stupify": {
+     "open_fvg": {
        "suggested_key": {
          "default": "Ctrl+Shift+A",
          "mac": "Command+Shift+A"
        },
-         "description": "Open Vinny"
+         "description": "Open Extension"
      },
      "_execute_browser_action": {
        "suggested_key": {
