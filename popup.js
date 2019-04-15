@@ -2,7 +2,8 @@ var storage = window.localStorage;
 var searchCounter = storage.length;
 
 var badDataResults = "";
-getVin(); //gen vin on load
+getVin(); //get vin on load
+getLudiValue();
 submitButton.onclick = function () {   //this function runs upon clicking the submit button
     var input = searchString = document.getElementById('searchBox').value;
     //dataClean(); //to search for specific results
@@ -163,6 +164,35 @@ function getVin(){
     document.getElementById("vinBox").value = vin;
     decodeVin(vin);
 }
+
+function getLudiValue() {    //returns the values checked in the boxes
+    setBoxes();
+    if(document.getElementById("speed").checked){
+        var millisecondsToWait = 250;
+        setTimeout(function() {
+            copy();
+        }, millisecondsToWait);
+    }
+}
+
+function setBoxes(){
+    var checkboxValues = JSON.parse(localStorage.getItem('checkboxValues')) || {},
+        $checkboxes = $("#SearchResults :checkbox");
+
+    $checkboxes.on("change", function(){
+      $checkboxes.each(function(){
+        checkboxValues[this.id] = this.checked;
+      });
+
+      localStorage.setItem("checkboxValues", JSON.stringify(checkboxValues));
+    });
+
+    // On page load
+    $.each(checkboxValues, function(key, value) {
+      $("#" + key).prop('checked', value);
+    });
+}
+
 
 /*
 function genVin(){
