@@ -34,6 +34,13 @@ p {
     overflow: auto;
 }
 
+#speed{
+    float: right;
+}
+#speedLabel{
+    float: right;
+}
+
 #vinBox {
     position: absolute;
     font-family: "Courier New", Courier, monospace;
@@ -100,6 +107,3 @@ p {
     transform: translate(80%, -35%);
 }
 
-#stupid {
-    opacity = 0;
-}

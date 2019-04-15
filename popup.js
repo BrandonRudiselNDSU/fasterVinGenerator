@@ -70,7 +70,7 @@ function search(searchString, boxes) {  //handles searching
 
 function showInfo() {     //shows info
     var infoString = "Powered by hatred, and NHTSA<br>" +
-    //"Originally named 'vinny', hence the Joe Pesci iconography</br>" +
+    "It actually doesn't generate anything. It just randomly returns a hard coded vin.</br>" +
     "</br>Made by Brandon Rudisel, if you want to complain about it email me.</br></br>" +
     "Hit enter to go back";
 
@@ -158,7 +158,7 @@ function printVehicleInfo(vehicleDataArray){
 }
 
 function getVin(){
-    var vin = vinArray[Math.floor(Math.random() * 4999)];
+    var vin = vinArray[Math.floor(Math.random() * vinArray.length - 1)];
 
     document.getElementById("vinBox").value = vin;
     decodeVin(vin);
