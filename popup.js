@@ -22,6 +22,7 @@ submitButton.onclick = function () {   //this function runs upon clicking the su
             var end = storage.length;
             searchString = storage.getItem(end - input.charAt(1));
             searchString = searchString.substr(searchString.indexOf("|| ") + 3, searchString.length - 1); //remove time stamp
+            searchString = searchString.substr(0, searchString.indexOf(" : ")); //remove year/make/model from text
             historyCopy(searchString);
         }
     }
@@ -34,7 +35,7 @@ submitButton.onclick = function () {   //this function runs upon clicking the su
         var year = document.getElementById("yearBox").value;
         var make = document.getElementById("makeBox").value;
         var model = document.getElementById("modelBox").value;
-        storage.setItem(searchCounter, getTimeStamp() + " || " + historySearch + " || " + year + " | " + make + " | " + model);
+        storage.setItem(searchCounter, getTimeStamp() + " || " + historySearch + " : " + year + " | " + make + " | " + model);
         searchCounter++;
 
         document.getElementById("vinBox").value = input

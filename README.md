@@ -1,5 +1,5 @@
 # Faster Vin Generator
-A Chrome extension to create semi-random VIN codes
+A Chrome extension to create not very random VIN codes
 
 # Installation
 1. Go to chrome://extensions/
