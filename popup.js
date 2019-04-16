@@ -6,7 +6,6 @@ getVin(); //get vin on load
 getLudiValue();
 submitButton.onclick = function () {   //this function runs upon clicking the submit button
     var input = searchString = document.getElementById('searchBox').value;
-    //dataClean(); //to search for specific results
     if (input.charAt(0) == "/") {     //is a control command
         if (input.charAt(1) == "h")  //is a list history command
             listHistory();
@@ -72,7 +71,8 @@ function search(searchString, boxes) {  //handles searching
 function showInfo() {     //shows info
     var infoString = "Powered by hatred, and NHTSA<br>" +
     "It actually doesn't generate anything. It just randomly returns a hard coded vin.</br>" +
-    "</br>Made by Brandon Rudisel, if you want to complain about it email me.</br></br>" +
+    "Ludicrous speed will immediately copy the vin to your clipboard.</br>" +
+    "</br>Made by Brandon Rudisel.</br></br>" +
     "Hit enter to go back";
 
     document.getElementById("SearchResults").innerHTML =

@@ -41,6 +41,13 @@ p {
     float: right;
 }
 
+#oldCar{
+    float: right;
+}
+#oldCarLabel{
+    float: right;
+}
+
 #vinBox {
     position: absolute;
     font-family: "Courier New", Courier, monospace;
