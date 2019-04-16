@@ -29,11 +29,14 @@ submitButton.onclick = function () {   //this function runs upon clicking the su
         location.reload();   //if nothing entered, refresh
     }
     else {   //is a search
+        decodeVinAsyncOff(input);
         var historySearch = searchString = document.getElementById('searchBox').value;
-        storage.setItem(searchCounter, getTimeStamp() + " || " + historySearch);
+        var year = document.getElementById("yearBox").value;
+        var make = document.getElementById("makeBox").value;
+        var model = document.getElementById("modelBox").value;
+        storage.setItem(searchCounter, getTimeStamp() + " || " + historySearch + " || " + year + " | " + make + " | " + model);
         searchCounter++;
 
-        decodeVin(input);
         document.getElementById("vinBox").value = input
     }
 
@@ -112,9 +115,9 @@ function decodeVin(vin){
 
 function printVehicleInfo(vehicleDataArray){
     //year make model
-    document.getElementById("yearBox").value = vehicleDataArray[8].Value;
-    document.getElementById("makeBox").value = vehicleDataArray[5].Value;
-    document.getElementById("modelBox").value = vehicleDataArray[7].Value;
+    var year = document.getElementById("yearBox").value = vehicleDataArray[8].Value;
+    var make = document.getElementById("makeBox").value = vehicleDataArray[5].Value;
+    var model = document.getElementById("modelBox").value = vehicleDataArray[7].Value;
 
 }
 
@@ -184,7 +187,7 @@ function testData(vin, result, index){
     if (testString == null){
         alert("bad data for vin: " + vin + " on index: " + index);
     }
-}
+}*/
 function decodeVinAsyncOff(vin, index){
     $.ajax({
     	url: "https://vpic.nhtsa.dot.gov/api/vehicles/DecodeVin/" + vin + "?format=json",
@@ -192,11 +195,11 @@ function decodeVinAsyncOff(vin, index){
     	dataType: "json",
     	async: false,
     	success: function(result){
-            testData(vin, result.Results, index);
+            printVehicleInfo(result.Results);
     	},
     	error: function(xhr, ajaxOptions, thrownError){
     		console.log(xhr.status);
     		console.log(thrownError);
     	}
     });
-}*/
+}
