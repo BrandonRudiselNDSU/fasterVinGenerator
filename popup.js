@@ -8,6 +8,7 @@ getLudiValue();
 
 
 submitButton.onclick = function () {   //this function runs upon clicking the submit button
+    //dataClean();
     var input = searchString = document.getElementById('searchBox').value;
     if (input.charAt(0) == "/") {     //is a control command
         if (input.charAt(1) == "h")  //is a list history command
@@ -205,5 +206,77 @@ function setBoxes(){
     // On page load
     $.each(checkboxValues, function(key, value) {
       $("#" + key).prop('checked', value);
+    });
+}
+
+function genVin(){
+    var vinPrefix = getPrefix();
+    var vinPostfix = getVehicleIdentifier().toString();
+    var checkDigit = getCheckDigit(vinPrefix + vinPostfix);
+    var vinPrefix = setCharAt(vinPrefix, 8, checkDigit);
+    vin = vinPrefix + vinPostfix;
+    document.getElementById("vinBox").value = vin;
+    decodeVin(vin);
+}
+function getPrefix(){
+    //a prefix includes
+    //digit 1 country eg america
+    //digit 2 manufacturer eg GM
+    //digit 3 brand eg Chevy
+    //digits 4-8 vehicle attributes
+    //digit 9 temp check digit
+    //digit 10 year
+    //digit 11 plant
+    var rando = Math.floor(Math.random() * vinArray.length) + 1;
+    return vinArray[rando] + "1";
+}
+function transliterate(char) {
+    return "0123456789.ABCDEFGH..JKLMN.P.R..STUVWXYZ".indexOf(char) % 10;   //converts letters to numbers for calculation of check digit
+}
+function getCheckDigit(vin) {   //returns numerical for vin entered that will act as the validity check
+    var map = "0123456789X";
+    var weights = "8765432X098765432";
+    var sum = 0;
+    for (var i = 0; i < 17; ++i) {
+        sum += transliterate(vin.charAt(i)) * map.indexOf(weights.charAt(i));
+    }
+    return map.charAt(sum % 11);
+}
+function getVehicleIdentifier() {
+    return Math.floor(Math.random() * 10) + 100000;  // returns a random integer between those numbers to get last 6 digits
+}
+function setCharAt(str,index,chr) {
+    if(index > str.length-1) return str;
+    return str.substr(0,index) + chr + str.substr(index+1);
+}
+function dataClean(){
+    var vin;
+    var list = "";
+    for(var i = 0; i < 990; i++){
+        vin = getVin;
+        var result = decodeVinAsyncOff(vin,i);
+    }
+}
+
+function testData(vin, result, index){
+    var testString = result[7].Value
+    if (testString == null){
+        alert("bad data for vin: " + vin + " on index: " + index);
+        //badDataResults += index + ",";
+    }
+}
+function decodeVinAsyncOff(vin, index){
+    $.ajax({
+    	url: "https://vpic.nhtsa.dot.gov/api/vehicles/DecodeVin/" + vin + "?format=json",
+    	type: "GET",
+    	dataType: "json",
+    	async: false,
+    	success: function(result){
+            testData(vin, result.Results, index);
+    	},
+    	error: function(xhr, ajaxOptions, thrownError){
+    		console.log(xhr.status);
+    		console.log(thrownError);
+    	}
     });
 }
