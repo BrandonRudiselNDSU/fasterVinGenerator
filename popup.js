@@ -34,11 +34,9 @@ submitButton.onclick = function () {   //this function runs upon clicking the su
         location.reload();   //if nothing entered, refresh
     }
     else {   //is a search
-        var historySearch = searchString = document.getElementById('searchBox').value + " : " + getCheckedBoxes(); //
+        var historySearch = searchString = document.getElementById('searchBox').value;
         storage.setItem(searchCounter, getTimeStamp() + " || " + historySearch);
         searchCounter++;
-        var boxes = getCheckedBoxes();
-        boxes = boxes.split(" "); //prepare categories in array
 
         decodeVin(input);
         document.getElementById("vinBox").value = input
@@ -46,7 +44,6 @@ submitButton.onclick = function () {   //this function runs upon clicking the su
 
     document.getElementById("searchBox").value = ""; //clean up search box
     document.getElementById("searchBox").focus();
-    copied = false;
 };
 
 function search(searchString, boxes) {  //handles searching
@@ -259,10 +256,9 @@ function dataClean(){
 }
 
 function testData(vin, result, index){
-    var testString = result[7].Value
+    var testString = result[7].Value  //model
     if (testString == null){
         alert("bad data for vin: " + vin + " on index: " + index);
-        //badDataResults += index + ",";
     }
 }
 function decodeVinAsyncOff(vin, index){
