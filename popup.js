@@ -22,11 +22,6 @@ submitButton.onclick = function () {   //this function runs upon clicking the su
             var end = storage.length;
             searchString = storage.getItem(end - input.charAt(1));
             searchString = searchString.substr(searchString.indexOf("|| ") + 3, searchString.length - 1); //remove time stamp
-            boxes = searchString.substr(searchString.indexOf(": ") + 2, searchString.length - 1); //grab categories
-            boxes = boxes.trim();
-            boxes = boxes.split(" "); //put categories in an array
-            searchString = searchString.substr(0, searchString.indexOf(": ")); //remove categories from search phrase
-
             historyCopy(searchString);
         }
     }
@@ -93,7 +88,7 @@ function copy() {
 }
 
 function historyCopy(text) {
-    document.getElementById("searchBox").value = text
+    document.getElementById("searchBox").value = text;
     var copyText = document.getElementById("searchBox");
     copyText.select();
     document.execCommand("copy");
