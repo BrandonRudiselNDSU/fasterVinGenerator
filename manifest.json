@@ -4,6 +4,7 @@
   "description": "Vehicle Identification Number Generator",
   "permissions": [
     "activeTab",
+    "tabs",
     "declarativeContent",
     "storage"
   ],
