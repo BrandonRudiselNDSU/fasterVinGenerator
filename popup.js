@@ -54,7 +54,7 @@ function showInfo() {     //shows info
 }
 
 function listHistory() {     //lists search history
-    var historyString = "Enter '/#' to copy an item to clipboard</br>Enter '/clear' to clear Search History</br></br>";
+    var historyString = "Enter '/#' to copy an item to clipboard</br>Enter '/clear' to clear History and Checkmarks</br></br>";
     var end = localStorage.length;
     for (var i = 1; i < searchCounter; i++) {
         historyString += i + ": " + storage.getItem(localStorage.key(end - i)) + "</br>";
@@ -121,7 +121,7 @@ function printVehicleInfo(vehicleDataArray){
 function getVin(){
 
     if(oldCarValue)
-        var vin = vinArray[Math.floor(Math.random() * 787)]; //only hits old cars
+        var vin = vinArray[Math.floor(Math.random() * 786)]; //only hits old cars
     else
         var vin = vinArray[Math.floor(Math.random() * vinArray.length - 1)]; //hits any car
     document.getElementById("vinBox").value = vin;
@@ -168,6 +168,8 @@ function setCharAt(str,index,chr) {
     if(index > str.length-1) return str;
     return str.substr(0,index) + chr + str.substr(index+1);
 }
+
+/*
 function dataClean(){
     var vin;
     var list = "";
@@ -197,4 +199,4 @@ function decodeVinAsyncOff(vin, index){
     		console.log(thrownError);
     	}
     });
-}
+}*/
