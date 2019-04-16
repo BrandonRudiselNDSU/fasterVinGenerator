@@ -46,29 +46,6 @@ submitButton.onclick = function () {   //this function runs upon clicking the su
     document.getElementById("searchBox").focus();
 };
 
-function search(searchString, boxes) {  //handles searching
-    var output = "";
-    var checked = 0;
-
-    for (var i = 0; i < boxes.length; i++) { //read categories
-        output += '<font size="5">' + boxes[i] + ':</font>' +
-            '<br>Placeholder data for search: ' + searchString + '<br><br>';
-        checked += 1;
-    }
-
-    if (searchString === "") {
-        output = "Searched for nothing"; // check search
-    }
-
-    if (checked === 0) {
-        output = "No categories specified"; // check categories
-    }
-
-    document.getElementById("SearchResults").innerHTML =
-        '<font color=\"white\">'
-        + output + '</font>';
-}
-
 function showInfo() {     //shows info
     var infoString = "It actually doesn't generate anything. It just randomly returns a hard coded vin.</br>" +
     "Ludicrous speed will immediately copy the vin to your clipboard.</br>" +
@@ -106,20 +83,6 @@ function getTimeStamp() {    //returns time stamp
     var date = new Date();
     var formattedDate = date.toDateString() + " " + date.getHours() + ":" + date.getMinutes() + "." + date.getSeconds();
     return formattedDate;
-}
-
-function getCheckedBoxes() {    //returns the values checked in the boxes
-    var boxes = document.getElementsByName('searchType');
-    var txt = "";
-    var i;
-
-    for (i = 0; i < boxes.length; i++) {
-        if (boxes[i].checked) {
-            txt = txt + boxes[i].value + " ";
-        }
-    }
-    txt = txt.trim();
-    return txt;
 }
 
 function copy() {
