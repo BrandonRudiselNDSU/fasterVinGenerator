@@ -1,9 +1,12 @@
 var storage = window.localStorage;
 var searchCounter = storage.length;
+var oldCarValue = false;
 
-var badDataResults = "";
+getOldCarValue();
 getVin(); //get vin on load
 getLudiValue();
+
+
 submitButton.onclick = function () {   //this function runs upon clicking the submit button
     var input = searchString = document.getElementById('searchBox').value;
     if (input.charAt(0) == "/") {     //is a control command
@@ -69,11 +72,12 @@ function search(searchString, boxes) {  //handles searching
 }
 
 function showInfo() {     //shows info
-    var infoString = "Powered by hatred, and NHTSA<br>" +
-    "It actually doesn't generate anything. It just randomly returns a hard coded vin.</br>" +
+    var infoString = "It actually doesn't generate anything. It just randomly returns a hard coded vin.</br>" +
     "Ludicrous speed will immediately copy the vin to your clipboard.</br>" +
+    "Old Car will return vehicles that range from 1980 - 2009.</br>" +
     "</br>Made by Brandon Rudisel.</br></br>" +
-    "Hit enter to go back";
+    "Hit enter to go back</br></br>" +
+    "Powered by hatred, and NHTSA<br>";
 
     document.getElementById("SearchResults").innerHTML =
         '<font color=\"white\">' + infoString + '</font>';
@@ -159,20 +163,31 @@ function printVehicleInfo(vehicleDataArray){
 }
 
 function getVin(){
-    var vin = vinArray[Math.floor(Math.random() * vinArray.length - 1)];
 
+    if(oldCarValue)
+        var vin = vinArray[Math.floor(Math.random() * 787)]; //only hits old cars
+    else
+        var vin = vinArray[Math.floor(Math.random() * vinArray.length - 1)]; //hits any car
     document.getElementById("vinBox").value = vin;
     decodeVin(vin);
 }
 
-function getLudiValue() {    //returns the values checked in the boxes
-    setBoxes();
+function getLudiValue() {
     if(document.getElementById("speed").checked){
         var millisecondsToWait = 200;
         setTimeout(function() {
             copy();
         }, millisecondsToWait);
     }
+}
+
+function getOldCarValue() {
+    setBoxes();
+    if(document.getElementById("oldCar").checked){
+        oldCarValue = true;
+    }
+    else
+        oldCarValue = false;
 }
 
 function setBoxes(){
