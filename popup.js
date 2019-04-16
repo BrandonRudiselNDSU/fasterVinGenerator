@@ -49,7 +49,7 @@ function showInfo() {
     var infoString = "It actually doesn't generate anything. It just randomly returns a hard coded vin.</br>" +
     "Ludicrous speed will immediately copy the vin to your clipboard.</br>" +
     "Old Car will return vehicles that range from 1980 - 2009.</br>" +
-    "</br>Made by Brandon Rudisel. Give me your money: paypal.me/fasterVin</br></br>" +
+    "</br>Made by Brandon Rudisel.<br>Give me your money: paypal.me/fasterVin</br></br>" +
     "Hit enter to go back</br></br>" +
     "Powered by hatred, and NHTSA<br>";
 
