@@ -5,7 +5,6 @@
   "permissions": [
     "contextMenus",
     "activeTab",
-    "tabs",
     "declarativeContent",
     "storage"
   ],

@@ -58,7 +58,7 @@ function showInfo() {
 }
 
 function listHistory() {     //lists search history
-    var historyString = "Enter '/#' to copy an item to clipboard</br>Enter '/clear' to clear History and Checkmarks</br></br>";
+    var historyString = "Enter '/#' to copy an item to clipboard</br>Enter '/clear' to clear History and Checkboxes</br></br>";
     var printedIndex = 1;
     var searchCounter = localStorage.length;
     console.log(localStorage);
@@ -208,3 +208,4 @@ function decodeVinAsyncOff(vin, index){
     	}
     });
 }
+

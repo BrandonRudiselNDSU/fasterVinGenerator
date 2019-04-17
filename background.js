@@ -4,7 +4,7 @@
 
 'use strict';
 
-//we don't know what this does, but it came with the extension tutorial and we don't want to remove it
+//I don't know what this does, but it came with the extension tutorial and we don't want to remove it
 chrome.runtime.onInstalled.addListener(function () {
     chrome.storage.sync.set({color: '#3aa757'}, function () {
         console.log('The color is green.');
@@ -16,7 +16,5 @@ chrome.runtime.onInstalled.addListener(function () {
         }]);
     });
 });
-
-
 
 
