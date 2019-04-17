@@ -9,7 +9,6 @@ getLudiValue();
 submitButton.onclick = function () {   //this function runs upon clicking the submit button
     //dataClean();
     var searchString, input = document.getElementById('searchBox').value;
-    alert(searchString + input);
     if (input.charAt(0) == "/") {     //is a control command
         if (input.charAt(1) == "h")  //is a list history command
             listHistory();
@@ -19,8 +18,8 @@ submitButton.onclick = function () {   //this function runs upon clicking the su
             clearHistory();
         else if (Number.isInteger(parseInt(input.charAt(1)))) { //is copy-ing a previous search
             // prepare search and category data for search
-            var end = storage.length;
-            searchString = storage.getItem(end - input.charAt(1));
+            searchCounter = storage.length;
+            searchString = storage.getItem(searchCounter - input.charAt(1));
             searchString = searchString.substr(searchString.indexOf("|| ") + 3, searchString.length - 1); //remove time stamp
             searchString = searchString.substr(0, searchString.indexOf(" : ")); //remove year/make/model from text
             historyCopy(searchString);
@@ -30,7 +29,7 @@ submitButton.onclick = function () {   //this function runs upon clicking the su
         location.reload();   //if nothing entered, refresh
     }
     else {   //is a decode
-        decodeVinAsyncOff(input);
+        decodeVinAsyncOff(input);       //run with async off so that the result is definitely retrieved before stored
         var historySearch = document.getElementById('searchBox').value;
         var year = document.getElementById("yearBox").value;
         var make = document.getElementById("makeBox").value;
@@ -59,9 +58,9 @@ function showInfo() {
 
 function listHistory() {     //lists search history
     var historyString = "Enter '/#' to copy an item to clipboard</br>Enter '/clear' to clear History and Checkmarks</br></br>";
-    var end = localStorage.length;
+    var searchCounter = localStorage.length;
     for (var i = 1; i < searchCounter; i++) {
-        historyString += i + ": " + storage.getItem(localStorage.key(end - i)) + "</br>";
+        historyString += i + ": " + storage.getItem(localStorage.key(searchCounter - i)) + "</br>";
     }
 
     document.getElementById("SearchResults").innerHTML =
