@@ -19,6 +19,9 @@ submitButton.onclick = function () {   //this function runs upon clicking the su
         else if (Number.isInteger(parseInt(input.charAt(1)))) { //is copy-ing a previous search
             // prepare search and category data for search
             searchCounter = storage.length;
+            for(var i = 0; i < searchCounter -1; i++){
+                alert(storage.getItem(i));
+            }
             searchString = storage.getItem(searchCounter - input.charAt(1));
             searchString = searchString.substr(searchString.indexOf("|| ") + 3, searchString.length - 1); //remove time stamp
             searchString = searchString.substr(0, searchString.indexOf(" : ")); //remove year/make/model from text
@@ -30,12 +33,11 @@ submitButton.onclick = function () {   //this function runs upon clicking the su
     }
     else {   //is a decode
         decodeVinAsyncOff(input);       //run with async off so that the result is definitely retrieved before stored
-        var historySearch = document.getElementById('searchBox').value;
         var year = document.getElementById("yearBox").value;
         var make = document.getElementById("makeBox").value;
         var model = document.getElementById("modelBox").value;
-        storage.setItem(searchCounter, getTimeStamp() + " || " + historySearch + " : " + year + " | " + make + " | " + model);
-        searchCounter++;
+        searchCounter = storage.length;
+        storage.setItem(searchCounter, getTimeStamp() + " || " + input + " : " + year + " | " + make + " | " + model);
 
         document.getElementById("vinBox").value = input
     }
@@ -59,22 +61,23 @@ function showInfo() {
 function listHistory() {     //lists search history
     var historyString = "Enter '/#' to copy an item to clipboard</br>Enter '/clear' to clear History and Checkmarks</br></br>";
     var searchCounter = localStorage.length;
-    for (var i = 1; i < searchCounter; i++) {
-        historyString += i + ": " + storage.getItem(localStorage.key(searchCounter - i)) + "</br>";
+    var printedIndex = 1;
+    for (var i = searchCounter; i > 0; i--) {   //not including zero to avoid printing "null" in zero position
+        if(!storage.getItem(localStorage.key(i - 1)).includes("speed")){
+            historyString += printedIndex + ": " + storage.getItem(localStorage.key(i - 1)) + "</br>";
+            printedIndex++;
+        }
     }
-
     document.getElementById("SearchResults").innerHTML =
        '<font color=\"white\">' + historyString + '</font>';
 }
 
 function clearHistory() {    //clears search history
     storage.clear();
-    searchCounter = 1;
     var clearText = "Search History Cleared</br></br>Hit Enter";
 
     document.getElementById("SearchResults").innerHTML =
         '<font color=\"white\">' + clearText + '</font>';
-    storage.setItem(0, ""); //placeholder string for the zero-ith position
 }
 
 function getTimeStamp() {    //returns time stamp
