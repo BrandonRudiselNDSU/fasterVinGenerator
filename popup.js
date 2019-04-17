@@ -6,10 +6,10 @@ getOldCarValue();
 getVin(); //get vin on load
 getLudiValue();
 
-
 submitButton.onclick = function () {   //this function runs upon clicking the submit button
     //dataClean();
-    var input = searchString = document.getElementById('searchBox').value;
+    var searchString, input = document.getElementById('searchBox').value;
+    alert(searchString + input);
     if (input.charAt(0) == "/") {     //is a control command
         if (input.charAt(1) == "h")  //is a list history command
             listHistory();
@@ -17,7 +17,7 @@ submitButton.onclick = function () {   //this function runs upon clicking the su
             showInfo();
         else if (input.charAt(1) == "c") //is a clear history command
             clearHistory();
-        else if (Number.isInteger(parseInt(input.charAt(1)))) { //is redoing a previous search
+        else if (Number.isInteger(parseInt(input.charAt(1)))) { //is copy-ing a previous search
             // prepare search and category data for search
             var end = storage.length;
             searchString = storage.getItem(end - input.charAt(1));
@@ -29,9 +29,9 @@ submitButton.onclick = function () {   //this function runs upon clicking the su
     else if (input.charAt(0) == "") {
         location.reload();   //if nothing entered, refresh
     }
-    else {   //is a search
+    else {   //is a decode
         decodeVinAsyncOff(input);
-        var historySearch = searchString = document.getElementById('searchBox').value;
+        var historySearch = document.getElementById('searchBox').value;
         var year = document.getElementById("yearBox").value;
         var make = document.getElementById("makeBox").value;
         var model = document.getElementById("modelBox").value;
@@ -196,6 +196,7 @@ function decodeVinAsyncOff(vin, index){
     	dataType: "json",
     	async: false,
     	success: function(result){
+    	    //testData(vin,result. Results, index) //for data clean
             printVehicleInfo(result.Results);
     	},
     	error: function(xhr, ajaxOptions, thrownError){
