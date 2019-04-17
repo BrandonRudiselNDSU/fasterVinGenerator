@@ -8,7 +8,7 @@ getLudiValue();
 
 submitButton.onclick = function () {   //this function runs upon clicking the submit button
     //dataClean();
-    var searchString, input = document.getElementById('searchBox').value;
+    var oldVin, input = document.getElementById('searchBox').value;
     if (input.charAt(0) == "/") {     //is a control command
         if (input.charAt(1) == "h")  //is a list history command
             listHistory();
@@ -19,10 +19,12 @@ submitButton.onclick = function () {   //this function runs upon clicking the su
         else if (Number.isInteger(parseInt(input.charAt(1)))) { //is copy-ing a previous decoded vin
             // prepare decode by removing timestamp and decode
             searchCounter = storage.length;
-            searchString = storage.getItem(searchCounter - input.charAt(1));
-            searchString = searchString.substr(searchString.indexOf("|| ") + 3, searchString.length - 1); //remove time stamp
-            searchString = searchString.substr(0, searchString.indexOf(" : ")); //remove year/make/model from text
-            historyCopy(searchString);
+            var historyIndex = input.substr(1,input.length);            //remove "/" and return the number
+            var storageIndex = searchCounter - historyIndex;
+            oldVin = storage.getItem(storageIndex);     //get history value from storage
+            oldVin = oldVin.substr(oldVin.indexOf("|| ") + 3, oldVin.length - 1); //remove time stamp
+            oldVin = oldVin.substr(0, oldVin.indexOf(" : ")); //remove year/make/model from text
+            historyCopy(oldVin);
         }
     }
     else if (input.charAt(0) == "") {
@@ -57,12 +59,13 @@ function showInfo() {
 
 function listHistory() {     //lists search history
     var historyString = "Enter '/#' to copy an item to clipboard</br>Enter '/clear' to clear History and Checkmarks</br></br>";
-    var searchCounter = localStorage.length;
     var printedIndex = 1;
+    var searchCounter = localStorage.length;
+    console.log(localStorage);
     for (var i = searchCounter; i > 0; i--) {   //not including zero to avoid printing "null" in zero position
-        if(!storage.getItem(localStorage.key(i - 1)).includes("speed")){
+        if(!storage.getItem(i - 1).includes("speed")){
             //checkbox persistence is stored in this localStorage, without this condition it would be printed with history
-            historyString += printedIndex + ": " + storage.getItem(localStorage.key(i - 1)) + "</br>";
+            historyString += printedIndex + ": " + storage.getItem(i - 1) + "</br>";
             printedIndex++;
         }
     }
