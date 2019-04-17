@@ -16,12 +16,9 @@ submitButton.onclick = function () {   //this function runs upon clicking the su
             showInfo();
         else if (input.charAt(1) == "c") //is a clear history command
             clearHistory();
-        else if (Number.isInteger(parseInt(input.charAt(1)))) { //is copy-ing a previous search
-            // prepare search and category data for search
+        else if (Number.isInteger(parseInt(input.charAt(1)))) { //is copy-ing a previous decoded vin
+            // prepare decode by removing timestamp and decode
             searchCounter = storage.length;
-            for(var i = 0; i < searchCounter -1; i++){
-                alert(storage.getItem(i));
-            }
             searchString = storage.getItem(searchCounter - input.charAt(1));
             searchString = searchString.substr(searchString.indexOf("|| ") + 3, searchString.length - 1); //remove time stamp
             searchString = searchString.substr(0, searchString.indexOf(" : ")); //remove year/make/model from text
@@ -64,6 +61,7 @@ function listHistory() {     //lists search history
     var printedIndex = 1;
     for (var i = searchCounter; i > 0; i--) {   //not including zero to avoid printing "null" in zero position
         if(!storage.getItem(localStorage.key(i - 1)).includes("speed")){
+            //checkbox persistence is stored in this localStorage, without this condition it would be printed with history
             historyString += printedIndex + ": " + storage.getItem(localStorage.key(i - 1)) + "</br>";
             printedIndex++;
         }
