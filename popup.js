@@ -8,7 +8,7 @@ getLudiValue();
 
 submitButton.onclick = function () {   //this function runs upon clicking the submit button
     //dataClean();
-    read();
+    //readAll();
     var oldVin, input = document.getElementById('searchBox').value;
     if (input.charAt(0) == "/") {     //is a control command
         if (input.charAt(1) == "h")  //is a list history command
@@ -50,7 +50,7 @@ function showInfo() {
     var infoString = "It actually doesn't generate anything. It just randomly returns a hard coded vin.</br>" +
     "Ludicrous speed will immediately copy the vin to your clipboard.</br>" +
     "Old Car will return vehicles that range from 1980 - 2009.</br>" +
-    "</br>Made by Brandon Rudisel.<br>Give me your money: paypal.me/fasterVin</br></br>" +
+    "</br>Made by Brandon Rudisel.<br>Buy me beer: paypal.me/fasterVin</br></br>" +
     "Hit enter to go back</br></br>" +
     "Powered by hatred, and NHTSA<br>";
 
@@ -125,7 +125,6 @@ function printVehicleInfo(vehicleDataArray){
 }
 
 function getVin(){
-
     if(oldCarValue)
         var vin = oldCarArray[Math.floor(Math.random() * oldCarArray.length - 1)];
     else

@@ -52,27 +52,31 @@ function read() {
 }
 
 function readAll() {
-    var objectStore = db.transaction("employee").objectStore("employee");
+    var transaction = db.transaction(["record"]);
+    var objectStore = transaction.objectStore("record");
+
+    request.onerror = function(event) {
+        alert("Unable to retrieve data from database!");
+    };
 
     objectStore.openCursor().onsuccess = function(event) {
-    var cursor = event.target.result;
-
+        var cursor = event.target.result;
         if (cursor) {
-            alert("Name for id " + cursor.key + " is " + cursor.value.name + ", Age: " + cursor.value.age + ", Email: " + cursor.value.email);
+            alert(request.result.timeStamp + " " + request.result.vin + " " + request.result.year + " " + request.result.make + " " + request.result.model);
             cursor.continue();
-       } else {
+        } else {
             alert("No more entries");
-       }
-   };
+        }
+    };
 }
 
 function add() {
-    var request = db.transaction(["employee"], "readwrite")
-    .objectStore("employee")
-    .add({ id: "00-03", name: "Kenny", age: 19, email: "kenny@planet.org" });
+    var request = db.transaction(["record"], "readwrite")
+    .objectStore("record")
+    .add({index: "0003", timeStamp: "placeholder5", vin: "placeholder6", year: "199922", make: "shitbox3", model: "shitcar3"});
 
     request.onsuccess = function(event) {
-        alert("Kenny has been added to your database.");
+        alert("Data has been added.");
     };
 
     request.onerror = function(event) {
@@ -81,11 +85,11 @@ function add() {
 }
 
 function remove() {
-    var request = db.transaction(["employee"], "readwrite")
-    .objectStore("employee")
-    .delete("00-03");
+    var request = db.transaction(["record"], "readwrite")
+    .objectStore("record")
+    .delete("0003");
 
     request.onsuccess = function(event) {
-        alert("Kenny's entry has been removed from your database.");
+        alert("Data removed.");
     };
 }
