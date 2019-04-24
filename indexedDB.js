@@ -12,12 +12,8 @@ if (!window.indexedDB) {
     window.alert("Your browser doesn't support a stable version of IndexedDB.")
 }
 
- const employeeData = [
-    { index: "0001", timeStamp: "placeholder", vin: "placeholder2", year: "1999", make: "shitbox", model: "shitcar"},
-    { index: "0002", timeStamp: "placeholder4", vin: "placeholder3", year: "19992", make: "shitbox2", model: "shitcar2"}
-];
 var db;
-var request = window.indexedDB.open("newDatabase", 1);
+var request = window.indexedDB.open("history", 2);
 
 request.onerror = function(event) {
     console.log("error: ");
@@ -30,17 +26,17 @@ request.onsuccess = function(event) {
 
 request.onupgradeneeded = function(event) {
     var db = event.target.result;
-    var objectStore = db.createObjectStore("employee", {keyPath: "id"});
+    var objectStore = db.createObjectStore("record", {keyPath: "index"});
 
-    for (var i in employeeData) {
-        objectStore.add(employeeData[i]);
+    for (var i in historyData) {
+        objectStore.add(historyData[i]);
     }
 }
 
 function read() {
-    var transaction = db.transaction(["employee"]);
-    var objectStore = transaction.objectStore("employee");
-    var request = objectStore.get("0001");
+    var transaction = db.transaction(["record"]);
+    var objectStore = transaction.objectStore("record");
+    var request = objectStore.get("0002");
 
     request.onerror = function(event) {
         alert("Unable to retrieve data from database!");
@@ -48,7 +44,7 @@ function read() {
 
     request.onsuccess = function(event) {
         if(request.result) {
-            alert(request.result.timeStamp + " " + request.result.vin + " " + request.result.year);
+            alert(request.result.timeStamp + " " + request.result.vin + " " + request.result.year + " " + request.result.make + " " + request.result.model);
         } else {
             alert("Could not find value");
         }
