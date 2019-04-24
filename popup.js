@@ -8,6 +8,7 @@ getLudiValue();
 
 submitButton.onclick = function () {   //this function runs upon clicking the submit button
     //dataClean();
+    read();
     var oldVin, input = document.getElementById('searchBox').value;
     if (input.charAt(0) == "/") {     //is a control command
         if (input.charAt(1) == "h")  //is a list history command
