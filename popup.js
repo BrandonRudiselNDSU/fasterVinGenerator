@@ -61,13 +61,11 @@ function listHistory() {     //lists search history
     var historyString = "Enter '/#' to copy an item to clipboard</br>Enter '/clear' to clear History and Checkboxes</br></br>";
     var printedIndex = 1;
     var searchCounter = localStorage.length;
-    console.log(localStorage);
+    console.log(localStorage);  //remove me
     for (var i = searchCounter; i > 0; i--) {   //not including zero to avoid printing "null" in zero position
-        if(!storage.getItem(i - 1).includes("speed")){
-            //checkbox persistence is stored in this localStorage, without this condition it would be printed with history
-            historyString += printedIndex + ": " + storage.getItem(i - 1) + "</br>";
-            printedIndex++;
-        }
+        var key = storage.key(i - 1);
+        historyString += printedIndex + ": " + storage.getItem(key) + "</br>";
+        printedIndex++;
     }
     document.getElementById("SearchResults").innerHTML =
        '<font color=\"white\">' + historyString + '</font>';
@@ -128,7 +126,7 @@ function printVehicleInfo(vehicleDataArray){
 function getVin(){
 
     if(oldCarValue)
-        var vin = vinArray[Math.floor(Math.random() * 786)]; //only hits old cars
+        var vin = oldCarArray[Math.floor(Math.random() * oldCarArray.length - 1)];
     else
         var vin = vinArray[Math.floor(Math.random() * vinArray.length - 1)]; //hits any car
     document.getElementById("vinBox").value = vin;
