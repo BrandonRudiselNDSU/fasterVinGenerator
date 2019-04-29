@@ -194,11 +194,12 @@ function dataClean(){
         vin = getVin;
         var result = decodeVinAsyncOff(vin,i);
     }
+    alert("Finished");
 }
 
 function testData(vin, result, index){
-    var testString = result[7].Value  //model
-    if (testString.c){
+    var testString = result[5].Value  //model 7, make 5, year 8
+    if (testString.includes("uzuki")){
         alert("bad data for vin: " + vin + " on index: " + index);
     }
 }
@@ -210,7 +211,7 @@ function decodeVinAsyncOff(vin, index){
     	dataType: "json",
     	async: false,
     	success: function(result){
-    	    testData(vin,result. Results, index) //for data clean
+    	    testData(vin,result. Results, index); //for data clean
             //printVehicleInfo(result.Results);
     	},
     	error: function(xhr, ajaxOptions, thrownError){
