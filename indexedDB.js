@@ -47,26 +47,6 @@ function read() {
     };
 }
 
-function readAll() {
-    var transaction = db.transaction("record", "readonly");
-    var objectStore = transaction.objectStore("record");
-    var request = objectStore.openCursor();
-    request.onerror = function(event){
-        alert(request.error);
-    }
-
-    request.onsuccess = function(event) {
-        var cursor = event.target.result;
-        if(cursor) {
-            console.log(cursor.value.record);
-            cursor.continue();
-        } else {
-            // no more results
-        }
-    };
-
-}
-
 function add(record) {
     var request = db.transaction(["record"], "readwrite")
     .objectStore("record")

@@ -64,7 +64,7 @@ function listHistory() {     //lists search history
 
     var transaction = db.transaction("record", "readonly");
     var objectStore = transaction.objectStore("record");
-    var request = objectStore.openCursor();
+    var request = objectStore.openCursor(null,"prev");
     console.log("List history");
     request.onsuccess = function(event) {
         var cursor = event.target.result;
