@@ -16,12 +16,12 @@ var db;
 var request = window.indexedDB.open("history", 2);
 
 request.onerror = function(event) {
-    console.log("error: ");
+    //console.log("error: ");
 };
 
 request.onsuccess = function(event) {
     db = request.result;
-    console.log("success: "+ db);
+    //console.log("success: "+ db);
 };
 
 request.onupgradeneeded = function(event) {
@@ -29,10 +29,10 @@ request.onupgradeneeded = function(event) {
     var objectStore = db.createObjectStore("record", {autoIncrement:true});
 }
 
-function read() {
+function read(index) {
     var transaction = db.transaction(["record"]);
     var objectStore = transaction.objectStore("record");
-    var request = objectStore.get(1);
+    var request = objectStore.get(index);
 
     request.onerror = function(event) {
         alert("Unable to retrieve data from database!");
@@ -43,6 +43,7 @@ function read() {
             alert(request.result.record);
         } else {
             alert("Could not find value");
+            console.log(request.error);
         }
     };
 }
@@ -54,7 +55,7 @@ function add(record) {
 
     request.onsuccess = function(event) {
         //do nothing
-        console.log("Add record");
+        //console.log("Add record");
     };
 
     request.onerror = function(event) {

@@ -1,5 +1,4 @@
 var storage = window.localStorage;
-var searchCounter = storage.length;
 var oldCarValue = false;
 
 getOldCarValue();
@@ -19,13 +18,13 @@ submitButton.onclick = function () {   //this function runs upon clicking the su
             clearHistory();
         else if (Number.isInteger(parseInt(input.charAt(1)))) { //is copy-ing a previous decoded vin
             // prepare decode by removing timestamp and decode
-            searchCounter = storage.length;
             var historyIndex = input.substr(1,input.length);            //remove "/" and return the number
-            var storageIndex = searchCounter - historyIndex;
-            oldVin = storage.getItem(storageIndex);     //get history value from storage
-            oldVin = oldVin.substr(oldVin.indexOf("|| ") + 3, oldVin.length - 1); //remove time stamp
-            oldVin = oldVin.substr(0, oldVin.indexOf(" : ")); //remove year/make/model from text
-            historyCopy(oldVin);
+            oldVin = read(parseInt(historyIndex));
+            setTimeout(function(){
+                oldVin = oldVin.substr(oldVin.indexOf("|| ") + 3, oldVin.length - 1); //remove time stamp
+                oldVin = oldVin.substr(0, oldVin.indexOf(" : ")); //remove year/make/model from text
+                historyCopy(oldVin);
+            }, 2500);
         }
     }
     else if (input.charAt(0) == "") {
@@ -36,7 +35,6 @@ submitButton.onclick = function () {   //this function runs upon clicking the su
         var year = document.getElementById("yearBox").value;
         var make = document.getElementById("makeBox").value;
         var model = document.getElementById("modelBox").value;
-        searchCounter = storage.length;
         add(getTimeStamp() + " || " + input + " : " + year + " | " + make + " | " + model);
 
         document.getElementById("vinBox").value = input
@@ -93,7 +91,10 @@ function clearHistory() {    //clears search history
 
 function getTimeStamp() {    //returns time stamp
     var date = new Date();
-    var formattedDate = date.toDateString() + " " + date.getHours() + ":" + date.getMinutes() + "." + date.getSeconds();
+    var hours = date.getHours().toString();
+    var minutes = date.getMinutes().toString();
+    var seconds = date.getSeconds().toString();
+    var formattedDate = date.toDateString() + " " + hours.padStart(2,"0") + ":" + minutes.padStart(2,"0") + "." + seconds.padStart(2,"0");
     return formattedDate;
 }
 
