@@ -26,17 +26,13 @@ request.onsuccess = function(event) {
 
 request.onupgradeneeded = function(event) {
     var db = event.target.result;
-    var objectStore = db.createObjectStore("record", {keyPath: "index"});
-
-    for (var i in historyData) {
-        objectStore.add(historyData[i]);
-    }
+    var objectStore = db.createObjectStore("record", {autoIncrement:true});
 }
 
 function read() {
     var transaction = db.transaction(["record"]);
     var objectStore = transaction.objectStore("record");
-    var request = objectStore.get("0002");
+    var request = objectStore.get(1);
 
     request.onerror = function(event) {
         alert("Unable to retrieve data from database!");
@@ -44,7 +40,7 @@ function read() {
 
     request.onsuccess = function(event) {
         if(request.result) {
-            alert(request.result.timeStamp + " " + request.result.vin + " " + request.result.year + " " + request.result.make + " " + request.result.model);
+            alert(request.result.record);
         } else {
             alert("Could not find value");
         }
@@ -52,31 +48,28 @@ function read() {
 }
 
 function readAll() {
-    var transaction = db.transaction(["record"]);
+    var transaction = db.transaction("record", "readonly");
     var objectStore = transaction.objectStore("record");
-
-    request.onerror = function(event) {
-        alert("Unable to retrieve data from database!");
-    };
-
-    objectStore.openCursor().onsuccess = function(event) {
+    var request = objectStore.openCursor();
+    request.onsuccess = function(event) {
         var cursor = event.target.result;
-        if (cursor) {
-            alert(request.result.timeStamp + " " + request.result.vin + " " + request.result.year + " " + request.result.make + " " + request.result.model);
+        if(cursor) {
+            console.log(cursor.value.record);
             cursor.continue();
         } else {
-            alert("No more entries");
+            // no more results
         }
     };
 }
 
-function add() {
+function add(record) {
     var request = db.transaction(["record"], "readwrite")
     .objectStore("record")
-    .add({index: "0003", timeStamp: "placeholder5", vin: "placeholder6", year: "199922", make: "shitbox3", model: "shitcar3"});
+    .add({record: record});
 
     request.onsuccess = function(event) {
-        alert("Data has been added.");
+        //do nothing
+        //console.log("Add record");
     };
 
     request.onerror = function(event) {
@@ -92,4 +85,14 @@ function remove() {
     request.onsuccess = function(event) {
         alert("Data removed.");
     };
+}
+
+function getCount(){
+    var transaction = db.transaction(['record'], 'readonly');
+    var objectStore = transaction.objectStore('record');
+
+    var countRequest = objectStore.count();
+    countRequest.onsuccess = function() {
+        return countRequest.result;
+    }
 }

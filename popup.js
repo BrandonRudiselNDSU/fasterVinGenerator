@@ -8,7 +8,7 @@ getLudiValue();
 
 submitButton.onclick = function () {   //this function runs upon clicking the submit button
     //dataClean();
-    //readAll();
+    readAll();
     var oldVin, input = document.getElementById('searchBox').value;
     if (input.charAt(0) == "/") {     //is a control command
         if (input.charAt(1) == "h")  //is a list history command
@@ -37,7 +37,7 @@ submitButton.onclick = function () {   //this function runs upon clicking the su
         var make = document.getElementById("makeBox").value;
         var model = document.getElementById("modelBox").value;
         searchCounter = storage.length;
-        storage.setItem(searchCounter, getTimeStamp() + " || " + input + " : " + year + " | " + make + " | " + model);
+        add(getTimeStamp() + " || " + input + " : " + year + " | " + make + " | " + model);
 
         document.getElementById("vinBox").value = input
     }
