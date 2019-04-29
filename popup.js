@@ -186,11 +186,11 @@ function setCharAt(str,index,chr) {
     return str.substr(0,index) + chr + str.substr(index+1);
 }
 
-/*
+
 function dataClean(){
     var vin;
-    var list = "";
-    for(var i = 0; i < 990; i++){
+
+    for(var i = 0; i < vinArray.length; i++){
         vin = getVin;
         var result = decodeVinAsyncOff(vin,i);
     }
@@ -198,10 +198,11 @@ function dataClean(){
 
 function testData(vin, result, index){
     var testString = result[7].Value  //model
-    if (testString == null){
+    if (testString.c){
         alert("bad data for vin: " + vin + " on index: " + index);
     }
-}*/
+}
+
 function decodeVinAsyncOff(vin, index){
     $.ajax({
     	url: "https://vpic.nhtsa.dot.gov/api/vehicles/DecodeVin/" + vin + "?format=json",
@@ -209,8 +210,8 @@ function decodeVinAsyncOff(vin, index){
     	dataType: "json",
     	async: false,
     	success: function(result){
-    	    //testData(vin,result. Results, index) //for data clean
-            printVehicleInfo(result.Results);
+    	    testData(vin,result. Results, index) //for data clean
+            //printVehicleInfo(result.Results);
     	},
     	error: function(xhr, ajaxOptions, thrownError){
     		console.log(xhr.status);
