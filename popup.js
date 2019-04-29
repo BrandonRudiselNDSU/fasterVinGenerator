@@ -8,7 +8,7 @@ getLudiValue();
 
 submitButton.onclick = function () {   //this function runs upon clicking the submit button
     //dataClean();
-    readAll();
+    //readAll();
     var oldVin, input = document.getElementById('searchBox').value;
     if (input.charAt(0) == "/") {     //is a control command
         if (input.charAt(1) == "h")  //is a list history command
@@ -59,21 +59,32 @@ function showInfo() {
 }
 
 function listHistory() {     //lists search history
-    var historyString = "Enter '/#' to copy an item to clipboard</br>Enter '/clear' to clear History and Checkboxes</br></br>";
+    var historyString = "Enter '/#' to copy an item to clipboard</br>Enter '/clear' to clear History</br></br>";
     var printedIndex = 1;
-    var searchCounter = localStorage.length;
-    console.log(localStorage);  //remove me
-    for (var i = searchCounter; i > 0; i--) {   //not including zero to avoid printing "null" in zero position
-        var key = storage.key(i - 1);
-        historyString += printedIndex + ": " + storage.getItem(key) + "</br>";
-        printedIndex++;
-    }
-    document.getElementById("SearchResults").innerHTML =
-       '<font color=\"white\">' + historyString + '</font>';
+
+    var transaction = db.transaction("record", "readonly");
+    var objectStore = transaction.objectStore("record");
+    var request = objectStore.openCursor();
+    console.log("List history");
+    request.onsuccess = function(event) {
+        var cursor = event.target.result;
+        if(cursor) {
+            historyString += printedIndex + ": " + cursor.value.record + "</br>";
+            printedIndex++;
+            cursor.continue();
+        } else {
+            // no more results
+        }
+    };
+    setTimeout(function(){
+        document.getElementById("SearchResults").innerHTML =
+            '<font color=\"white\">' + historyString + '</font>';
+    }, 50);
+
 }
 
 function clearHistory() {    //clears search history
-    storage.clear();
+    clearData();
     var clearText = "Search History Cleared</br></br>Hit Enter";
 
     document.getElementById("SearchResults").innerHTML =

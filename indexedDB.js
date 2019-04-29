@@ -51,6 +51,10 @@ function readAll() {
     var transaction = db.transaction("record", "readonly");
     var objectStore = transaction.objectStore("record");
     var request = objectStore.openCursor();
+    request.onerror = function(event){
+        alert(request.error);
+    }
+
     request.onsuccess = function(event) {
         var cursor = event.target.result;
         if(cursor) {
@@ -60,6 +64,7 @@ function readAll() {
             // no more results
         }
     };
+
 }
 
 function add(record) {
@@ -69,7 +74,7 @@ function add(record) {
 
     request.onsuccess = function(event) {
         //do nothing
-        //console.log("Add record");
+        console.log("Add record");
     };
 
     request.onerror = function(event) {
@@ -77,19 +82,16 @@ function add(record) {
     }
 }
 
-function remove() {
-    var request = db.transaction(["record"], "readwrite")
-    .objectStore("record")
-    .delete("0003");
+function clearData(){
+    var transaction = db.transaction(["record"],"readwrite");
+    var objectStore = transaction.objectStore("record");
 
-    request.onsuccess = function(event) {
-        alert("Data removed.");
-    };
+    objectStore.clear();
 }
 
 function getCount(){
-    var transaction = db.transaction(['record'], 'readonly');
-    var objectStore = transaction.objectStore('record');
+    var transaction = db.transaction(["record"], "readonly");
+    var objectStore = transaction.objectStore("record");
 
     var countRequest = objectStore.count();
     countRequest.onsuccess = function() {
