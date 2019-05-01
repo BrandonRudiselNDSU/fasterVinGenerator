@@ -191,17 +191,16 @@ function setCharAt(str,index,chr) {
 
 function dataClean(){
     var vin;
-
     for(var i = 0; i < vinArray.length; i++){
         vin = getVin;
-        var result = decodeVinAsyncOffdataClean(vin,i);
+        var result = decodeVinAsyncOffDataClean(vin,i);
     }
     alert("Finished");
 }
 
 function testData(vin, result, index){
-    var testString = result[5].Value  //model 7, make 5, year 8
-    if (testString.includes("uzuki")){
+    var testString = result[8].Value  //model 7, make 5, year 8
+    if (parseInt(testString) > 2009){
         alert("bad data for vin: " + vin + " on index: " + index);
     }
 }
@@ -238,17 +237,5 @@ function decodeVinAsyncOff(vin){
     	}
     });
 }
-
-function ludicrousWarning(){
-    alert("Ctrl + Shift + Y will clear checkboxes and return FVG to normal.");
-}
-
-/*var contextMenuItem = {
-    "id": "ludicrousToggle",
-    "title": "Ludicrous Toggle",
-    "contexts": ["launcher"],
-    "type": "checkbox"
-};
-chrome.contextMenus.create(contextMenuItem);*/
 
 

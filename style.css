@@ -1,3 +1,4 @@
+
 body {
     background: #000;
 }
@@ -109,6 +110,6 @@ p {
     margin: 0;
     position: absolute;
     top: 36%;
-    left: -20%;
+    left: -15%;
     transform: translate(80%, -35%);
 }

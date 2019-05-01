@@ -16,4 +16,3 @@ searchBox.addEventListener("keydown", function(event) {
         });
     }
 });
-
