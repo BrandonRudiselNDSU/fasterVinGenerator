@@ -17,9 +17,22 @@ submitButton.onclick = function () {   //this function runs upon clicking the su
         else if (input.charAt(1) == "c") //is a clear history command
             clearHistory();
         else if (Number.isInteger(parseInt(input.charAt(1)))) { //is copy-ing a previous decoded vin
-            // prepare decode by removing timestamp and decode
-            var historyIndex = input.substr(1,input.length);            //remove "/" and return the number
-            read(parseInt(historyIndex));
+            //prepare decode by removing timestamp and decode
+            var historyIndexString = input.substr(1,input.length);  //remove "/" and return the number
+            var historyIndexInt = parseInt(historyIndexString);
+            var transaction = db.transaction(["record"], "readonly");
+            var objectStore = transaction.objectStore("record");
+
+            var countRequest = objectStore.count(); //get length of database
+            countRequest.onsuccess = function() {
+                var dbLength = countRequest.result; //once result returns save it in dbLength
+                //subtract one to account for zero based index, then subtract historyIndexInt from dbLength to get desired value from history
+                read(dbLength - (historyIndexInt - 1)); 
+            }
+
+            countRequest.onerror = function() {
+                alert("Failed to get a count on number of values in database");
+            }
         }
     }
     else if (input.charAt(0) == "") {
@@ -32,7 +45,6 @@ submitButton.onclick = function () {   //this function runs upon clicking the su
         var model = document.getElementById("modelBox").value;
         document.getElementById("vinBox").value = input
         add(getTimeStamp() + " || " + input + " : " + year + " | " + make + " | " + model);
-        
     }
 
     document.getElementById("searchBox").value = ""; //clean up search box
@@ -43,9 +55,9 @@ function showInfo() {
     var infoString = "It actually doesn't generate anything. It just randomly returns a hard coded vin.</br>" +
     "Ludicrous speed will immediately copy the vin to your clipboard.</br>" +
     "Old Car will return vehicles that range from 1980 - 2009.</br>" +
-    "</br>Made by Brandon Rudisel.<br>Buy me beer: paypal.me/fasterVin</br></br>" +
+    "Made by Brandon Rudisel.<br>Buy me beer: paypal.me/fasterVin</br></br>" +
     "Hit enter to go back</br></br>" +
-    "Powered by hatred, and NHTSA<br>";
+    "Powered by hatred, and NHTSA";
 
     document.getElementById("SearchResults").innerHTML =
         '<font color=\"white\">' + infoString + '</font>';
@@ -228,9 +240,5 @@ function decodeVinAsyncOff(vin){
     	}
     });
 }
-
-/*===================================================================================
-=====================================================================================
-===================================================================================*/
 
 
