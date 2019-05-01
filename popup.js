@@ -1,3 +1,17 @@
+//prefixes of implementation that we want to test
+window.indexedDB = window.indexedDB || window.mozIndexedDB ||
+window.webkitIndexedDB || window.msIndexedDB;
+
+//prefixes of window.IDB objects
+window.IDBTransaction = window.IDBTransaction ||
+window.webkitIDBTransaction || window.msIDBTransaction;
+window.IDBKeyRange = window.IDBKeyRange || window.webkitIDBKeyRange ||
+window.msIDBKeyRange
+
+if (!window.indexedDB) {
+    window.alert("Your browser doesn't support a stable version of IndexedDB.")
+}
+
 var storage = window.localStorage;
 var oldCarValue = false;
 
@@ -8,7 +22,7 @@ getLudiValue();
 submitButton.onclick = function () {   //this function runs upon clicking the submit button
     //dataClean();
     //readAll();
-    var oldVin, input = document.getElementById('searchBox').value;
+    var input = document.getElementById('searchBox').value;
     if (input.charAt(0) == "/") {     //is a control command
         if (input.charAt(1) == "h")  //is a list history command
             listHistory();
@@ -19,12 +33,7 @@ submitButton.onclick = function () {   //this function runs upon clicking the su
         else if (Number.isInteger(parseInt(input.charAt(1)))) { //is copy-ing a previous decoded vin
             // prepare decode by removing timestamp and decode
             var historyIndex = input.substr(1,input.length);            //remove "/" and return the number
-            oldVin = read(parseInt(historyIndex));
-            setTimeout(function(){
-                oldVin = oldVin.substr(oldVin.indexOf("|| ") + 3, oldVin.length - 1); //remove time stamp
-                oldVin = oldVin.substr(0, oldVin.indexOf(" : ")); //remove year/make/model from text
-                historyCopy(oldVin);
-            }, 2500);
+            read(parseInt(historyIndex));
         }
     }
     else if (input.charAt(0) == "") {
@@ -36,7 +45,6 @@ submitButton.onclick = function () {   //this function runs upon clicking the su
         var make = document.getElementById("makeBox").value;
         var model = document.getElementById("modelBox").value;
         add(getTimeStamp() + " || " + input + " : " + year + " | " + make + " | " + model);
-
         document.getElementById("vinBox").value = input
     }
 
@@ -192,7 +200,7 @@ function dataClean(){
 
     for(var i = 0; i < vinArray.length; i++){
         vin = getVin;
-        var result = decodeVinAsyncOff(vin,i);
+        var result = decodeVinAsyncOffdataClean(vin,i);
     }
     alert("Finished");
 }
@@ -204,7 +212,7 @@ function testData(vin, result, index){
     }
 }
 
-function decodeVinAsyncOff(vin, index){
+function decodeVinAsyncOffDataClean(vin, index){
     $.ajax({
     	url: "https://vpic.nhtsa.dot.gov/api/vehicles/DecodeVin/" + vin + "?format=json",
     	type: "GET",
@@ -212,7 +220,6 @@ function decodeVinAsyncOff(vin, index){
     	async: false,
     	success: function(result){
     	    testData(vin,result. Results, index); //for data clean
-            //printVehicleInfo(result.Results);
     	},
     	error: function(xhr, ajaxOptions, thrownError){
     		console.log(xhr.status);
@@ -221,3 +228,114 @@ function decodeVinAsyncOff(vin, index){
     });
 }
 
+function decodeVinAsyncOff(vin){
+    $.ajax({
+    	url: "https://vpic.nhtsa.dot.gov/api/vehicles/DecodeVin/" + vin + "?format=json",
+    	type: "GET",
+    	dataType: "json",
+    	async: false,
+    	success: function(result){
+    	    //testData(vin,result. Results, index); //for data clean
+            printVehicleInfo(result.Results);
+    	},
+    	error: function(xhr, ajaxOptions, thrownError){
+    		console.log(xhr.status);
+    		console.log(thrownError);
+    	}
+    });
+}
+
+/*===================================================================================
+=====================================================================================
+===================================================================================*/
+
+
+var db;
+var request = window.indexedDB.open("history", 2);
+
+request.onerror = function(event) {
+    console.log("error: new database failed");
+};
+
+request.onsuccess = function(event) {
+    db = request.result;
+    //console.log("success: "+ db);
+};
+
+request.onupgradeneeded = function(event) {
+    var db = event.target.result;
+    var objectStore = db.createObjectStore("record", {keyPath: "index"});
+}
+
+function read(index) {
+    var transaction = db.transaction(["record"]);
+    var objectStore = transaction.objectStore("record");
+    var request = objectStore.get(index);
+
+    request.onerror = function(event) {
+        alert("Unable to retrieve data from database!");
+    };
+
+    request.onsuccess = function(event) {
+    var oldVin;
+        if(request.result) {
+            oldVin = request.result.record;
+            oldVin = oldVin.substr(oldVin.indexOf("|| ") + 3, oldVin.length - 1); //remove time stamp
+            oldVin = oldVin.substr(0, oldVin.indexOf(" : ")); //remove year/make/model from text
+            historyCopy(oldVin);
+            alert(oldVin);
+        } else {
+            alert("Could not find value");
+            console.log(request.error);
+        }
+    };
+}
+
+function add(record) {
+    var transaction = db.transaction(["record"], "readonly");
+    var objectStore = transaction.objectStore("record");
+
+    var countRequest = objectStore.count();
+    countRequest.onsuccess = function() {
+        alert(countRequest.result);
+        var request = db.transaction(["record"], "readwrite")
+        .objectStore("record")
+        .add({record: record}, countRequest.result + 1);
+
+        request.onsuccess = function(event) {
+            //do nothing
+            //console.log("Add record");
+        };
+        request.onerror = function(event) {
+            alert("Unable to add data");
+        }
+    }
+    countRequest.onerror = function() {
+        alert("failed to get count of records");
+    }
+}
+
+function clearData(){
+    var transaction = db.transaction(["record"],"readwrite");
+    var objectStore = transaction.objectStore("record");
+
+    objectStore.clear();
+
+    transaction.onsuccess = function(event) {
+      //alert("clear successful")
+    };
+    //Error Handler
+    transaction.onerror = function (event) {
+      alert("clear failed")
+    };
+}
+
+function getCount(){
+    var transaction = db.transaction(["record"], "readonly");
+    var objectStore = transaction.objectStore("record");
+
+    var countRequest = objectStore.count();
+    countRequest.onsuccess = function() {
+        return countRequest.result;
+    }
+}
