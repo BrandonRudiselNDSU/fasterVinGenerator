@@ -29,26 +29,15 @@
     "128": "images/v.png"
   },
   "commands": {
-     "open_fvg": {
+     "clearOptions": {
        "suggested_key": {
-         "default": "Ctrl+Shift+A",
-         "mac": "Command+Shift+A"
+         "default": "Ctrl+Shift+Y"
        },
-         "description": "Open Extension"
-     },
-     "_execute_browser_action": {
-       "suggested_key": {
-         "windows": "Ctrl+Shift+Y",
-         "mac": "Command+Shift+Y",
-         "chromeos": "Ctrl+Shift+U",
-         "linux": "Ctrl+Shift+J"
-      }
+         "description": "Clear Options"
      },
      "_execute_page_action": {
        "suggested_key": {
-         "default": "Ctrl+Shift+Z",
-         "windows": "Ctrl+Shift+Z",
-         "mac": "Alt+Shift+P"
+         "default": "Ctrl+Shift+Z"
        }
      }
    },

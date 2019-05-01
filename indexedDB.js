@@ -44,7 +44,6 @@ function read(index) {
             oldVin = request.result.record;
             oldVin = oldVin.substr(oldVin.indexOf("|| ") + 3, oldVin.length - 1); //remove time stamp
             oldVin = oldVin.substr(0, oldVin.indexOf(" : ")); //remove year/make/model from text
-            alert(oldVin);
             historyCopy(oldVin);
         } else {
             alert("Could not find value");

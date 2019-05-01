@@ -1,4 +1,3 @@
-var storage = window.localStorage;
 var oldCarValue = false;
 
 getOldCarValue();
@@ -27,7 +26,7 @@ submitButton.onclick = function () {   //this function runs upon clicking the su
             countRequest.onsuccess = function() {
                 var dbLength = countRequest.result; //once result returns save it in dbLength
                 //subtract one to account for zero based index, then subtract historyIndexInt from dbLength to get desired value from history
-                read(dbLength - (historyIndexInt - 1)); 
+                read(dbLength - (historyIndexInt - 1));
             }
 
             countRequest.onerror = function() {
@@ -52,12 +51,14 @@ submitButton.onclick = function () {   //this function runs upon clicking the su
 };
 
 function showInfo() {
+    var manifestData = chrome.runtime.getManifest();
+    var version = manifestData.version;
     var infoString = "It actually doesn't generate anything. It just randomly returns a hard coded vin.</br>" +
     "Ludicrous speed will immediately copy the vin to your clipboard.</br>" +
     "Old Car will return vehicles that range from 1980 - 2009.</br>" +
     "Made by Brandon Rudisel.<br>Buy me beer: paypal.me/fasterVin</br></br>" +
-    "Hit enter to go back</br></br>" +
-    "Powered by hatred, and NHTSA";
+    "<b>Hit enter to go back</b></br>" +
+    "Powered by hatred, and NHTSA </br><i>Version: " + version + "</i>";
 
     document.getElementById("SearchResults").innerHTML =
         '<font color=\"white\">' + infoString + '</font>';
@@ -151,10 +152,7 @@ function getVin(){
 
 function getLudiValue() {
     if(document.getElementById("speed").checked){
-        var millisecondsToWait = 200;
-        setTimeout(function() {
-            copy();
-        }, millisecondsToWait);
+        copy();
     }
 }
 
@@ -240,5 +238,17 @@ function decodeVinAsyncOff(vin){
     	}
     });
 }
+
+function ludicrousWarning(){
+    alert("Ctrl + Shift + Y will clear checkboxes and return FVG to normal.");
+}
+
+/*var contextMenuItem = {
+    "id": "ludicrousToggle",
+    "title": "Ludicrous Toggle",
+    "contexts": ["launcher"],
+    "type": "checkbox"
+};
+chrome.contextMenus.create(contextMenuItem);*/
 
 
