@@ -16,17 +16,3 @@ searchBox.addEventListener("keydown", function(event) {
         });
     }
 });
-
-var hinButton = document.getElementById("hinButton");
-hinButton.addEventListener("keydown", function(event) {
-    if (event.keyCode === 13) {
-        document.getElementById("submitButton").click();
-    }
-    if (event.keyCode === 17) {
-        hinButton.addEventListener("keydown", function(event) {
-            if (event.keyCode === 67) {
-                copy();
-            }
-        });
-    }
-});

@@ -239,10 +239,14 @@ function decodeVinAsyncOff(vin){
 }
 
 hinButton.onclick = function () {
+    document.getElementById("searchBox").focus();
     document.getElementById("vinBox").value = letters(3) + numbers(9);
-    var year = document.getElementById("yearBox").value = "BOAT";
-    var make = document.getElementById("makeBox").value = "";
-    var model = document.getElementById("modelBox").value = "";
+    var year = document.getElementById("yearBox");
+    var make = document.getElementById("makeBox");
+    var model = document.getElementById("modelBox");
+    year.style.display = "none";
+    make.style.display = "none";
+    model.style.display = "none";
 };
 
 function letters(length) {
