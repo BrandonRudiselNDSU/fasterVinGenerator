@@ -238,4 +238,33 @@ function decodeVinAsyncOff(vin){
     });
 }
 
+hinButton.onclick = function () {
+    document.getElementById("vinBox").value = letters(3) + numbers(9);
+    var year = document.getElementById("yearBox").value = "BOAT";
+    var make = document.getElementById("makeBox").value = "";
+    var model = document.getElementById("modelBox").value = "";
+};
 
+function letters(length) {
+   var result           = '';
+   var characters       = 'ABCDEFGHJKLMNPRSTUVWXYZ'; //missing IOQ
+   var charactersLength = characters.length;
+   for ( var i = 0; i < length; i++ ) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+   }
+   return result;
+}
+
+function numbers(length){
+    var result           = '';
+   var characters       = '0123456789';
+   var charactersLength = characters.length;
+   for ( var i = 0; i < length; i++ ) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+   }
+   return result;
+}
+
+speed.onclick = function () {
+    alert("Prepare the ship for ludicrous speed!!! \nCRTL + SHIFT + Y to disable");
+};

@@ -18,8 +18,13 @@ chrome.runtime.onInstalled.addListener(function () {
     });
 });
 
-chrome.commands.onCommand.addListener(function(clearOptions) {
-    localStorage.clear();
-    alert("All checkboxes have been cleared.");
+chrome.commands.onCommand.addListener(function(command) {
+    if(command === "clearOptions"){
+        localStorage.clear();
+        alert("All checkboxes have been cleared.");
+    }
+    if(command === "getHin"){
+        alert("poop");
+    }
 });
 

@@ -29,6 +29,12 @@
     "128": "images/v.png"
   },
   "commands": {
+    "getHin": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+X"
+      },
+      "description": "Get HIN"
+    },
      "clearOptions": {
        "suggested_key": {
          "default": "Ctrl+Shift+Y"
