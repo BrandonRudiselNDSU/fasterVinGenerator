@@ -103,7 +103,7 @@ function showChannelLog() {     //Shows differences between versions
 
 function clearHistory() {    //clears search history
     clearData();
-    var clearText = "Search History Cleared</br></br>Hit Enter";
+    var clearText = "Decode History Cleared</br></br>Hit Enter";
 
     document.getElementById("SearchResults").innerHTML =
         '<font color=\"white\">' + clearText + '</font>';
@@ -270,7 +270,7 @@ function getHin(){
 
 function letters(length) {
    var result           = '';
-   var characters       = 'ABCDEFGHJKLMNPRSTUVWXYZ'; //missing IOQ
+   var characters       = 'ABCDEFGHJKLMNPRSTUVWXYZ'; //removed IOQ
    var charactersLength = characters.length;
    for ( var i = 0; i < length; i++ ) {
       result += characters.charAt(Math.floor(Math.random() * charactersLength));
