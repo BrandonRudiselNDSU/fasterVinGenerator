@@ -115,5 +115,8 @@ p {
 }
 
 #hinButton {
-
+    margin: 0;
+    position: absolute;
+    top: 82%;
+    left: 88%;
 }

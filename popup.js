@@ -15,6 +15,13 @@ submitButton.onclick = function () {   //this function runs upon clicking the su
             showInfo();
         else if (input.charAt(1) == "c") //is a clear history command
             clearHistory();
+        else if (input.charAt(1) == "l") //is a channel Log command
+            showChannelLog();
+        else if (input.charAt(1) == "b"){ //is requesting a HIN
+            getHin();
+            copy();
+        }
+
         else if (Number.isInteger(parseInt(input.charAt(1)))) { //is copy-ing a previous decoded vin
             //prepare decode by removing timestamp and decode
             var historyIndexString = input.substr(1,input.length);  //remove "/" and return the number
@@ -42,7 +49,7 @@ submitButton.onclick = function () {   //this function runs upon clicking the su
         var year = document.getElementById("yearBox").value;
         var make = document.getElementById("makeBox").value;
         var model = document.getElementById("modelBox").value;
-        document.getElementById("vinBox").value = input
+        document.getElementById("vinBox").value = input;
         add(getTimeStamp() + " || " + input + " : " + year + " | " + make + " | " + model);
     }
 
@@ -54,9 +61,8 @@ function showInfo() {
     var manifestData = chrome.runtime.getManifest();
     var version = manifestData.version;
     var infoString = "It actually doesn't generate anything. It just randomly returns a hard coded vin.</br>" +
-    "Ludicrous speed will immediately copy the vin to your clipboard.</br>" +
-    "Old Car will return vehicles that range from 1980 - 2009.</br>" +
-    "Made by Brandon Rudisel.<br>Buy me beer: paypal.me/fasterVin</br></br>" +
+    "Use the tool tips for more help.</br>" +
+    "Made by Brandon Rudisel.<br>Buy me beer: paypal.me/fasterVin</br></br></br>" +
     "<b>Hit enter to go back</b></br>" +
     "Powered by hatred, and NHTSA </br><i>Version: " + version + "</i>";
 
@@ -65,7 +71,7 @@ function showInfo() {
 }
 
 function listHistory() {     //lists search history
-    var historyString = "Enter '/#' to copy an item to clipboard</br>Enter '/clear' to clear History</br></br>";
+    var historyString = "Enter '/#' to copy an item to clipboard</br>Enter '/c' to clear History</br></br>";
     var printedIndex = 1;
 
     var transaction = db.transaction("record", "readonly");
@@ -84,6 +90,15 @@ function listHistory() {     //lists search history
         document.getElementById("SearchResults").innerHTML =
                     '<font color=\"white\">' + historyString + '</font>';
     };
+}
+
+function showChannelLog() {     //Shows differences between versions
+    var channelLog = "1.3.0.0 adds a HIN generator, ludicrous speed warning, and a new logo</br></br>" +
+    "1.2.0.0 fixes decode history</br></br>" +
+    "1.1.0.0 and earlier was before time. I dunno what happened back then.";
+
+        document.getElementById("SearchResults").innerHTML =
+                    '<font color=\"white\">' + channelLog + '</font>';
 }
 
 function clearHistory() {    //clears search history
@@ -239,6 +254,10 @@ function decodeVinAsyncOff(vin){
 }
 
 hinButton.onclick = function () {
+    getHin();
+};
+
+function getHin(){
     document.getElementById("searchBox").focus();
     document.getElementById("vinBox").value = letters(3) + numbers(9);
     var year = document.getElementById("yearBox");
@@ -247,7 +266,7 @@ hinButton.onclick = function () {
     year.style.display = "none";
     make.style.display = "none";
     model.style.display = "none";
-};
+}
 
 function letters(length) {
    var result           = '';
@@ -270,5 +289,6 @@ function numbers(length){
 }
 
 speed.onclick = function () {
-    alert("Prepare the ship for ludicrous speed!!! \nCRTL + SHIFT + Y to disable");
+    if(document.getElementById("speed").checked)
+        alert("Prepare the ship... for ludicrous speed!!! \nCRTL + SHIFT + Y to disable");
 };

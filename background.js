@@ -23,8 +23,4 @@ chrome.commands.onCommand.addListener(function(command) {
         localStorage.clear();
         alert("All checkboxes have been cleared.");
     }
-    if(command === "getHin"){
-        alert("poop");
-    }
 });
-
