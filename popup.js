@@ -93,7 +93,8 @@ function listHistory() {     //lists search history
 }
 
 function showChannelLog() {     //Shows differences between versions
-    var channelLog = "1.3.0.0 adds a HIN generator, ludicrous speed warning, and a new logo</br></br>" +
+    var channelLog = "1.3.1.0 I'm a stupid person and I did HINs wrong 5/20/19</br></br>" +
+    "1.3.0.0 adds a HIN generator, ludicrous speed warning, and a new logo 5/19/19</br></br>" +
     "1.2.0.0 fixes decode history</br></br>" +
     "1.1.0.0 and earlier was before time. I dunno what happened back then.";
 
@@ -259,7 +260,7 @@ hinButton.onclick = function () {
 
 function getHin(){
     document.getElementById("searchBox").focus();
-    document.getElementById("vinBox").value = letters(3) + numbers(9);
+    document.getElementById("vinBox").value = letters(3) + numbers(5) + hinMonth() + numbers(1) + 20;
     var year = document.getElementById("yearBox");
     var make = document.getElementById("makeBox");
     var model = document.getElementById("modelBox");
@@ -275,6 +276,14 @@ function letters(length) {
    for ( var i = 0; i < length; i++ ) {
       result += characters.charAt(Math.floor(Math.random() * charactersLength));
    }
+   return result;
+}
+
+function hinMonth() {
+   var result           = '';
+   var characters       = 'ABCDEFGHJKL'; //removed A is January, L is December
+   var charactersLength = characters.length;
+   result += characters.charAt(Math.floor(Math.random() * charactersLength));
    return result;
 }
 
