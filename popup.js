@@ -62,7 +62,7 @@ function showInfo() {
     var version = manifestData.version;
     var infoString = "It actually doesn't generate anything. It just randomly returns a hard coded vin.</br>" +
     "Use the tool tips for more help.</br>" +
-    "Made by Brandon Rudisel.<br>Buy me beer: paypal.me/fasterVin</br></br></br>" +
+    "Made by Brandon Rudisel.<br>To send money: paypal.me/fasterVin</br>To send hate mail: brandonrudisel@gmail.com</br></br></br>" +
     "<b>Hit enter to go back</b></br>" +
     "Powered by hatred, and NHTSA </br><i>Version: " + version + "</i>";
 
@@ -197,6 +197,12 @@ function setBoxes(){
     $.each(checkboxValues, function(key, value) {
       $("#" + key).prop('checked', value);
     });
+
+    var hinYear = localStorage.getItem("hinYear");
+    if(hinYear != 20)
+        document.getElementById("hinYear").value = hinYear;
+    else
+        document.getElementById("hinYear").value = "";
 }
 
 function setCharAt(str,index,chr) {
@@ -259,14 +265,21 @@ hinButton.onclick = function () {
 };
 
 function getHin(){
+    var hinYear = document.getElementById("hinYear").value;
+    if(hinYear == "")
+        hinYear = 20
+    if(hinYear.length < 2)
+        hinYear = "0" + hinYear
     document.getElementById("searchBox").focus();
-    document.getElementById("vinBox").value = letters(3) + numbers(5) + hinMonth() + numbers(1) + 20;
+    document.getElementById("vinBox").value = letters(3) + numbers(5) + hinMonth() + numbers(1) + hinYear;
     var year = document.getElementById("yearBox");
     var make = document.getElementById("makeBox");
     var model = document.getElementById("modelBox");
     year.style.display = "none";
     make.style.display = "none";
     model.style.display = "none";
+
+    localStorage.setItem("hinYear", hinYear);
 }
 
 function letters(length) {

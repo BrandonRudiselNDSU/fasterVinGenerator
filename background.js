@@ -21,6 +21,6 @@ chrome.runtime.onInstalled.addListener(function () {
 chrome.commands.onCommand.addListener(function(command) {
     if(command === "clearOptions"){
         localStorage.clear();
-        alert("All checkboxes have been cleared.");
+        alert("All options have been cleared.");
     }
 });

@@ -118,5 +118,12 @@ p {
     margin: 0;
     position: absolute;
     top: 82%;
-    left: 88%;
+    left: 83%;
+}
+
+#hinYear {
+    margin: 0;
+    position: absolute;
+    top: 82%;
+    left: 93%;
 }
