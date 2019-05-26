@@ -93,7 +93,8 @@ function listHistory() {     //lists search history
 }
 
 function showChannelLog() {     //Shows differences between versions
-    var channelLog = "1.3.1.0 I'm a stupid person and I did HINs wrong 5/20/19</br></br>" +
+    var channelLog = "1.4.0.0 add year option for hins, minified for more speed, removed half(ish) of the Acuras 5/24/19</br></br>" +
+    "1.3.1.0 I'm a stupid person and I did HINs wrong 5/20/19</br></br>" +
     "1.3.0.0 adds a HIN generator, ludicrous speed warning, and a new logo 5/19/19</br></br>" +
     "1.2.0.0 fixes decode history</br></br>" +
     "1.1.0.0 and earlier was before time. I dunno what happened back then.";
