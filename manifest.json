@@ -1,6 +1,6 @@
 {
   "name": "Faster Vin Generator",
-  "version": "1.4.0.0",
+  "version": "1.4.0.2",
   "description": "Vehicle Identification Number Generator",
   "permissions": [
     "contextMenus",
