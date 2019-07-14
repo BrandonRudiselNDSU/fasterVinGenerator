@@ -94,7 +94,8 @@ function listHistory() {     //lists search history
 
 function showChannelLog() {     //Shows differences between versions
     var channelLog =
-    "1.4.0.2 Began junk vin purge, removed about 100 vins. 6/2/19</br></br>" +
+    "1.4.0.3 Finished vin purge. Should always populate all fields. 7/14/19</br></br>" +
+    "1.4.0.2 Began junk vin purge, removed about 100 vins. 6/30/19</br></br>" +
     "1.4.0.1 Removed 20-ish junk VINS 6/2/19</br></br>" +
     "1.4.0.0 add year option for HINS, minified for more speed, removed half(ish) of the Acuras 5/24/19</br></br>" +
     "1.3.1.0 I'm a stupid person and I did HINs wrong 5/20/19</br></br>" +
