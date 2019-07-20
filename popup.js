@@ -94,6 +94,7 @@ function listHistory() {     //lists search history
 
 function showChannelLog() {     //Shows differences between versions
     var channelLog =
+    "1.4.0.4 NHTSA fucked me, so I had to fix the decode. 7/19/19</br></br>" +
     "1.4.0.3 Finished vin purge. Should always populate all fields. 7/14/19</br></br>" +
     "1.4.0.2 Began junk vin purge, removed about 100 vins. 6/30/19</br></br>" +
     "1.4.0.1 Removed 20-ish junk VINS 6/2/19</br></br>" +
@@ -156,9 +157,10 @@ function decodeVin(vin){
 
 function printVehicleInfo(vehicleDataArray){
     //year make model
-    var year = document.getElementById("yearBox").value = vehicleDataArray[8].Value;
-    var make = document.getElementById("makeBox").value = vehicleDataArray[5].Value;
-    var model = document.getElementById("modelBox").value = vehicleDataArray[7].Value;
+    //console.log(vehicleDataArray);
+    var year = document.getElementById("yearBox").value = vehicleDataArray[9].Value;
+    var make = document.getElementById("makeBox").value = vehicleDataArray[6].Value;
+    var model = document.getElementById("modelBox").value = vehicleDataArray[8].Value;
 
 }
 
