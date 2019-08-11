@@ -1,4 +1,5 @@
-var newCarArray = ["1B7GG2AN9YS629756",
+var newCarArray = [
+"1B7GG2AN9YS629756",
 "1C3CDZBG8DN504146",
 "1C6RD6KT4CS332867",
 "1FTEX1C85AFB83192",
@@ -88,8 +89,8 @@ var newCarArray = ["1B7GG2AN9YS629756",
 "YV1612FH6D2170397",
 "YV1672MK9D2304784"]
 
-
-var oldCarArray = ["1B3BG26P3FX513068",
+var oldCarArray = [
+"1B3BG26P3FX513068",
 "1B3BG56P3FX563681",
 "1B3EJ46X8WN257032",
 "1B3ES46C42D529439",
@@ -536,3 +537,21 @@ var oldCarArray = ["1B3BG26P3FX513068",
 "ZFFEW58A660144998"]
 
 var vinArray = newCarArray.concat(oldCarArray);
+
+var subheaderArray = [
+"The vin generator the doesn't suck",
+"The only vin generator that remembers",
+"The only vin generator that really cares",
+"The only vin generator that loves you too",
+"The only vin generator that generates hins",
+"The only vin generator that actually listens",
+"The only vin generator that reverses hair loss",
+"The only vin generator that's just someone's vanity project",
+"Billions and billions of vins served",
+"The best thing to come from Arkansas since cheese dip",
+"Now GNU licensed. Stallman be praised",
+"Originally called 'Vinny'",
+"It puts the 'vin' into 'time-saving'",
+"It puts the 'vin' into 'vinaigrette'",
+"Send your money: paypal.me/fasterVin",
+"Send your hate mail: brandonrudisel@gmail.com"]

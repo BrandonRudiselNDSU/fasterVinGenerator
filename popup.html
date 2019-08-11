@@ -2,6 +2,7 @@
 <html>
 <head>
     <title>Faster Vin Generator</title>
+    <script src="indexedDB.js"></script>
     <script src="vins.js"></script>
     <script src="jquery.min.js"></script>
     <link rel="stylesheet" type="text/css" href="style.css">
@@ -19,24 +20,22 @@
     <label title="Returns car from 1980 - 2009" id="oldCarLabel" for="oldCar"><font color="white">Old Car</font></label>
 
     <h1 id="header">Fast-er Vin Generator</h1>
-    <p1 id="subheader">The vin generator that doesn't suck</p1>
+    <p1 id="subheader"></p1>
     <input id="vinBox" type="text" name="keyword" style="width:60%;" value="Something's wrong here..." autocomplete="off">
     <input id="yearBox" type="text" class="decode" name="keyword" style="width:30%;" value="" autocomplete="off" disabled>
     <input id="makeBox" type="text" class="decode" name="keyword" style="width:30%;" value="" autocomplete="off" disabled>
     <input id="modelBox" type="text" class="decode" name="keyword" style="width:30%;" value="" autocomplete="off" disabled>
 
     <!-- User hint watermarks -->
-    <div id="watermark2">(Ctrl + Shift + Z to Open, Ctrl + C to Copy)</div>
-    <div id="watermark">(Enter "/h" to View History, or "/i" to view info)</div>
+    <div id="watermark">(Enter "/s" for super-user tips)</div>
 
     <!--Hin stuff-->
     <input title="Set Custom Year of HIN" id="hinYear" type="text" placeholder="20" maxlength="2" style="float: right; width:3%;">
-    <input title="Enter '/b' command" id="hinButton" type="submit" style="float: right; width:9%;" value="HIN"/>
+    <input title="Ctrl + D" id="hinButton" type="submit" style="float: right; width:9%;" value="HIN"/>
 
 </div>
-<script src="popup.js"></script>
-<script src="indexedDB.js"></script>
 <script src="eventListeners.js"></script>
 <link rel="stylesheet" href="style.css">
+<script src="popup.js"></script>
 </body>
 </html>

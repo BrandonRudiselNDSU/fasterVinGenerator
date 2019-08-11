@@ -13,7 +13,7 @@ if (!window.indexedDB) {
 }
 
 var db;
-var request = window.indexedDB.open("history", 2);
+var request = window.indexedDB.open("history", 3);
 
 request.onerror = function(event) {
     console.log("error: new database failed");
@@ -26,12 +26,13 @@ request.onsuccess = function(event) {
 
 request.onupgradeneeded = function(event) {
     var db = event.target.result;
-    var objectStore = db.createObjectStore("record", {autoIncrement:true});
+    var decodeTable = db.createObjectStore("decodeRecord", {autoIncrement:true});
+    var vinTable = db.createObjectStore("vinRecord", {autoIncrement:true});
 }
 
-function read(index) {
-    var transaction = db.transaction(["record"]);
-    var objectStore = transaction.objectStore("record");
+function read(index, data) {
+    var transaction = db.transaction([data]);
+    var objectStore = transaction.objectStore(data);
     var request = objectStore.get(index);
 
     request.onerror = function(event) {
@@ -43,7 +44,9 @@ function read(index) {
         if(request.result) {
             oldVin = request.result.record;
             oldVin = oldVin.substr(oldVin.indexOf("|| ") + 3, oldVin.length - 1); //remove time stamp
-            oldVin = oldVin.substr(0, oldVin.indexOf(" : ")); //remove year/make/model from text
+
+            if(data == "decodeVin") //if it's a decoded vin, it has a decode that must be removed too
+                oldVin = oldVin.substr(0, oldVin.indexOf(" : ")); //remove year/make/model from text
             historyCopy(oldVin);
         } else {
             alert("Could not find value");
@@ -52,14 +55,32 @@ function read(index) {
     };
 }
 
-function add(record) {
-    var request = db.transaction(["record"], "readwrite")
-    .objectStore("record")
+function add(record, data) {
+    var request = db.transaction([data], "readwrite")
+    .objectStore(data)
     .add({record: record});
 
     request.onsuccess = function(event) {
         //do nothing
-        //console.log("Add record");
+        console.log("Add record");
+    };
+
+    request.onerror = function(event) {
+        alert("Unable to add data");
+    }
+}
+
+function addCopied(record, data) {
+    var request = db.transaction([data], "readwrite")
+    .objectStore(data)
+    .add({record: record});
+
+    request.onsuccess = function(event) {
+        //do nothing
+        var copyElement = document.getElementById("vinBox");
+        copyElement.select();
+        document.execCommand("copy");
+        window.close();
     };
 
     request.onerror = function(event) {
@@ -68,20 +89,20 @@ function add(record) {
 }
 
 function clearData(){
-    var DBDeleteRequest = window.indexedDB.deleteDatabase("history");
-
-    DBDeleteRequest.onerror = function(event) {
-      alert("Error deleting database.");
+    var historyDeleteRequest = window.indexedDB.deleteDatabase("history");
+    historyDeleteRequest.onerror = function(event) {
+      alert("Error deleting decode database.");
     };
 
-    DBDeleteRequest.onsuccess = function(event) {
+    historyDeleteRequest.onsuccess = function(event) {
       //alert("Database deleted successfully");
     };
+
 }
 
-function getCount(){
-    var transaction = db.transaction(["record"], "readonly");
-    var objectStore = transaction.objectStore("record");
+function getCount(data){
+    var transaction = db.transaction([data], "readonly");
+    var objectStore = transaction.objectStore(data);
 
     var countRequest = objectStore.count();
     countRequest.onsuccess = function() {

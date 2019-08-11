@@ -1,7 +1,9 @@
 var oldCarValue = false;
+var page = ""; //tracks what is currently displaying
 
 getOldCarValue();
 getVin(); //get vin on load
+getSubheader(); //get subheader on load
 getLudiValue();
 
 submitButton.onclick = function () {   //this function runs upon clicking the submit button
@@ -10,39 +12,65 @@ submitButton.onclick = function () {   //this function runs upon clicking the su
     var input = document.getElementById('searchBox').value;
     if (input.charAt(0) == "/") {     //is a control command
         if (input.charAt(1) == "h")  //is a list history command
-            listHistory();
+            { listVinHistory(); page = "h"; }
+        else if (input.charAt(1) == "d")  //is a list decode history command
+            { listDecodeHistory(); page = "d"; }
+        else if (input.charAt(1) == "s")  //is a super-user tip request
+            { superUserTips(); page = "s"; }
         else if (input.charAt(1) == "i") //is an info request
-            showInfo();
+            { showInfo(); page = "i"; }
         else if (input.charAt(1) == "c") //is a clear history command
-            clearHistory();
-        else if (input.charAt(1) == "l") //is a channel Log command
-            showChannelLog();
-        else if (input.charAt(1) == "b"){ //is requesting a HIN
-            getHin();
-            copy();
-        }
+            { clearHistory(); page = "c"; }
+        else if (input.charAt(1) == "v") //is a channel Log command
+            { showChannelLog(); page = "v"; }
 
-        else if (Number.isInteger(parseInt(input.charAt(1)))) { //is copy-ing a previous decoded vin
-            //prepare decode by removing timestamp and decode
+        else if (Number.isInteger(parseInt(input.charAt(1)))) { //is copy-ing a previous vin
             var historyIndexString = input.substr(1,input.length);  //remove "/" and return the number
             var historyIndexInt = parseInt(historyIndexString);
-            var transaction = db.transaction(["record"], "readonly");
-            var objectStore = transaction.objectStore("record");
 
-            var countRequest = objectStore.count(); //get length of database
-            countRequest.onsuccess = function() {
-                var dbLength = countRequest.result; //once result returns save it in dbLength
-                //subtract one to account for zero based index, then subtract historyIndexInt from dbLength to get desired value from history
-                read(dbLength - (historyIndexInt - 1));
+            if(page == "d") { //is on decode history page. Is copy-ing a decode vin
+                //prepare value by removing timestamp and decode
+                var transaction = db.transaction(["decodeRecord"], "readonly");
+                var objectStore = transaction.objectStore("decodeRecord");
+
+                var countRequest = objectStore.count(); //get length of database
+                countRequest.onsuccess = function() {
+                    var dbLength = countRequest.result; //once result returns save it in dbLength
+                    //subtract one to account for zero based index, then subtract historyIndexInt from dbLength to get desired value from history
+                    read(dbLength - (historyIndexInt - 1), "decodeRecord");
+                }
+
+                countRequest.onerror = function() {
+                    alert("Failed to get a count on number of values in database");
+                }
             }
 
-            countRequest.onerror = function() {
-                alert("Failed to get a count on number of values in database");
+            else if(page == "h") { //is on copy history page. Is copy-ing a copied vin
+                //prepare value by removing timestamp
+                var transaction = db.transaction(["vinRecord"], "readonly");
+                var objectStore = transaction.objectStore("vinRecord");
+
+                var countRequest = objectStore.count(); //get length of database
+                countRequest.onsuccess = function() {
+                    var dbLength = countRequest.result; //once result returns save it in dbLength
+                    //subtract one to account for zero based index, then subtract historyIndexInt from dbLength to get desired value from history
+                    read(dbLength - (historyIndexInt - 1), "vinRecord");
+                }
+
+                countRequest.onerror = function() {
+                    alert("Failed to get a count on number of values in database");
+                }
             }
+            else
+                location.reload();   //if not on either page, refresh
         }
     }
-    else if (input.charAt(0) == "") {
-        location.reload();   //if nothing entered, refresh
+    else if (input.charAt(0) == "" && page == "") { //it's on the main page, don't reload, just get a new vin
+        //location.reload();
+        getVin();
+    }
+    else if (input.charAt(0) == "" && page != "") { //it's not on the main page, reload
+        location.reload();
     }
     else {   //is a decode
         decodeVinAsyncOff(input);       //run with async off so that the result is definitely retrieved before stored
@@ -50,34 +78,22 @@ submitButton.onclick = function () {   //this function runs upon clicking the su
         var make = document.getElementById("makeBox").value;
         var model = document.getElementById("modelBox").value;
         document.getElementById("vinBox").value = input;
-        add(getTimeStamp() + " || " + input + " : " + year + " | " + make + " | " + model);
+        add(getTimeStamp() + " || " + input + " : " + year + " | " + make + " | " + model, "decodeRecord");
     }
 
     document.getElementById("searchBox").value = ""; //clean up search box
     document.getElementById("searchBox").focus();
 };
 
-function showInfo() {
-    var manifestData = chrome.runtime.getManifest();
-    var version = manifestData.version;
-    var infoString = "It actually doesn't generate anything. It just randomly returns a hard coded vin.</br>" +
-    "Use the tool tips for more help.</br>" +
-    "Made by Brandon Rudisel.<br>To send money: paypal.me/fasterVin</br>To send hate mail: brandonrudisel@gmail.com</br></br></br>" +
-    "<b>Hit enter to go back</b></br>" +
-    "Powered by hatred, and NHTSA </br><i>Version: " + version + "</i>";
-
-    document.getElementById("SearchResults").innerHTML =
-        '<font color=\"white\">' + infoString + '</font>';
-}
-
-function listHistory() {     //lists search history
-    var historyString = "Enter '/#' to copy an item to clipboard</br>Enter '/c' to clear History</br></br>";
+function listVinHistory() {     //lists vin history
+    var historyString = "This is the history of VINS that have been generated and copied to the clipboard</br>" +
+        "Enter '/#' to copy an item to clipboard</br></br>";
     var printedIndex = 1;
 
-    var transaction = db.transaction("record", "readonly");
-    var objectStore = transaction.objectStore("record");
+    var transaction = db.transaction("vinRecord", "readonly");
+    var objectStore = transaction.objectStore("vinRecord");
     var request = objectStore.openCursor(null,"prev");
-    console.log("List history");
+    console.log("List vin history");
     request.onsuccess = function(event) {
         var cursor = event.target.result;
         if(cursor) {
@@ -92,9 +108,46 @@ function listHistory() {     //lists search history
     };
 }
 
+function listDecodeHistory() {     //lists vin decode history
+    var historyString = "This is the history of VINS that have been decoded</br>" +
+        "Enter '/#' to copy an item to clipboard</br></br>";
+    var printedIndex = 1;
+
+    var transaction = db.transaction("decodeRecord", "readonly");
+    var objectStore = transaction.objectStore("decodeRecord");
+    var request = objectStore.openCursor(null,"prev");
+    console.log("List decode history");
+    request.onsuccess = function(event) {
+        var cursor = event.target.result;
+        if(cursor) {
+            historyString += printedIndex + ": " + cursor.value.record + "</br>";
+            printedIndex++;
+            cursor.continue();
+        } else {
+            // no more results
+        }
+        document.getElementById("SearchResults").innerHTML =
+                    '<font color=\"white\">' + historyString + '</font>';
+    };
+}
+
+function showInfo() {
+    var manifestData = chrome.runtime.getManifest();
+    var version = manifestData.version;
+    var infoString = "It actually doesn't generate anything. It just randomly returns a hard coded vin.</br>" +
+    "Hover over options to learn their function.</br>" +
+    "Made by Brandon Rudisel.<br>To send money: paypal.me/fasterVin</br>To send hate mail: brandonrudisel@gmail.com</br></br></br>" +
+    "<b>Hit enter to go back</b></br>" +
+    "Powered by hatred, and NHTSA </br><i>Version: " + version + "</i>";
+
+    document.getElementById("SearchResults").innerHTML =
+        '<font color=\"white\">' + infoString + '</font>';
+}
+
 function showChannelLog() {     //Shows differences between versions
     var channelLog =
-    "1.4.0.4 NHTSA fucked me, so I had to fix the decode. 7/19/19</br></br>" +
+    "1.5.0.0 Add vin history in addition to decode history. New power commands. New subheaders. 08/11/19</br></br>" +
+    "1.4.0.4 NHTSA changed their decode results, so I fixed that. 7/19/19</br></br>" +
     "1.4.0.3 Finished vin purge. Should always populate all fields. 7/14/19</br></br>" +
     "1.4.0.2 Began junk vin purge, removed about 100 vins. 6/30/19</br></br>" +
     "1.4.0.1 Removed 20-ish junk VINS 6/2/19</br></br>" +
@@ -108,9 +161,29 @@ function showChannelLog() {     //Shows differences between versions
                     '<font color=\"white\">' + channelLog + '</font>';
 }
 
+function superUserTips(){
+    var superUserTips =
+    "These are the super-user shortcuts and commands for Faster Vin Generator.</br>" +
+    "Commands can be entered into the decode bar to use built-in tools.<br></br>" +
+    "Shortcuts:</br>" +
+    "<tt>Ctrl + Shift + Z opens and closes FVG</br>" +
+    "Ctrl + C copies a VIN, and closes FVG</br>" +
+    "Ctrl + A copies a HIN, and closes FVG</br>" +
+    "Ctrl + Shift + Y clears options</br></br>" +
+    "Commands:</br>" +
+    "/h || List history of copied VINS</br>" +
+    "/d || List history of decoded VINS</br>" +
+    "/c || Clears history</br>" +
+    "/i || Displays info about Faster Vin Generator</br>" +
+    "/v || Displays version history<tt></br>";
+
+        document.getElementById("SearchResults").innerHTML =
+                    '<font color=\"white\">' + superUserTips + '</font>';
+}
+
 function clearHistory() {    //clears search history
     clearData();
-    var clearText = "Decode History Cleared</br></br>Hit Enter";
+    var clearText = "History Cleared</br></br>Hit Enter";
 
     document.getElementById("SearchResults").innerHTML =
         '<font color=\"white\">' + clearText + '</font>';
@@ -126,10 +199,8 @@ function getTimeStamp() {    //returns time stamp
 }
 
 function copy() {
-    var copyText = document.getElementById("vinBox");
-    copyText.select();
-    document.execCommand("copy");
-    window.close();
+    var copyText = document.getElementById("vinBox").value;
+    addCopied(getTimeStamp() + " || " + copyText, "vinRecord");
 }
 
 function historyCopy(text) {
@@ -166,11 +237,19 @@ function printVehicleInfo(vehicleDataArray){
 
 function getVin(){
     if(oldCarValue)
-        var vin = oldCarArray[Math.floor(Math.random() * oldCarArray.length - 1)];
+        var vin = oldCarArray[Math.floor(Math.random() * (oldCarArray.length - 1))];
     else
-        var vin = vinArray[Math.floor(Math.random() * vinArray.length - 1)]; //hits any car
+        var vin = vinArray[Math.floor(Math.random() * (vinArray.length - 1))]; //hits any car
     document.getElementById("vinBox").value = vin;
     decodeVin(vin);
+}
+
+function getSubheader() {
+    var index = Math.floor(Math.random() * (subheaderArray.length - 1));
+    var subheader = subheaderArray[index]; //gets any subheader
+
+    document.getElementById("subheader").innerHTML
+        = '<font color=\"white\">' + subheader + '</font>';
 }
 
 function getLudiValue() {
@@ -301,7 +380,7 @@ function letters(length) {
 
 function hinMonth() {
    var result           = '';
-   var characters       = 'ABCDEFGHJKL'; //removed A is January, L is December
+   var characters       = 'ABCDEFGHJKL'; //A is January, L is December. No I
    var charactersLength = characters.length;
    result += characters.charAt(Math.floor(Math.random() * charactersLength));
    return result;
