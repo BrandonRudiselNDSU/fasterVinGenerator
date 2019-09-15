@@ -1,5 +1,6 @@
 var oldCarValue = false;
-var page = ""; //tracks what is currently displaying
+var page = ""; //tracks what is currently displaying, "" is main
+var previousVin = "" //holds the value of the last vin generated
 
 getOldCarValue();
 getVin(); //get vin on load
@@ -23,6 +24,8 @@ submitButton.onclick = function () {   //this function runs upon clicking the su
             { clearHistory(); page = "c"; }
         else if (input.charAt(1) == "v") //is a channel Log command
             { showChannelLog(); page = "v"; }
+        else if (input.charAt(1) == "b") //is a back command
+            { if(previousVin != "Something's wrong here...") { back(); } }  //if a previous vin exists, we can go back to it
 
         else if (Number.isInteger(parseInt(input.charAt(1)))) { //is copy-ing a previous vin
             var historyIndexString = input.substr(1,input.length);  //remove "/" and return the number
@@ -146,6 +149,7 @@ function showInfo() {
 
 function showChannelLog() {     //Shows differences between versions
     var channelLog =
+    "1.5.0.1 Fix hanging window, add back one vin feature. 09/xx/19</br></br>" +
     "1.5.0.0 Add vin history in addition to decode history. New power commands. New subheaders. 08/11/19</br></br>" +
     "1.4.0.4 NHTSA changed their decode results, so I fixed that. 7/19/19</br></br>" +
     "1.4.0.3 Finished vin purge. Should always populate all fields. 7/14/19</br></br>" +
@@ -173,6 +177,7 @@ function superUserTips(){
     "Commands:</br>" +
     "/h || List history of copied VINS</br>" +
     "/d || List history of decoded VINS</br>" +
+    "/b || Back one VIN</br>" +
     "/c || Clears history</br>" +
     "/i || Displays info about Faster Vin Generator</br>" +
     "/v || Displays version history<tt></br>";
@@ -181,7 +186,7 @@ function superUserTips(){
                     '<font color=\"white\">' + superUserTips + '</font>';
 }
 
-function clearHistory() {    //clears search history
+function clearHistory() {    //clears search and copy history
     clearData();
     var clearText = "History Cleared</br></br>Hit Enter";
 
@@ -198,9 +203,17 @@ function getTimeStamp() {    //returns time stamp
     return formattedDate;
 }
 
-function copy() {
+function copy(ludicrous) {
     var copyText = document.getElementById("vinBox").value;
-    addCopied(getTimeStamp() + " || " + copyText, "vinRecord");
+
+    if(!ludicrous)  //if ludicrous speed is not engaged, copy to history
+        addCopied(getTimeStamp() + " || " + copyText, "vinRecord");
+    else{
+        var copyElement = document.getElementById("vinBox");
+        copyElement.select();
+        document.execCommand("copy");
+        window.close();
+    }
 }
 
 function historyCopy(text) {
@@ -236,12 +249,18 @@ function printVehicleInfo(vehicleDataArray){
 }
 
 function getVin(){
+    previousVin = document.getElementById("vinBox").value;
     if(oldCarValue)
         var vin = oldCarArray[Math.floor(Math.random() * (oldCarArray.length - 1))];
     else
         var vin = vinArray[Math.floor(Math.random() * (vinArray.length - 1))]; //hits any car
     document.getElementById("vinBox").value = vin;
     decodeVin(vin);
+}
+
+function back() {    //goes back one vin
+    document.getElementById("vinBox").value = previousVin;
+    decodeVin(previousVin);
 }
 
 function getSubheader() {
@@ -254,7 +273,7 @@ function getSubheader() {
 
 function getLudiValue() {
     if(document.getElementById("speed").checked){
-        copy();
+        copy(true);
     }
 }
 
