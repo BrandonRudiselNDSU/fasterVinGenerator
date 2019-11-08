@@ -8,7 +8,7 @@
     <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
-<div style="width:600px; background:#42464c; border:5px solid black;"> <!-- Search div -->
+<div style="width:600px; background:#4c4246; border:5px solid black;"> <!-- Search div -->
     <input id="searchBox" type="text" name="keyword" style="width:90%;" placeholder="Decode Vin or Enter Command" autocomplete="off" autofocus>
     <input id="submitButton" type="submit" style="float: right; width:9%;" value="Enter"/>
 </div>
@@ -17,7 +17,10 @@
     <label title="No more popup, much faster" id="speedLabel" for="speed"><font color="white">Ludicrous Speed!</font></label>
     <br><br>
     <input title="Returns car from 1980 - 2009" id="oldCar" name="oldCar" type="checkbox" value="oldCar">
-    <label title="Returns car from 1980 - 2009" id="oldCarLabel" for="oldCar"><font color="white">Old Car</font></label>
+    <label title="Returns car from 1980 - 2009" id="oldCarLabel" for="oldCar"><font color="white">Old Cars</font></label>
+    <br><br>
+    <input title="Returns only cool cars" id="coolCar" name="coolCar" type="checkbox" value="coolCar">
+    <label title="Returns only cool cars" id="coolCarLabel" for="coolCar"><font color="white">Cool Cars</font></label>
 
     <h1 id="header">Fast-er Vin Generator</h1>
     <p1 id="subheader"></p1>
@@ -31,7 +34,7 @@
 
     <!--Hin stuff-->
     <input title="Set Custom Year of HIN" id="hinYear" type="text" placeholder="20" maxlength="2" style="float: right; width:3%;">
-    <input title="Ctrl + D" id="hinButton" type="submit" style="float: right; width:9%;" value="HIN"/>
+    <input title="Ctrl + A" id="hinButton" type="submit" style="float: right; width:9%;" value="HIN"/>
 
 </div>
 <script src="eventListeners.js"></script>

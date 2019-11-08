@@ -33,6 +33,12 @@ p {
     right: 15px;
 }
 
+#coolCar{
+    position: absolute;
+    top: 86px;
+    right: 15px;
+}
+
 #speedLabel{
     position: absolute;
     top: 50px;
@@ -41,6 +47,12 @@ p {
 #oldCarLabel{
     position: absolute;
     top: 68px;
+    right: 37px;
+}
+
+#coolCarLabel{
+    position: absolute;
+    top: 86px;
     right: 37px;
 }
 
@@ -95,8 +107,11 @@ p {
 
 #subheader {
     color: white;
-    position: relative;
-    left: 50px
+    margin: 0;
+    position: absolute;
+    top: 33%;
+    left: 10%;
+
 }
 
 #hinButton {
@@ -112,3 +127,4 @@ p {
     top: 82%;
     left: 93%;
 }
+

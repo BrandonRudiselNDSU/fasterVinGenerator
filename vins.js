@@ -538,20 +538,25 @@ var oldCarArray = [
 
 var vinArray = newCarArray.concat(oldCarArray);
 
-var subheaderArray = [
-"The vin generator the doesn't suck",
-"The only vin generator that remembers",
-"The only vin generator that really cares",
-"The only vin generator that loves you too",
-"The only vin generator that generates hins",
-"The only vin generator that actually listens",
-"The only vin generator that reverses hair loss",
-"The only vin generator that's just someone's vanity project",
-"Billions and billions of vins served",
-"The best thing to come from Arkansas since cheese dip",
-"Now GNU licensed. Stallman be praised",
-"Originally called 'Vinny'",
-"It puts the 'vin' into 'time-saving'",
-"It puts the 'vin' into 'vinaigrette'",
-"Send your money: paypal.me/fasterVin",
-"Send your hate mail: brandonrudisel@gmail.com"]
+//curated by John Lambrecht
+var coolCarArray = [
+"SCA1S684X4UX07444",
+"WP0AA29966S716557",
+"ZAMGJ45A390047326",
+"SCFEBBCF8BGS00745",
+"WDBGA51E4TA328716",
+"WBANF73576CG65408",
+"JM1FE17N340134462",
+"1G1YY26W285119002",
+"WP0AA2991YS620631",
+"WAUMGAFL1DA105812",
+"ZA9RU31B9XLA12338",
+"SCFEFBBC5AGD13386",
+"ZAMGJ45A480037578",
+"SCFAC23302B500083",
+"JNKCV51E03M018631",
+"JTHFE2C24A2504933",
+"ZAMBC38A450014565",
+"WBAKF9C52BE619303",
+"WAUD2AFD7DN006931",
+"SCBLC37F85CX10207"]

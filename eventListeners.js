@@ -8,7 +8,7 @@ searchBox.addEventListener("keydown", function(event) {
     if (event.keyCode === 13) { //enter key
         document.getElementById("submitButton").click();
     }
-    if (event.keyCode === 17) { //Ctrl
+    if (event.keyCode === 17) { //Ctrl key
         searchBox.addEventListener("keydown", function(event) {
             if (event.keyCode === 67) { //'C' to copy VIN
                 copy(false);

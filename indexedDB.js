@@ -1,3 +1,6 @@
+//this file contains all the functionality of Indexed DB
+//I have no clue what's going on here anymore. But it works.
+
 //prefixes of implementation that we want to test
 window.indexedDB = window.indexedDB || window.mozIndexedDB ||
 window.webkitIndexedDB || window.msIndexedDB;
