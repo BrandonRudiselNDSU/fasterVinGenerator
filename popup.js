@@ -316,14 +316,18 @@ function getLudiValue() {
 }
 
 speed.onclick = function () {
-    document.getElementById("SearchResults").style = " width:600px; height:175px; border:5px solid black; " +
-    "background:linear-gradient( 90deg," + getRandomColor() + " 0%,gold 10%,white 30%," + getRandomColor() + " 50%,gray 60%, " +
-    "" + getRandomColor() + " 80%," + getRandomColor() + " 100%),linear-gradient( 180deg," + getRandomColor() + " 0%," + getRandomColor() +
-    " 10%,white 30%," + getRandomColor() + " 50%,gray 60%,maroon 80%," + getRandomColor() + " 100%);background-size: "+
-    "4em 4em;background-color: #ffffff;background-blend-mode: multiply, normal;"
-
-    if(document.getElementById("speed").checked)
+    if(document.getElementById("speed").checked) {
         alert("They've gone to plaid!!! \nCTRL + SHIFT + Y to disable");
+
+        //get plaid colors
+        document.getElementById("SearchResults").style = " width:600px; height:175px; border:5px solid black; " +
+            "background:linear-gradient( 90deg," + getRandomColor() + " 0%,gold 10%,white 30%," + getRandomColor() + " 50%,gray 60%, " +
+            "" + getRandomColor() + " 80%," + getRandomColor() + " 100%),linear-gradient( 180deg," + getRandomColor() + " 0%," + getRandomColor() +
+            " 10%,white 30%," + getRandomColor() + " 50%,gray 60%,maroon 80%," + getRandomColor() + " 100%);background-size: "+
+            "4em 4em;background-color: #ffffff;background-blend-mode: multiply, normal;"
+    }
+    else
+        document.getElementById("SearchResults").style = " width:600px; height:175px; background:#42464c; border:5px solid black;"
 };
 
 function getRandomColor() {
