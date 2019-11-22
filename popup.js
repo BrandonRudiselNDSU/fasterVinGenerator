@@ -35,7 +35,6 @@ submitButton.onclick = function () {
             var historyIndexInt = parseInt(historyIndexString);
 
             if(page == "d") { //is on decode history page. Is copy-ing a decode vin
-                //prepare value by removing timestamp and decode
                 var transaction = db.transaction(["decodeRecord"], "readonly");
                 var objectStore = transaction.objectStore("decodeRecord");
 
@@ -52,7 +51,6 @@ submitButton.onclick = function () {
             }
 
             else if(page == "h") { //is on copy history page. Is copy-ing a copied vin
-                //prepare value by removing timestamp
                 var transaction = db.transaction(["vinRecord"], "readonly");
                 var objectStore = transaction.objectStore("vinRecord");
 
@@ -104,11 +102,11 @@ submitButton.onclick = function () {
 function getVin(){
     previousVin = document.getElementById("vinBox").value;
     if(coolCarValue)
-        var vin = coolCarArray[Math.floor(Math.random() * (coolCarArray.length - 1))];
+        var vin = coolCarArray[Math.floor(Math.random() * coolCarArray.length)];
     else if(oldCarValue)
-        var vin = oldCarArray[Math.floor(Math.random() * (oldCarArray.length - 1))];
+        var vin = oldCarArray[Math.floor(Math.random() * oldCarArray.length)];
     else
-        var vin = vinArray[Math.floor(Math.random() * (vinArray.length - 1))]; //returns any car
+        var vin = vinArray[Math.floor(Math.random() * vinArray.length)]; //returns any car
     document.getElementById("vinBox").value = vin;
     decodeVin(vin);
 }
@@ -152,8 +150,7 @@ function decodeVinAsyncOff(vin){
 ***********************************     MINOR FUNCTIONS     ***********************************
 =============================================================================================*/
 function getSubheader() {
-    var index = Math.floor(Math.random() * (subheaderArray.length - 1));
-    var subheader = subheaderArray[index]; //gets any subheader
+    var subheader = subheaderArray[Math.floor(Math.random() * subheaderArray.length)]; //gets any subheader
 
     document.getElementById("subheader").innerHTML
         = '<font color=\"white\">' + subheader + '</font>';
@@ -320,14 +317,24 @@ speed.onclick = function () {
         alert("They've gone to plaid!!! \nCTRL + SHIFT + Y to disable");
 
         //get plaid colors
-        document.getElementById("SearchResults").style = " width:600px; height:175px; border:5px solid black; " +
-            "background:linear-gradient( 90deg," + getRandomColor() + " 0%,gold 10%,white 30%," + getRandomColor() + " 50%,gray 60%, " +
-            "" + getRandomColor() + " 80%," + getRandomColor() + " 100%),linear-gradient( 180deg," + getRandomColor() + " 0%," + getRandomColor() +
-            " 10%,white 30%," + getRandomColor() + " 50%,gray 60%,maroon 80%," + getRandomColor() + " 100%);background-size: "+
-            "4em 4em;background-color: #ffffff;background-blend-mode: multiply, normal;"
+        var colors = "background:linear-gradient( 90deg," + getRandomColor() + " 0%,gold 10%,white 30%," + getRandomColor() + " 50%,gray 60%, " +
+                     "" + getRandomColor() + " 80%," + getRandomColor() + " 100%),linear-gradient( 180deg," + getRandomColor() + " 0%," + getRandomColor() +
+                     " 10%,white 30%," + getRandomColor() + " 50%,gray 60%,maroon 80%," + getRandomColor() + " 100%);background-size: "+
+                     "4em 4em;background-color: #ffffff;background-blend-mode: multiply, normal;"
+
+        document.getElementById("SearchResults").style = " width:600px; height:175px; border:5px solid black; " + colors;
+        document.getElementById("vinBox").style = colors;
+        document.getElementById("yearBox").style = colors;
+        document.getElementById("makeBox").style = colors;
+        document.getElementById("modelBox").style = colors;
     }
-    else
+    else {
         document.getElementById("SearchResults").style = " width:600px; height:175px; background:#42464c; border:5px solid black;"
+        document.getElementById("vinBox").style = "background:#42464c;"
+        document.getElementById("yearBox").style = "background:#42464c"
+        document.getElementById("makeBox").style = "background:#42464c"
+        document.getElementById("modelBox").style = "background:#42464c"
+    }
 };
 
 function getRandomColor() {
@@ -456,7 +463,10 @@ var subheaderArray = [
     "Mostly tested",
     "<i>Version: " + version + "</i>",
     "Powered by hatred, and NHTSA",
-    "First hit's free"]
+    "First hit's free",
+    "Powered by Vin Diesel",
+    "From the inventor of vin humor",
+    "Over 100 <strike>suckers</strike> <b>users!</b>"]
 
 getSubheader();   //get subheader on load
                   //must come after subheader array is declared
@@ -474,6 +484,7 @@ function showInfo() {
 
 function showChannelLog() {     //Shows differences between versions
     var channelLog =
+    "1.6.0.2 New subheaders, tweak plaid function, tweak randomness. 11/21/19</br></br>" +
     "1.6.0.1 Note: Don't remove stuff from background.js if you don't know what it does. 11/09/19</br></br>" +
     "1.6.0.0 Add cool cars, add check digit validation, add options, add plaid, refactor code. 11/07/19</br></br>" +
     "1.5.0.1 Fix hanging window, add back one vin feature. 09/15/19</br></br>" +
