@@ -203,51 +203,52 @@ function isValidVin(input){
     return mod === 10 ? input.charAt(8) === 'x' : input.charAt(8) == mod;
 }
 
+function getLength(number) {
+    return number.toString().length;
+}
+
 /*=============================================================================================
 ***************************************     HISTORY     ***************************************
 =============================================================================================*/
 function listVinHistory() {
     var historyString = "This is the history of VINS that have been generated and copied to the clipboard</br>" +
         "Enter '/#' to copy an item to clipboard</br></br>";
-    var printedIndex = 1;
-
-    var transaction = db.transaction("vinRecord", "readonly");
-    var objectStore = transaction.objectStore("vinRecord");
-    var request = objectStore.openCursor(null,"prev");
-    request.onsuccess = function(event) {
-        var cursor = event.target.result;
-        if(cursor) {
-            historyString += "<font size = '2'><code>" + printedIndex + ": " + cursor.value.record + "</code></font></br>";
-            printedIndex++;
-            cursor.continue();
-        } else {
-            // no more results
-        }
-        document.getElementById("SearchResults").innerHTML =
-                    '<font color=\"white\">' + historyString + '</font>';
-    };
+    listDatabase(historyString, "vinRecord");
 }
 
 function listDecodeHistory() {
     var historyString = "This is the history of VINS that have been decoded</br>" +
         "Enter '/#' to copy an item to clipboard</br></br>";
-    var printedIndex = 1;
+    listDatabase(historyString, "decodeRecord")
+}
 
-    var transaction = db.transaction("decodeRecord", "readonly");
-    var objectStore = transaction.objectStore("decodeRecord");
-    var request = objectStore.openCursor(null,"prev");
-    request.onsuccess = function(event) {
-        var cursor = event.target.result;
-        if(cursor) {
-            historyString += "<font size = '2'><code>" + printedIndex + ": " + cursor.value.record + "</code></font></br>";
-            printedIndex++;
-            cursor.continue();
-        } else {
-            // no more results
-        }
-        document.getElementById("SearchResults").innerHTML =
-                    '<font color=\"white\">' + historyString + '</font>';
-    };
+function listDatabase(historyString, database){
+    var printedIndex = 1;   //this is the number next to the listed row
+    var transaction = db.transaction([database], "readonly");
+    var objectStore = transaction.objectStore(database);
+
+    var countRequest = objectStore.count(); //get length of database for padding later
+    countRequest.onsuccess = function() {
+        var dbDigitsInLength = getLength(countRequest.result); //get num of digits in the count of indexes in this database
+        var transaction = db.transaction(database, "readonly");
+        var objectStore = transaction.objectStore(database);
+        var request = objectStore.openCursor(null,"prev");
+        request.onsuccess = function(event) {
+            var cursor = event.target.result;
+            if(cursor) {
+                historyString += printedIndex.toString().padStart(dbDigitsInLength, ' ') + ": " + cursor.value.record + "</br>";
+                printedIndex++;
+                cursor.continue();
+            } else {
+                // no more results
+            }
+            document.getElementById("SearchResults").innerHTML =
+                        "<pre><font size = '2'; color=\"white\">" + historyString + "</font></pre>";
+        };
+    }
+    countRequest.onerror = function() {
+        alert("Failed to get a count on number of values in database");
+    }
 }
 
 function clearHistory() {    //clears decode and copy history
