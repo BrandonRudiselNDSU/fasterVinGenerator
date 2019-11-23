@@ -35,7 +35,7 @@ request.onupgradeneeded = function(event) {
 
 function read(index, data) {
     var transaction = db.transaction([data]);
-    var objectStore = transaction.objectStore(data);
+    var objectStore = transaction.objectStore([data]);
     var request = objectStore.get(index);
 
     request.onerror = function(event) {
@@ -47,8 +47,7 @@ function read(index, data) {
         if(request.result) {
             oldVin = request.result.record;
             oldVin = oldVin.substr(oldVin.indexOf("|| ") + 3, oldVin.length - 1); //remove time stamp
-
-            if(data == "decodeVin") //if it's a decoded vin, it has a decode that must be removed too
+            if(data == "decodeRecord") //if it's a decoded vin, it has a decode that must be removed too
                 oldVin = oldVin.substr(0, oldVin.indexOf(" : ")); //remove year/make/model from text
             historyCopy(oldVin);
         } else {

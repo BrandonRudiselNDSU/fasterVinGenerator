@@ -16,9 +16,9 @@ submitButton.onclick = function () {
     var input = document.getElementById('searchBox').value;
     if (input.charAt(0) == "/") {     //is a control command
         if (input.charAt(1) == "h")  //is a list history command
-            { listVinHistory(); page = "h"; }
+            { listHistory("vinRecord"); page = "h"; }
         else if (input.charAt(1) == "d")  //is a list decode history command
-            { listDecodeHistory(); page = "d"; }
+            { listHistory("decodeRecord"); page = "d"; }
         else if (input.charAt(1) == "s")  //is a super-user tip request
             { superUserTips(); page = "s"; }
         else if (input.charAt(1) == "i") //is an info request
@@ -34,37 +34,11 @@ submitButton.onclick = function () {
             var historyIndexString = input.substr(1,input.length);  //remove "/" and return the number
             var historyIndexInt = parseInt(historyIndexString);
 
-            if(page == "d") { //is on decode history page. Is copy-ing a decode vin
-                var transaction = db.transaction(["decodeRecord"], "readonly");
-                var objectStore = transaction.objectStore("decodeRecord");
+            if(page == "d") //is on decode history page. Is copy-ing a decode vin
+                getDBValue(historyIndexInt, "decodeRecord", read);
 
-                var countRequest = objectStore.count(); //get length of database
-                countRequest.onsuccess = function() {
-                    var dbLength = countRequest.result; //once result returns save it in dbLength
-                    //subtract one to account for zero based index, then subtract historyIndexInt from dbLength to get desired value from history
-                    read(dbLength - (historyIndexInt - 1), "decodeRecord");
-                }
-
-                countRequest.onerror = function() {
-                    alert("Failed to get a count on number of values in database");
-                }
-            }
-
-            else if(page == "h") { //is on copy history page. Is copy-ing a copied vin
-                var transaction = db.transaction(["vinRecord"], "readonly");
-                var objectStore = transaction.objectStore("vinRecord");
-
-                var countRequest = objectStore.count(); //get length of database
-                countRequest.onsuccess = function() {
-                    var dbLength = countRequest.result; //once result returns save it in dbLength
-                    //subtract one to account for zero based index, then subtract historyIndexInt from dbLength to get desired value from history
-                    read(dbLength - (historyIndexInt - 1), "vinRecord");
-                }
-
-                countRequest.onerror = function() {
-                    alert("Failed to get a count on number of values in database");
-                }
-            }
+            else if(page == "h") //is on copy history page. Is copy-ing a copied vin
+                getDBValue(historyIndexInt, "vinRecord", read);
             else
                 location.reload();   //if not on either page, refresh
         }
@@ -204,19 +178,36 @@ function getLengthOfNumber(number) {
     return number.toString().length;
 }
 
+function getDBValue(historyIndexInt, database, callback) {
+    var transaction = db.transaction([database], "readonly");
+    var objectStore = transaction.objectStore(database);
+
+    var countRequest = objectStore.count(); //get length of database
+    countRequest.onsuccess = function() {
+        var dbLength = countRequest.result; //once result returns save it in dbLength
+        //subtract one to account for zero based index, then subtract historyIndexInt from dbLength to get desired value from history
+        callback(dbLength - (historyIndexInt - 1), database);
+    }
+
+    countRequest.onerror = function() {
+        alert("Failed to get a count on number of values in database");
+    }
+}
+
 /*=============================================================================================
 ***************************************     HISTORY     ***************************************
 =============================================================================================*/
-function listVinHistory() {
-    var historyString = "This is the history of VINS that have been generated and copied to the clipboard</br>" +
-        "Enter '/#' to copy an item to clipboard</br></br>";
-    listDatabase(historyString, "vinRecord");
-}
-
-function listDecodeHistory() {
-    var historyString = "This is the history of VINS that have been decoded</br>" +
-        "Enter '/#' to copy an item to clipboard</br></br>";
-    listDatabase(historyString, "decodeRecord")
+function listHistory(database) {
+    if (database == "vinRecord") {
+        var historyString = "This is the history of VINS that have been generated and copied to the clipboard</br>" +
+            "Enter '/#' to copy an item to clipboard</br></br>";
+        listDatabase(historyString, database);
+    }
+    if (database == "decodeRecord"){
+        var historyString = "This is the history of VINS that have been decoded</br>" +
+            "Enter '/#' to copy an item to clipboard</br></br>";
+        listDatabase(historyString, database)
+    }
 }
 
 function listDatabase(historyString, database){
