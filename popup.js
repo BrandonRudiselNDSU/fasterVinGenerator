@@ -98,7 +98,6 @@ submitButton.onclick = function () {
 /*=============================================================================================
 ***********************************     MAJOR FUNCTIONS     ***********************************
 =============================================================================================*/
-
 function getVin(){
     previousVin = document.getElementById("vinBox").value;
     if(coolCarValue)
@@ -146,6 +145,13 @@ function decodeVinAsyncOff(vin){
     });
 }
 
+function printVehicleInfo(vehicleDataArray){
+    //year make model
+    document.getElementById("yearBox").value = vehicleDataArray[9].Value;
+    document.getElementById("makeBox").value = vehicleDataArray[6].Value;
+    document.getElementById("modelBox").value = vehicleDataArray[8].Value;
+}
+
 /*=============================================================================================
 ***********************************     MINOR FUNCTIONS     ***********************************
 =============================================================================================*/
@@ -154,7 +160,6 @@ function getSubheader() {
 
     document.getElementById("subheader").innerHTML
         = '<font color=\"white\">' + subheader + '</font>';
-
 }
 
 function back() {    //goes back one vin
@@ -169,14 +174,6 @@ function getTimeStamp() {    //returns time stamp for history
     var seconds = date.getSeconds().toString();
     var formattedDate = date.toDateString() + " " + hours.padStart(2,"0") + ":" + minutes.padStart(2,"0") + "." + seconds.padStart(2,"0");
     return formattedDate;
-}
-
-function printVehicleInfo(vehicleDataArray){
-    //year make model
-    document.getElementById("yearBox").value = vehicleDataArray[9].Value;
-    document.getElementById("makeBox").value = vehicleDataArray[6].Value;
-    document.getElementById("modelBox").value = vehicleDataArray[8].Value;
-
 }
 
 function isValidVin(input){
@@ -203,7 +200,7 @@ function isValidVin(input){
     return mod === 10 ? input.charAt(8) === 'x' : input.charAt(8) == mod;
 }
 
-function getLength(number) {
+function getLengthOfNumber(number) {
     return number.toString().length;
 }
 
@@ -229,7 +226,7 @@ function listDatabase(historyString, database){
 
     var countRequest = objectStore.count(); //get length of database for padding later
     countRequest.onsuccess = function() {
-        var dbDigitsInLength = getLength(countRequest.result); //get num of digits in the count of indexes in this database
+        var dbDigitsInLength = getLengthOfNumber(countRequest.result); //get num of digits in the count of indexes in this database
         var transaction = db.transaction(database, "readonly");
         var objectStore = transaction.objectStore(database);
         var request = objectStore.openCursor(null,"prev");
@@ -256,7 +253,7 @@ function clearHistory() {    //clears decode and copy history
     var clearText = "History Cleared</br></br>Hit Enter";
 
     document.getElementById("SearchResults").innerHTML =
-        '<font color=\"white\">' + clearText + '</font>';
+        "<font color=\"white\">" + clearText + "</font>";
 }
 
 function copy(ludicrousStatus) {
@@ -448,7 +445,7 @@ var subheaderArray = [
     "The only vin generator that <i>doesn't suck</i>",
     "The only vin generator that <i>really cares</i>",
     "The only vin generator that <i>loves you too</i>",
-    "The only vin generator that <i>generates hins</i>",
+    "The only vin generator that <i>generates HINs</i>",
     "The only vin generator that <i>actually listens</i>",
     "The only vin generator that <i>reverses hair loss</i>",
     "The only vin generator that's <i>just someone's vanity project</i>",
@@ -467,7 +464,7 @@ var subheaderArray = [
     "First hit's free",
     "Powered by Vin Diesel",
     "From the inventor of vin humor",
-    "Over 100 <strike>suckers</strike> <b>users!</b>"]
+    "Over 100 <strike>suckers</strike> <b>daily users!</b>"]
 
 getSubheader();   //get subheader on load
                   //must come after subheader array is declared
@@ -480,12 +477,12 @@ function showInfo() {
     "Powered by hatred, and NHTSA </br><i>Version: " + version + "</i>";
 
     document.getElementById("SearchResults").innerHTML =
-        '<font color=\"white\">' + infoString + '</font>';
+        "<font color=\"white\">" + infoString + "</font>";
 }
 
 function showChannelLog() {     //Shows differences between versions
     var channelLog =
-    "1.6.0.2 New subheaders, tweak plaid function, tweak randomness. 11/21/19</br></br>" +
+    "1.6.0.2 New subheaders, tweak plaid function, tweak randomness. 11/xx/19</br></br>" +
     "1.6.0.1 Note: Don't remove stuff from background.js if you don't know what it does. 11/09/19</br></br>" +
     "1.6.0.0 Add cool cars, add check digit validation, add options, add plaid, refactor code. 11/07/19</br></br>" +
     "1.5.0.1 Fix hanging window, add back one vin feature. 09/15/19</br></br>" +
@@ -501,7 +498,7 @@ function showChannelLog() {     //Shows differences between versions
     "1.1.0.0 and earlier was before time. I dunno what happened back then.";
 
         document.getElementById("SearchResults").innerHTML =
-                    '<font color=\"white\">' + channelLog + '</font>';
+                    "<font color=\"white\">" + channelLog + "</font>";
 }
 
 function superUserTips(){
@@ -522,5 +519,5 @@ function superUserTips(){
     "/v || Displays version history<tt></br>";
 
         document.getElementById("SearchResults").innerHTML =
-                    '<font color=\"white\">' + superUserTips + '</font>';
+                    "<font color=\"white\">" + superUserTips + "</font>";
 }
