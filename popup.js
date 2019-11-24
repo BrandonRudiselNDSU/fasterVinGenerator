@@ -43,7 +43,7 @@ submitButton.onclick = function () {
         location.reload();
     else {   //is a decode
         if (isValidVin(input))        //if the vin is valid
-            decodeVin(input, true);   //run with async off so that the result is definitely retrieved before stored
+            decodeVin(input, true);
         else
             decodeMessage("Check Digit Failed Validation");
     }
@@ -137,8 +137,9 @@ function getDBValue(input, database) {
         var dbLength = countRequest.result; //once result returns save it in dbLength
         //subtract one to account for zero based index, then subtract historyIndexInt from dbLength to get desired value from history
         read(dbLength - (historyIndexInt - 1), database);
-    } countRequest.onerror = function() {
-        alert("Failed to get a count on number of values in database");
+    }
+    countRequest.onerror = function() {
+            alert("Failed to get a count on number of values in database");
     }
 }
 
@@ -190,7 +191,8 @@ function listDatabase(historyString, database){
             document.getElementById("SearchResults").innerHTML =
                         "<pre><font size = '2'; color=\"white\">" + historyString + "</font></pre>";
         };
-    } countRequest.onerror = function() {
+    }
+    countRequest.onerror = function() {
         alert("Failed to get a count on number of values in database");
     }
 }
@@ -209,10 +211,8 @@ function listHistory(database) {
 }
 
 function copy(ludicrousStatus) {
-    var copyText = document.getElementById("vinBox").value;
-
     if(!ludicrousStatus)  //if ludicrous speed is not engaged, copy to history
-        addCopied(getTimeStamp() + " || " + copyText, "vinRecord");
+        addCopied(getTimeStamp() + " || " + document.getElementById("vinBox").value, "vinRecord");
     else{
         var copyElement = document.getElementById("vinBox");
         copyElement.select();
@@ -229,10 +229,10 @@ function clearHistory() {    //clears decode and copy history
         "<font color=\"white\">" + clearText + "</font>";
 }
 
-function historyCopy(text) {
-    document.getElementById("searchBox").value = text;
-    var copyText = document.getElementById("searchBox");
-    copyText.select();
+function historyCopy(vin) {
+    document.getElementById("searchBox").value = vin;
+    var searchBoxElement = document.getElementById("searchBox");
+    searchBoxElement.select();
     document.execCommand("copy");
     window.close();
 }
