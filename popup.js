@@ -381,7 +381,7 @@ hinButton.onclick = function () {
 =============================================================================================*/
 function showChannelLog() {     //Shows differences between versions
     var channelLog =
-    "1.6.1.0 Removed some Acuras, code overhaul, tweaks: plaid function, randomness, history listings. 11/xx/19</br></br>" +
+    "1.6.1.0 Removed some Acuras, code overhaul, tweaks: plaid function, randomness, history listings. 11/24/19</br></br>" +
     "1.6.0.1 Note: Don't remove stuff from background.js if you don't know what it does. 11/09/19</br></br>" +
     "1.6.0.0 Add cool cars, add check digit validation, add options, add plaid, refactor code. 11/07/19</br></br>" +
     "1.5.0.1 Fix hanging window, add back one vin feature. 09/15/19</br></br>" +
