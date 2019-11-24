@@ -11,10 +11,6 @@ window.webkitIDBTransaction || window.msIDBTransaction;
 window.IDBKeyRange = window.IDBKeyRange || window.webkitIDBKeyRange ||
 window.msIDBKeyRange
 
-if (!window.indexedDB) {
-    window.alert("Your browser doesn't support a stable version of IndexedDB.")
-}
-
 var db;
 var request = window.indexedDB.open("history", 3);
 
@@ -24,7 +20,6 @@ request.onerror = function(event) {
 
 request.onsuccess = function(event) {
     db = request.result;
-    //console.log("success: "+ db);
 };
 
 request.onupgradeneeded = function(event) {
@@ -78,7 +73,6 @@ function addCopied(record, data) {
     .add({record: record});
 
     request.onsuccess = function(event) {
-        //do nothing
         var copyElement = document.getElementById("vinBox");
         copyElement.select();
         document.execCommand("copy");
@@ -95,19 +89,4 @@ function clearData(){
     historyDeleteRequest.onerror = function(event) {
       alert("Error deleting decode database.");
     };
-
-    historyDeleteRequest.onsuccess = function(event) {
-      //alert("Database deleted successfully");
-    };
-
-}
-
-function getCount(data){
-    var transaction = db.transaction([data], "readonly");
-    var objectStore = transaction.objectStore(data);
-
-    var countRequest = objectStore.count();
-    countRequest.onsuccess = function() {
-        return countRequest.result;
-    }
 }

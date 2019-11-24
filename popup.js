@@ -35,10 +35,10 @@ submitButton.onclick = function () {
             var historyIndexInt = parseInt(historyIndexString);
 
             if(page == "d") //is on decode history page. Is copy-ing a decode vin
-                getDBValue(historyIndexInt, "decodeRecord", read);
+                getDBValue(historyIndexInt, "decodeRecord");
 
             else if(page == "h") //is on copy history page. Is copy-ing a copied vin
-                getDBValue(historyIndexInt, "vinRecord", read);
+                getDBValue(historyIndexInt, "vinRecord");
             else
                 location.reload();   //if not on either page, refresh
         }
@@ -51,12 +51,8 @@ submitButton.onclick = function () {
     }
     else {   //is a decode
         if (isValidVin(input)) { //if the vin is valid
-        decodeVinAsyncOff(input);       //run with async off so that the result is definitely retrieved before stored
-        var year = document.getElementById("yearBox").value;
-        var make = document.getElementById("makeBox").value;
-        var model = document.getElementById("modelBox").value;
-        document.getElementById("vinBox").value = input;
-        add(getTimeStamp() + " || " + input + " : " + year + " | " + make + " | " + model, "decodeRecord");
+        decodeVin(input, true);       //run with async off so that the result is definitely retrieved before stored
+
         }
         else{
             document.getElementById("yearBox").value = "";
@@ -72,6 +68,31 @@ submitButton.onclick = function () {
 /*=============================================================================================
 ***********************************     MAJOR FUNCTIONS     ***********************************
 =============================================================================================*/
+function decodeVin(vin, userInput){
+    $.ajax({
+    	url: "https://vpic.nhtsa.dot.gov/api/vehicles/DecodeVin/" + vin + "?format=json",
+    	type: "GET",
+    	dataType: "json",
+    	success: function(result){
+    		printVehicleInfo(result.Results);
+    		if (userInput)
+    		    storeDecode(vin);
+    	},
+    	error: function(xhr, ajaxOptions, thrownError){
+    		console.log(xhr.status);
+    		console.log(thrownError);
+    	}
+    });
+}
+
+function storeDecode(vin) {
+    var year = document.getElementById("yearBox").value;
+    var make = document.getElementById("makeBox").value;
+    var model = document.getElementById("modelBox").value;
+    document.getElementById("vinBox").value = vin;
+    add(getTimeStamp() + " || " + vin + " : " + year + " | " + make + " | " + model, "decodeRecord");
+}
+
 function getVin(){
     previousVin = document.getElementById("vinBox").value;
     if(coolCarValue)
@@ -81,42 +102,7 @@ function getVin(){
     else
         var vin = vinArray[Math.floor(Math.random() * vinArray.length)]; //returns any car
     document.getElementById("vinBox").value = vin;
-    decodeVin(vin);
-}
-
-function decodeVin(vin){
-    $.ajax({
-    	url: "https://vpic.nhtsa.dot.gov/api/vehicles/DecodeVin/" + vin + "?format=json",
-    	type: "GET",
-    	dataType: "json",
-    	success: function(result){
-    		printVehicleInfo(result.Results);
-    	},
-    	error: function(xhr, ajaxOptions, thrownError){
-    		console.log(xhr.status);
-    		console.log(thrownError);
-    	}
-    });
-}
-
-function decodeVinAsyncOff(vin){
-    //deprecated function of javascript
-    //so why use it?
-    //when vins are decoded they're stored in history with the decode information
-    //vins are decoded with async off to guarantee make, model, and year are stored with the vin
-    $.ajax({
-    	url: "https://vpic.nhtsa.dot.gov/api/vehicles/DecodeVin/" + vin + "?format=json",
-    	type: "GET",
-    	dataType: "json",
-    	async: false,
-    	success: function(result){
-            printVehicleInfo(result.Results);
-    	},
-    	error: function(xhr, ajaxOptions, thrownError){
-    		console.log(xhr.status);
-    		console.log(thrownError);
-    	}
-    });
+    decodeVin(vin, false);
 }
 
 function printVehicleInfo(vehicleDataArray){
@@ -138,7 +124,7 @@ function getSubheader() {
 
 function back() {    //goes back one vin
     document.getElementById("vinBox").value = previousVin;
-    decodeVin(previousVin);
+    decodeVin(previousVin, false);
 }
 
 function getTimeStamp() {    //returns time stamp for history
@@ -178,7 +164,7 @@ function getLengthOfNumber(number) {
     return number.toString().length;
 }
 
-function getDBValue(historyIndexInt, database, callback) {
+function getDBValue(historyIndexInt, database) {
     var transaction = db.transaction([database], "readonly");
     var objectStore = transaction.objectStore(database);
 
@@ -186,7 +172,7 @@ function getDBValue(historyIndexInt, database, callback) {
     countRequest.onsuccess = function() {
         var dbLength = countRequest.result; //once result returns save it in dbLength
         //subtract one to account for zero based index, then subtract historyIndexInt from dbLength to get desired value from history
-        callback(dbLength - (historyIndexInt - 1), database);
+        read(dbLength - (historyIndexInt - 1), database);
     }
 
     countRequest.onerror = function() {
