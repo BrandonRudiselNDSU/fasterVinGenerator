@@ -9,9 +9,7 @@ setBoxes();         //always set boxes from memory before getting options
 getOptionValues();  //always set options before loading vin
 getVin();           //get vin on load
 
-//this is the most important function in the entire project
-//it runs upon clicking the submit button
-//everything begins here
+//consider this the spinal cord of the project
 submitButton.onclick = function () {
     var input = document.getElementById('searchBox').value;
     if (input.charAt(0) == "/") {     //is a control command
@@ -31,36 +29,24 @@ submitButton.onclick = function () {
             { if(previousVin != "Something's wrong here...") { back(); } }  //if a previous vin exists, we can go back to it
 
         else if (Number.isInteger(parseInt(input.charAt(1)))) { //is copy-ing a previous vin
-            var historyIndexString = input.substr(1,input.length);  //remove "/" and return the number
-            var historyIndexInt = parseInt(historyIndexString);
-
             if(page == "d") //is on decode history page. Is copy-ing a decode vin
-                getDBValue(historyIndexInt, "decodeRecord");
-
+                getDBValue(input, "decodeRecord");
             else if(page == "h") //is on copy history page. Is copy-ing a copied vin
-                getDBValue(historyIndexInt, "vinRecord");
+                getDBValue(input, "vinRecord");
             else
                 location.reload();   //if not on either page, refresh
         }
     }
-    else if (input.charAt(0) == "" && page == "") { //it's on the main page, don't reload, just get a new vin
+    else if (input.charAt(0) == "" && page == "")   //it's on the main page, don't reload, just get a new vin
         getVin();
-    }
-    else if (input.charAt(0) == "" && page != "") { //it's not on the main page, reload
+    else if (input.charAt(0) == "" && page != "")   //it's not on the main page, reload
         location.reload();
-    }
     else {   //is a decode
-        if (isValidVin(input)) { //if the vin is valid
-        decodeVin(input, true);       //run with async off so that the result is definitely retrieved before stored
-
-        }
-        else{
-            document.getElementById("yearBox").value = "";
-            document.getElementById("makeBox").value = "Check Digit Failed Validation";
-            document.getElementById("modelBox").value = "";
-        }
+        if (isValidVin(input))        //if the vin is valid
+            decodeVin(input, true);   //run with async off so that the result is definitely retrieved before stored
+        else
+            decodeMessage("Check Digit Failed Validation");
     }
-
     document.getElementById("searchBox").value = "";    //clean up search box
     document.getElementById("searchBox").focus();       //returns text-cursor to searchbox
 };
@@ -69,6 +55,7 @@ submitButton.onclick = function () {
 ***********************************     MAJOR FUNCTIONS     ***********************************
 =============================================================================================*/
 function decodeVin(vin, userInput){
+    decodeMessage("Decoding...");
     $.ajax({
     	url: "https://vpic.nhtsa.dot.gov/api/vehicles/DecodeVin/" + vin + "?format=json",
     	type: "GET",
@@ -77,8 +64,7 @@ function decodeVin(vin, userInput){
     		printVehicleInfo(result.Results);
     		if (userInput)      //if the user entered this vin for decoding, store it
     		    storeDecode(vin);
-    	},
-    	error: function(xhr, ajaxOptions, thrownError){
+    	}, error: function(xhr, ajaxOptions, thrownError){
     		console.log(xhr.status);
     		console.log(thrownError);
     	}
@@ -106,10 +92,9 @@ function storeDecode(vin) {
 }
 
 function printVehicleInfo(vehicleDataArray){
-    //year make model
-    document.getElementById("yearBox").value = vehicleDataArray[9].Value;
-    document.getElementById("makeBox").value = vehicleDataArray[6].Value;
-    document.getElementById("modelBox").value = vehicleDataArray[8].Value;
+    document.getElementById("yearBox").value = vehicleDataArray[9].Value;   //year
+    document.getElementById("makeBox").value = vehicleDataArray[6].Value;   //make
+    document.getElementById("modelBox").value = vehicleDataArray[8].Value;  //model
 }
 
 function getSubheader() {
@@ -122,13 +107,11 @@ function getSubheader() {
 /*=============================================================================================
 ***********************************     MINOR FUNCTIONS     ***********************************
 =============================================================================================*/
-function isValidVin(input){
-    //https://en.wikipedia.org/wiki/Vehicle_identification_number
+function isValidVin(input){ //https://en.wikipedia.org/wiki/Vehicle_identification_number
     input = input.toLowerCase();
     if (!/^[a-hj-npr-z0-9]{8}[0-9x][a-hj-npr-z0-9]{8}$/.test(input)) {
         return false;
     }
-
     let transliterationTable = {'0': 0,'1': 1,'2': 2,'3': 3,'4': 4,'5': 5,'6': 6,'7': 7,
         '8': 8,'9': 9,'a': 1,'b': 2,'c': 3,'d': 4,'e': 5,'f': 6,'g': 7,'h': 8,'j': 1,
         'k': 2,'l': 3,'m': 4,'n': 5,'p': 7,'r': 9,'s': 2,'t': 3,'u': 4,'v': 5,'w': 6,
@@ -137,27 +120,24 @@ function isValidVin(input){
 
     let weightsTable = [8, 7, 6, 5, 4, 3, 2, 10, 0, 9, 8, 7, 6, 5, 4, 3, 2];
     let sum = 0;
-
-    for (let i = 0; i < input.length; ++i) {
+    for (let i = 0; i < input.length; ++i)
         sum += transliterationTable[input.charAt(i)] * weightsTable[i];
-    }
-
     let mod = sum % 11;
     return mod === 10 ? input.charAt(8) === 'x' : input.charAt(8) == mod;
 }
 
-function getDBValue(historyIndexInt, database) {
+function getDBValue(input, database) {
+    var historyIndexString = input.substr(1,input.length);  //remove "/" and return the number
+    var historyIndexInt = parseInt(historyIndexString);     //parse int
+
     var transaction = db.transaction([database], "readonly");
     var objectStore = transaction.objectStore(database);
-
     var countRequest = objectStore.count(); //get length of database
     countRequest.onsuccess = function() {
         var dbLength = countRequest.result; //once result returns save it in dbLength
         //subtract one to account for zero based index, then subtract historyIndexInt from dbLength to get desired value from history
         read(dbLength - (historyIndexInt - 1), database);
-    }
-
-    countRequest.onerror = function() {
+    } countRequest.onerror = function() {
         alert("Failed to get a count on number of values in database");
     }
 }
@@ -180,6 +160,12 @@ function getLengthOfNumber(number) {
     return number.toString().length;
 }
 
+function decodeMessage(message) {
+    document.getElementById("yearBox").value = "";
+    document.getElementById("makeBox").value = message;
+    document.getElementById("modelBox").value = "";
+}
+
 /*=============================================================================================
 ***************************************     HISTORY     ***************************************
 =============================================================================================*/
@@ -187,8 +173,8 @@ function listDatabase(historyString, database){
     var printedIndex = 1;   //this is the number next to the listed row
     var transaction = db.transaction([database], "readonly");
     var objectStore = transaction.objectStore(database);
-
     var countRequest = objectStore.count(); //get length of database for padding later
+
     countRequest.onsuccess = function() {
         var dbDigitsInLength = getLengthOfNumber(countRequest.result); //get num of digits in the count of indexes in this database
         var transaction = db.transaction(database, "readonly");
@@ -200,14 +186,11 @@ function listDatabase(historyString, database){
                 historyString += printedIndex.toString().padStart(dbDigitsInLength, ' ') + ": " + cursor.value.record + "</br>";
                 printedIndex++;
                 cursor.continue();
-            } else {
-                // no more results
             }
             document.getElementById("SearchResults").innerHTML =
                         "<pre><font size = '2'; color=\"white\">" + historyString + "</font></pre>";
         };
-    }
-    countRequest.onerror = function() {
+    } countRequest.onerror = function() {
         alert("Failed to get a count on number of values in database");
     }
 }
@@ -272,8 +255,7 @@ speed.onclick = function () {
         document.getElementById("yearBox").style = colors;
         document.getElementById("makeBox").style = colors;
         document.getElementById("modelBox").style = colors;
-    }
-    else {
+    } else {
         document.getElementById("SearchResults").style = " width:600px; height:175px; background:#42464c; border:5px solid black;"
         document.getElementById("vinBox").style = "background:#42464c;"
         document.getElementById("yearBox").style = "background:#42464c"
@@ -290,12 +272,10 @@ function setBoxes(){    //I have no clue how this works
       $checkboxes.each(function(){
         checkboxValues[this.id] = this.checked;
       });
-
       localStorage.setItem("checkboxValues", JSON.stringify(checkboxValues));
     });
 
-    // On page load
-    $.each(checkboxValues, function(key, value) {
+    $.each(checkboxValues, function(key, value) {   // On page load
       $("#" + key).prop('checked', value);
     });
 
@@ -339,25 +319,22 @@ function getLudiValue() {
 function getRandomColor() {
   var letters = '0123456789ABCDEF';
   var color = '#';
-  for (var i = 0; i < 6; i++) {
+  for (var i = 0; i < 6; i++)
     color += letters[Math.floor(Math.random() * 16)];
-  }
   return color;
 }
 
 function getOldCarValue() {
     if(document.getElementById("oldCar").checked){
         oldCarValue = true;
-    }
-    else
+    } else
         oldCarValue = false;
 }
 
 function getCoolCarValue() {
     if(document.getElementById("coolCar").checked){
         coolCarValue = true;
-    }
-    else
+    } else
         coolCarValue = false;
 }
 
@@ -375,9 +352,7 @@ function getHin(){
     var year = document.getElementById("yearBox");
     var make = document.getElementById("makeBox");
     var model = document.getElementById("modelBox");
-    year.value = "";
-    make.value = "Boats don't deserve decodes.";
-    model.value = "";
+    decodeMessage("Boats don't deserve decodes");
 
     localStorage.setItem("hinYear", hinYear);
 }
@@ -386,9 +361,17 @@ function letters(length) {
    var result           = '';
    var characters       = 'ABCDEFGHJKLMNPRSTUVWXYZ'; //removed IOQ
    var charactersLength = characters.length;
-   for ( var i = 0; i < length; i++ ) {
+   for ( var i = 0; i < length; i++ )
       result += characters.charAt(Math.floor(Math.random() * charactersLength));
-   }
+   return result;
+}
+
+function numbers(length){
+    var result           = '';
+   var characters       = '0123456789';
+   var charactersLength = characters.length;
+   for ( var i = 0; i < length; i++ )
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
    return result;
 }
 
@@ -397,16 +380,6 @@ function hinMonth() {
    var characters       = 'ABCDEFGHJKL'; //A is January, L is December. No I
    var charactersLength = characters.length;
    result += characters.charAt(Math.floor(Math.random() * charactersLength));
-   return result;
-}
-
-function numbers(length){
-    var result           = '';
-   var characters       = '0123456789';
-   var charactersLength = characters.length;
-   for ( var i = 0; i < length; i++ ) {
-      result += characters.charAt(Math.floor(Math.random() * charactersLength));
-   }
    return result;
 }
 
