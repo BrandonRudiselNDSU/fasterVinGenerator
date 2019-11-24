@@ -85,14 +85,6 @@ function decodeVin(vin, userInput){
     });
 }
 
-function storeDecode(vin) {
-    var year = document.getElementById("yearBox").value;
-    var make = document.getElementById("makeBox").value;
-    var model = document.getElementById("modelBox").value;
-    document.getElementById("vinBox").value = vin;
-    add(getTimeStamp() + " || " + vin + " : " + year + " | " + make + " | " + model, "decodeRecord");
-}
-
 function getVin(){
     previousVin = document.getElementById("vinBox").value;
     if(coolCarValue)
@@ -105,6 +97,14 @@ function getVin(){
     decodeVin(vin, false);
 }
 
+function storeDecode(vin) {
+    var year = document.getElementById("yearBox").value;
+    var make = document.getElementById("makeBox").value;
+    var model = document.getElementById("modelBox").value;
+    document.getElementById("vinBox").value = vin;
+    add(getTimeStamp() + " || " + vin + " : " + year + " | " + make + " | " + model, "decodeRecord");
+}
+
 function printVehicleInfo(vehicleDataArray){
     //year make model
     document.getElementById("yearBox").value = vehicleDataArray[9].Value;
@@ -112,9 +112,6 @@ function printVehicleInfo(vehicleDataArray){
     document.getElementById("modelBox").value = vehicleDataArray[8].Value;
 }
 
-/*=============================================================================================
-***********************************     MINOR FUNCTIONS     ***********************************
-=============================================================================================*/
 function getSubheader() {
     var subheader = subheaderArray[Math.floor(Math.random() * subheaderArray.length)]; //gets any subheader
 
@@ -122,20 +119,9 @@ function getSubheader() {
         = '<font color=\"white\">' + subheader + '</font>';
 }
 
-function back() {    //goes back one vin
-    document.getElementById("vinBox").value = previousVin;
-    decodeVin(previousVin, false);
-}
-
-function getTimeStamp() {    //returns time stamp for history
-    var date = new Date();
-    var hours = date.getHours().toString();
-    var minutes = date.getMinutes().toString();
-    var seconds = date.getSeconds().toString();
-    var formattedDate = date.toDateString() + " " + hours.padStart(2,"0") + ":" + minutes.padStart(2,"0") + "." + seconds.padStart(2,"0");
-    return formattedDate;
-}
-
+/*=============================================================================================
+***********************************     MINOR FUNCTIONS     ***********************************
+=============================================================================================*/
 function isValidVin(input){
     //https://en.wikipedia.org/wiki/Vehicle_identification_number
     input = input.toLowerCase();
@@ -160,10 +146,6 @@ function isValidVin(input){
     return mod === 10 ? input.charAt(8) === 'x' : input.charAt(8) == mod;
 }
 
-function getLengthOfNumber(number) {
-    return number.toString().length;
-}
-
 function getDBValue(historyIndexInt, database) {
     var transaction = db.transaction([database], "readonly");
     var objectStore = transaction.objectStore(database);
@@ -180,21 +162,27 @@ function getDBValue(historyIndexInt, database) {
     }
 }
 
+function getTimeStamp() {    //returns time stamp for history
+    var date = new Date();
+    var hours = date.getHours().toString();
+    var minutes = date.getMinutes().toString();
+    var seconds = date.getSeconds().toString();
+    var formattedDate = date.toDateString() + " " + hours.padStart(2,"0") + ":" + minutes.padStart(2,"0") + "." + seconds.padStart(2,"0");
+    return formattedDate;
+}
+
+function back() {    //goes back one vin
+    document.getElementById("vinBox").value = previousVin;
+    decodeVin(previousVin, false);
+}
+
+function getLengthOfNumber(number) {
+    return number.toString().length;
+}
+
 /*=============================================================================================
 ***************************************     HISTORY     ***************************************
 =============================================================================================*/
-function listHistory(database) {
-    if (database == "vinRecord") {
-        var historyString = "This is the history of VINS that have been generated and copied to the clipboard</br>" +
-            "Enter '/#' to copy an item to clipboard</br></br>";
-        listDatabase(historyString, database);
-    }
-    if (database == "decodeRecord"){
-        var historyString = "This is the history of VINS that have been decoded</br>" +
-            "Enter '/#' to copy an item to clipboard</br></br>";
-        listDatabase(historyString, database)
-    }
-}
 
 function listDatabase(historyString, database){
     var printedIndex = 1;   //this is the number next to the listed row
@@ -225,12 +213,17 @@ function listDatabase(historyString, database){
     }
 }
 
-function clearHistory() {    //clears decode and copy history
-    clearData();
-    var clearText = "History Cleared</br></br>Hit Enter";
-
-    document.getElementById("SearchResults").innerHTML =
-        "<font color=\"white\">" + clearText + "</font>";
+function listHistory(database) {
+    if (database == "vinRecord") {
+        var historyString = "This is the history of VINS that have been generated and copied to the clipboard</br>" +
+            "Enter '/#' to copy an item to clipboard</br></br>";
+        listDatabase(historyString, database);
+    }
+    if (database == "decodeRecord"){
+        var historyString = "This is the history of VINS that have been decoded</br>" +
+            "Enter '/#' to copy an item to clipboard</br></br>";
+        listDatabase(historyString, database)
+    }
 }
 
 function copy(ludicrousStatus) {
@@ -246,6 +239,14 @@ function copy(ludicrousStatus) {
     }
 }
 
+function clearHistory() {    //clears decode and copy history
+    clearData();
+    var clearText = "History Cleared</br></br>Hit Enter";
+
+    document.getElementById("SearchResults").innerHTML =
+        "<font color=\"white\">" + clearText + "</font>";
+}
+
 function historyCopy(text) {
     document.getElementById("searchBox").value = text;
     var copyText = document.getElementById("searchBox");
@@ -257,6 +258,55 @@ function historyCopy(text) {
 /*=============================================================================================
 ***************************************     OPTIONS     ***************************************
 =============================================================================================*/
+speed.onclick = function () {
+    if(document.getElementById("speed").checked) {
+        alert("They've gone to plaid!!! \nCTRL + SHIFT + Y to disable");
+
+        //get plaid colors
+        var colors = "background:linear-gradient( 90deg," + getRandomColor() + " 0%,gold 10%,white 30%," + getRandomColor() + " 50%,gray 60%, " +
+                     "" + getRandomColor() + " 80%," + getRandomColor() + " 100%),linear-gradient( 180deg," + getRandomColor() + " 0%," + getRandomColor() +
+                     " 10%,white 30%," + getRandomColor() + " 50%,gray 60%,maroon 80%," + getRandomColor() + " 100%);background-size: "+
+                     "4em 4em;background-color: #ffffff;background-blend-mode: multiply, normal;"
+
+        document.getElementById("SearchResults").style = " width:600px; height:175px; border:5px solid black; " + colors;
+        document.getElementById("vinBox").style = colors;
+        document.getElementById("yearBox").style = colors;
+        document.getElementById("makeBox").style = colors;
+        document.getElementById("modelBox").style = colors;
+    }
+    else {
+        document.getElementById("SearchResults").style = " width:600px; height:175px; background:#42464c; border:5px solid black;"
+        document.getElementById("vinBox").style = "background:#42464c;"
+        document.getElementById("yearBox").style = "background:#42464c"
+        document.getElementById("makeBox").style = "background:#42464c"
+        document.getElementById("modelBox").style = "background:#42464c"
+    }
+};
+
+function setBoxes(){    //I have no clue how this works
+    var checkboxValues = JSON.parse(localStorage.getItem('checkboxValues')) || {},
+        $checkboxes = $("#SearchResults :checkbox");
+
+    $checkboxes.on("change", function(){
+      $checkboxes.each(function(){
+        checkboxValues[this.id] = this.checked;
+      });
+
+      localStorage.setItem("checkboxValues", JSON.stringify(checkboxValues));
+    });
+
+    // On page load
+    $.each(checkboxValues, function(key, value) {
+      $("#" + key).prop('checked', value);
+    });
+
+    var hinYear = localStorage.getItem("hinYear");
+    if(hinYear != 20)
+        document.getElementById("hinYear").value = hinYear;
+    else
+        document.getElementById("hinYear").value = "";
+}
+
 function getOptionValues(){
     getOldCarValue();
     getCoolCarValue();
@@ -287,31 +337,6 @@ function getLudiValue() {
     }
 }
 
-speed.onclick = function () {
-    if(document.getElementById("speed").checked) {
-        alert("They've gone to plaid!!! \nCTRL + SHIFT + Y to disable");
-
-        //get plaid colors
-        var colors = "background:linear-gradient( 90deg," + getRandomColor() + " 0%,gold 10%,white 30%," + getRandomColor() + " 50%,gray 60%, " +
-                     "" + getRandomColor() + " 80%," + getRandomColor() + " 100%),linear-gradient( 180deg," + getRandomColor() + " 0%," + getRandomColor() +
-                     " 10%,white 30%," + getRandomColor() + " 50%,gray 60%,maroon 80%," + getRandomColor() + " 100%);background-size: "+
-                     "4em 4em;background-color: #ffffff;background-blend-mode: multiply, normal;"
-
-        document.getElementById("SearchResults").style = " width:600px; height:175px; border:5px solid black; " + colors;
-        document.getElementById("vinBox").style = colors;
-        document.getElementById("yearBox").style = colors;
-        document.getElementById("makeBox").style = colors;
-        document.getElementById("modelBox").style = colors;
-    }
-    else {
-        document.getElementById("SearchResults").style = " width:600px; height:175px; background:#42464c; border:5px solid black;"
-        document.getElementById("vinBox").style = "background:#42464c;"
-        document.getElementById("yearBox").style = "background:#42464c"
-        document.getElementById("makeBox").style = "background:#42464c"
-        document.getElementById("modelBox").style = "background:#42464c"
-    }
-};
-
 function getRandomColor() {
   var letters = '0123456789ABCDEF';
   var color = '#';
@@ -337,37 +362,9 @@ function getCoolCarValue() {
         coolCarValue = false;
 }
 
-function setBoxes(){    //I have no clue how this works
-    var checkboxValues = JSON.parse(localStorage.getItem('checkboxValues')) || {},
-        $checkboxes = $("#SearchResults :checkbox");
-
-    $checkboxes.on("change", function(){
-      $checkboxes.each(function(){
-        checkboxValues[this.id] = this.checked;
-      });
-
-      localStorage.setItem("checkboxValues", JSON.stringify(checkboxValues));
-    });
-
-    // On page load
-    $.each(checkboxValues, function(key, value) {
-      $("#" + key).prop('checked', value);
-    });
-
-    var hinYear = localStorage.getItem("hinYear");
-    if(hinYear != 20)
-        document.getElementById("hinYear").value = hinYear;
-    else
-        document.getElementById("hinYear").value = "";
-}
-
 /*=============================================================================================
 *****************************************     HINS    *****************************************
 =============================================================================================*/
-hinButton.onclick = function () {
-    getHin();
-};
-
 function getHin(){
     var hinYear = document.getElementById("hinYear").value;
     if(hinYear == "")
@@ -414,49 +411,13 @@ function numbers(length){
    return result;
 }
 
+hinButton.onclick = function () {
+    getHin();
+};
+
 /*=============================================================================================
 *****************************************     TEXT    *****************************************
 =============================================================================================*/
-var subheaderArray = [
-    "The only vin generator that <i>remembers</i>",
-    "The only vin generator that <i>doesn't suck</i>",
-    "The only vin generator that <i>really cares</i>",
-    "The only vin generator that <i>loves you too</i>",
-    "The only vin generator that <i>generates HINs</i>",
-    "The only vin generator that <i>actually listens</i>",
-    "The only vin generator that <i>reverses hair loss</i>",
-    "The only vin generator that's <i>just someone's vanity project</i>",
-    "Billions and billions of VINS served",
-    "The best thing to come from Arkansas since cheese dip",
-    "Now GNU licensed. Stallman be praised",
-    "Originally called 'Vinny'",
-    "It puts the 'vin' into <i>'time-saving'</i>",
-    "It puts the 'vin' into <i>'vinaigrette'</i>",
-    "Send your money: paypal.me/fasterVin",
-    "Send your hate mail: <i>brandonrudisel@gmail.com</i>",
-    "Banned in Mississippi",
-    "Mostly tested",
-    "<i>Version: " + version + "</i>",
-    "Powered by hatred, and NHTSA",
-    "First hit's free",
-    "Powered by Vin Diesel",
-    "From the inventor of vin humor",
-    "Over 100 <strike>suckers</strike> <b>daily users!</b>"]
-
-getSubheader();   //get subheader on load
-                  //must come after subheader array is declared
-
-function showInfo() {
-    var infoString = "It actually doesn't generate anything. It just randomly returns a hard coded vin.</br>" +
-    "Hover over options to learn their function.</br>" +
-    "Made by Brandon Rudisel.<br>To send money: paypal.me/fasterVin</br>To send hate mail: brandonrudisel@gmail.com</br></br></br>" +
-    "<b>Hit enter to go back</b></br>" +
-    "Powered by hatred, and NHTSA </br><i>Version: " + version + "</i>";
-
-    document.getElementById("SearchResults").innerHTML =
-        "<font color=\"white\">" + infoString + "</font>";
-}
-
 function showChannelLog() {     //Shows differences between versions
     var channelLog =
     "1.6.0.2 New subheaders, tweak plaid function, tweak randomness. 11/xx/19</br></br>" +
@@ -498,3 +459,44 @@ function superUserTips(){
         document.getElementById("SearchResults").innerHTML =
                     "<font color=\"white\">" + superUserTips + "</font>";
 }
+
+function showInfo() {
+    var infoString = "It actually doesn't generate anything. It just randomly returns a hard coded vin.</br>" +
+    "Hover over options to learn their function.</br>" +
+    "Made by Brandon Rudisel.<br>To send money: paypal.me/fasterVin</br>To send hate mail: brandonrudisel@gmail.com</br></br></br>" +
+    "<b>Hit enter to go back</b></br>" +
+    "Powered by hatred, and NHTSA </br><i>Version: " + version + "</i>";
+
+    document.getElementById("SearchResults").innerHTML =
+        "<font color=\"white\">" + infoString + "</font>";
+}
+
+var subheaderArray = [
+    "The only vin generator that <i>remembers</i>",
+    "The only vin generator that <i>doesn't suck</i>",
+    "The only vin generator that <i>really cares</i>",
+    "The only vin generator that <i>loves you too</i>",
+    "The only vin generator that <i>generates HINs</i>",
+    "The only vin generator that <i>actually listens</i>",
+    "The only vin generator that <i>reverses hair loss</i>",
+    "The only vin generator that's <i>just someone's vanity project</i>",
+    "Billions and billions of VINS served",
+    "The best thing to come from Arkansas since cheese dip",
+    "Now GNU licensed. Stallman be praised",
+    "Originally called 'Vinny'",
+    "It puts the 'vin' into <i>'time-saving'</i>",
+    "It puts the 'vin' into <i>'vinaigrette'</i>",
+    "Send your money: paypal.me/fasterVin",
+    "Send your hate mail: <i>brandonrudisel@gmail.com</i>",
+    "Banned in Mississippi",
+    "Mostly tested",
+    "<i>Version: " + version + "</i>",
+    "Powered by hatred, and NHTSA",
+    "First hit's free",
+    "Powered by Vin Diesel",
+    "From the inventor of vin humor",
+    "Over 100 <strike>suckers</strike> <b>daily users!</b>"]
+
+//get subheader on load
+//must come after subheader array is declared
+getSubheader();
