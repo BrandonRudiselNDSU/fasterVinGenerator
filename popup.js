@@ -2,7 +2,7 @@ var manifestData = chrome.runtime.getManifest();
 var version = manifestData.version;
 var oldCarValue = false;
 var coolCarValue = false;
-var page = ""; //tracks what is currently displaying, "" is main page
+var page = "";       //tracks what is currently displaying, "" is main page
 var previousVin = "" //holds the value of the last vin generated
 
 setBoxes();         //always set boxes from memory before getting options
@@ -15,7 +15,7 @@ getVin();           //get vin on load
 submitButton.onclick = function () {
     var input = document.getElementById('searchBox').value;
     if (input.charAt(0) == "/") {     //is a control command
-        if (input.charAt(1) == "h")  //is a list history command
+        if (input.charAt(1) == "h")  //is a list copy history command
             { listHistory("vinRecord"); page = "h"; }
         else if (input.charAt(1) == "d")  //is a list decode history command
             { listHistory("decodeRecord"); page = "d"; }
@@ -75,7 +75,7 @@ function decodeVin(vin, userInput){
     	dataType: "json",
     	success: function(result){
     		printVehicleInfo(result.Results);
-    		if (userInput)
+    		if (userInput)      //if the user entered this vin for decoding, store it
     		    storeDecode(vin);
     	},
     	error: function(xhr, ajaxOptions, thrownError){
@@ -183,7 +183,6 @@ function getLengthOfNumber(number) {
 /*=============================================================================================
 ***************************************     HISTORY     ***************************************
 =============================================================================================*/
-
 function listDatabase(historyString, database){
     var printedIndex = 1;   //this is the number next to the listed row
     var transaction = db.transaction([database], "readonly");
@@ -420,7 +419,7 @@ hinButton.onclick = function () {
 =============================================================================================*/
 function showChannelLog() {     //Shows differences between versions
     var channelLog =
-    "1.6.0.2 New subheaders, tweak plaid function, tweak randomness. 11/xx/19</br></br>" +
+    "1.6.1.0 New subheaders, tweaks: plaid function, randomness, history listings, refactor code. 11/xx/19</br></br>" +
     "1.6.0.1 Note: Don't remove stuff from background.js if you don't know what it does. 11/09/19</br></br>" +
     "1.6.0.0 Add cool cars, add check digit validation, add options, add plaid, refactor code. 11/07/19</br></br>" +
     "1.5.0.1 Fix hanging window, add back one vin feature. 09/15/19</br></br>" +
