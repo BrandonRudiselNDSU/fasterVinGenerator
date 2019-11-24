@@ -11,11 +11,11 @@ searchBox.addEventListener("keydown", function(event) {
     if (event.keyCode === 17) { //Ctrl key
         searchBox.addEventListener("keydown", function(event) {
             if (event.keyCode === 67) { //'C' to copy VIN
-                copy(true);
+                copyVin(true);
             }
             if (event.keyCode === 65) { //'A' to copy HIN
                 getHin();
-                copy(true);
+                copyVin(true);
             }
         });
     }

@@ -13,7 +13,7 @@ getVin();           //get vin on load
 submitButton.onclick = function () {
     var input = document.getElementById('searchBox').value;
     if (input.charAt(0) == "/") {     //is a control command
-        if (input.charAt(1) == "h")  //is a list copy history command
+        if (input.charAt(1) == "h")   //is a list copy history command
             { listHistory("vinRecord"); page = "h"; }
         else if (input.charAt(1) == "d")  //is a list decode history command
             { listHistory("decodeRecord"); page = "d"; }
@@ -61,9 +61,11 @@ function decodeVin(vin, userInput){
     	type: "GET",
     	dataType: "json",
     	success: function(result){
-    		printVehicleInfo(result.Results);
+    	    document.getElementById("yearBox").value = result.Results[9].Value;
+    	    document.getElementById("makeBox").value = result.Results[6].Value;
+            document.getElementById("modelBox").value = result.Results[8].Value;
     		if (userInput)      //if the user entered this vin for decoding, store it
-    		    storeDecode(vin);
+    		    storeRecord(vin, "decodeRecord");
     	}, error: function(xhr, ajaxOptions, thrownError){
     		console.log(xhr.status);
     		console.log(thrownError);
@@ -81,20 +83,6 @@ function getVin(){
         var vin = vinArray[Math.floor(Math.random() * vinArray.length)]; //returns any car
     document.getElementById("vinBox").value = vin;
     decodeVin(vin, false);
-}
-
-function storeDecode(vin) {
-    var year = document.getElementById("yearBox").value;
-    var make = document.getElementById("makeBox").value;
-    var model = document.getElementById("modelBox").value;
-    document.getElementById("vinBox").value = vin;
-    add(getTimeStamp() + " || " + vin + " : " + year + " | " + make + " | " + model, "decodeRecord");
-}
-
-function printVehicleInfo(vehicleDataArray){
-    document.getElementById("yearBox").value = vehicleDataArray[9].Value;   //year
-    document.getElementById("makeBox").value = vehicleDataArray[6].Value;   //make
-    document.getElementById("modelBox").value = vehicleDataArray[8].Value;  //model
 }
 
 function getSubheader() {
@@ -128,7 +116,7 @@ function isValidVin(input){ //https://en.wikipedia.org/wiki/Vehicle_identificati
 
 function getDBValue(input, database) {
     var historyIndexString = input.substr(1,input.length);  //remove "/" and return the number
-    var historyIndexInt = parseInt(historyIndexString);     //parse int
+    var historyIndexInt = parseInt(historyIndexString);
 
     var transaction = db.transaction([database], "readonly");
     var objectStore = transaction.objectStore(database);
@@ -157,11 +145,7 @@ function back() {    //goes back one vin
     decodeVin(previousVin, false);
 }
 
-function getLengthOfNumber(number) {
-    return number.toString().length;
-}
-
-function decodeMessage(message) {
+function decodeMessage(message) {       //clears year and model while passing message into make
     document.getElementById("yearBox").value = "";
     document.getElementById("makeBox").value = message;
     document.getElementById("modelBox").value = "";
@@ -177,7 +161,7 @@ function listDatabase(historyString, database){
     var countRequest = objectStore.count(); //get length of database for padding later
 
     countRequest.onsuccess = function() {
-        var dbDigitsInLength = getLengthOfNumber(countRequest.result); //get num of digits in the count of indexes in this database
+        var dbDigitsInLength = countRequest.result.toString().length; //get num of digits in the count of indexes in this database
         var transaction = db.transaction(database, "readonly");
         var objectStore = transaction.objectStore(database);
         var request = objectStore.openCursor(null,"prev");
@@ -210,9 +194,17 @@ function listHistory(database) {
     }
 }
 
-function copy(storeVin) {
+function storeRecord(vin, database) {
+    var year = document.getElementById("yearBox").value;
+    var make = document.getElementById("makeBox").value;
+    var model = document.getElementById("modelBox").value;
+    document.getElementById("vinBox").value = vin;
+    addRecord(getTimeStamp() + " || " + vin + " : " + year + " | " + make + " | " + model, database);
+}
+
+function copyVin(storeVin) {   //this copies the value in the vinBox
     if(storeVin)  //allows caller to choose to store vin
-        addCopied(getTimeStamp() + " || " + document.getElementById("vinBox").value, "vinRecord");
+        storeRecord(document.getElementById("vinBox").value, "vinRecord");
     else{
         var copyElement = document.getElementById("vinBox");
         copyElement.select();
@@ -304,7 +296,7 @@ coolCar.onclick = function(){
 function getLudiValue() {
     if(document.getElementById("speed").checked){
         getVin();   //guarantee a vin is populated
-        copy(false);
+        copyVin(false);
     }
 }
 
@@ -384,7 +376,7 @@ hinButton.onclick = function () {
 =============================================================================================*/
 function showChannelLog() {     //Shows differences between versions
     var channelLog =
-    "1.6.1.0 New subheaders, tweaks: plaid function, randomness, history listings, refactor code. 11/xx/19</br></br>" +
+    "1.6.1.0 Removed some Acuras, code overhaul, tweaks: plaid function, randomness, history listings. 11/xx/19</br></br>" +
     "1.6.0.1 Note: Don't remove stuff from background.js if you don't know what it does. 11/09/19</br></br>" +
     "1.6.0.0 Add cool cars, add check digit validation, add options, add plaid, refactor code. 11/07/19</br></br>" +
     "1.5.0.1 Fix hanging window, add back one vin feature. 09/15/19</br></br>" +

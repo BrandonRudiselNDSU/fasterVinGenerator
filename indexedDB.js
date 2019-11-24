@@ -38,13 +38,17 @@ function read(index, data) {
     };
 
     request.onsuccess = function(event) {
-    var oldVin;
+    var retrievedVin;
         if(request.result) {
-            oldVin = request.result.record;
-            oldVin = oldVin.substr(oldVin.indexOf("|| ") + 3, oldVin.length - 1); //remove time stamp
+            retrievedVin = request.result.record;
+            retrievedVin = retrievedVin.substr(retrievedVin.indexOf("|| ") + 3, retrievedVin.length - 1); //remove time stamp
             if(data == "decodeRecord") //if it's a decoded vin, it has a decode that must be removed too
-                oldVin = oldVin.substr(0, oldVin.indexOf(" : ")); //remove year/make/model from text
-            historyCopy(oldVin);
+                retrievedVin = retrievedVin.substr(0, retrievedVin.indexOf(" : ")); //remove year/make/model from text
+            document.getElementById("searchBox").value = retrievedVin;      //copyVin() won't work here
+            var searchBoxElement = document.getElementById("searchBox");    //hence the special logic
+            searchBoxElement.select();
+            document.execCommand("copy");
+            window.close();
         } else {
             alert("Could not find value");
             console.log(request.error);
@@ -52,41 +56,19 @@ function read(index, data) {
     };
 }
 
-function add(record, data) {
+function addRecord(record, data) {
     var request = db.transaction([data], "readwrite")
     .objectStore(data)
     .add({record: record});
 
     request.onsuccess = function(event) {
-        //do nothing
-        console.log("Add record");
+        if(data == "vinRecord") //if it's not a decode, we need to copy and close after storing
+            copyVin(false);
     };
 
     request.onerror = function(event) {
         alert("Unable to add data");
     }
-}
-
-function addCopied(record, data) {
-    var request = db.transaction([data], "readwrite")
-    .objectStore(data)
-    .add({record: record});
-
-    request.onsuccess = function(event) {
-        copy(false);
-    };
-
-    request.onerror = function(event) {
-        alert("Unable to add data");
-    }
-}
-
-function historyCopy(vin) {
-    document.getElementById("searchBox").value = vin;
-    var searchBoxElement = document.getElementById("searchBox");
-    searchBoxElement.select();
-    document.execCommand("copy");
-    window.close();
 }
 
 function clearData(){
