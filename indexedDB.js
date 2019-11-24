@@ -73,15 +73,20 @@ function addCopied(record, data) {
     .add({record: record});
 
     request.onsuccess = function(event) {
-        var copyElement = document.getElementById("vinBox");
-        copyElement.select();
-        document.execCommand("copy");
-        window.close();
+        copy(false);
     };
 
     request.onerror = function(event) {
         alert("Unable to add data");
     }
+}
+
+function historyCopy(vin) {
+    document.getElementById("searchBox").value = vin;
+    var searchBoxElement = document.getElementById("searchBox");
+    searchBoxElement.select();
+    document.execCommand("copy");
+    window.close();
 }
 
 function clearData(){

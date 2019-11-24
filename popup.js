@@ -210,8 +210,8 @@ function listHistory(database) {
     }
 }
 
-function copy(ludicrousStatus) {
-    if(!ludicrousStatus)  //if ludicrous speed is not engaged, copy to history
+function copy(storeVin) {
+    if(storeVin)  //allows caller to choose to store vin
         addCopied(getTimeStamp() + " || " + document.getElementById("vinBox").value, "vinRecord");
     else{
         var copyElement = document.getElementById("vinBox");
@@ -227,14 +227,6 @@ function clearHistory() {    //clears decode and copy history
 
     document.getElementById("SearchResults").innerHTML =
         "<font color=\"white\">" + clearText + "</font>";
-}
-
-function historyCopy(vin) {
-    document.getElementById("searchBox").value = vin;
-    var searchBoxElement = document.getElementById("searchBox");
-    searchBoxElement.select();
-    document.execCommand("copy");
-    window.close();
 }
 
 /*=============================================================================================
@@ -312,7 +304,7 @@ coolCar.onclick = function(){
 function getLudiValue() {
     if(document.getElementById("speed").checked){
         getVin();   //guarantee a vin is populated
-        copy(true);
+        copy(false);
     }
 }
 
