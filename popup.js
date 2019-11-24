@@ -140,15 +140,15 @@ function getTimeStamp() {    //returns time stamp for history
     return formattedDate;
 }
 
-function back() {    //goes back one vin
-    document.getElementById("vinBox").value = previousVin;
-    decodeVin(previousVin, false);
-}
-
 function decodeMessage(message) {       //clears year and model while passing message into make
     document.getElementById("yearBox").value = "";
     document.getElementById("makeBox").value = message;
     document.getElementById("modelBox").value = "";
+}
+
+function back() {    //goes back one vin
+    document.getElementById("vinBox").value = previousVin;
+    decodeVin(previousVin, false);
 }
 
 /*=============================================================================================
@@ -198,8 +198,13 @@ function storeRecord(vin, database) {
     var year = document.getElementById("yearBox").value;
     var make = document.getElementById("makeBox").value;
     var model = document.getElementById("modelBox").value;
+    var decode;
+    if (year == "")
+        decode = "Vin copied before decode returned"
+    else
+        decode = year + " | " + make + " | " + model
     document.getElementById("vinBox").value = vin;
-    addRecord(getTimeStamp() + " || " + vin + " : " + year + " | " + make + " | " + model, database);
+    addRecord(getTimeStamp() + " || " + vin + " : " + decode, database);
 }
 
 function copyVin(storeVin) {   //this copies the value in the vinBox
