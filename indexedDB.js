@@ -42,8 +42,7 @@ function read(index, data) {
         if(request.result) {
             retrievedVin = request.result.record;
             retrievedVin = retrievedVin.substr(retrievedVin.indexOf("|| ") + 3, retrievedVin.length - 1); //remove time stamp
-            if(data == "decodeRecord") //if it's a decoded vin, it has a decode that must be removed too
-                retrievedVin = retrievedVin.substr(0, retrievedVin.indexOf(" : ")); //remove year/make/model from text
+            retrievedVin = retrievedVin.substr(0, retrievedVin.indexOf(" : ")); //remove year/make/model from text
             document.getElementById("searchBox").value = retrievedVin;      //copyVin() won't work here
             var searchBoxElement = document.getElementById("searchBox");    //hence the special logic
             searchBoxElement.select();

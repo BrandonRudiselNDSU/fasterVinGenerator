@@ -1,7 +1,7 @@
 {
   "name": "Faster Vin Generator",
   "short_name": "FVG",
-  "version": "1.6.1.0",
+  "version": "1.6.1.1",
   "description": "The world's fastest and most feature rich Vehicle Identification Number Generator",
   "options_page": "options.html",
   "permissions": [
