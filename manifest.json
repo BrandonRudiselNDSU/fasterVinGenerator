@@ -5,6 +5,7 @@
   "description": "The world's fastest and most feature rich Vehicle Identification Number Generator",
   "options_page": "options.html",
   "permissions": [
+    "declarativeContent",
     "storage"
   ],
   "background": {
