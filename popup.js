@@ -105,7 +105,6 @@ function isValidVin(input){ //https://en.wikipedia.org/wiki/Vehicle_identificati
         'k': 2,'l': 3,'m': 4,'n': 5,'p': 7,'r': 9,'s': 2,'t': 3,'u': 4,'v': 5,'w': 6,
         'x': 7,'y': 8,'z': 9
     };
-
     let weightsTable = [8, 7, 6, 5, 4, 3, 2, 10, 0, 9, 8, 7, 6, 5, 4, 3, 2];
     let sum = 0;
     for (let i = 0; i < input.length; ++i)
@@ -291,6 +290,7 @@ oldCar.onclick = function(){
     getOptionValues();
     getVin();
 }
+
 coolCar.onclick = function(){
     if(document.getElementById("oldCar").checked)
         document.getElementById("oldCar").checked = false;
@@ -381,6 +381,7 @@ hinButton.onclick = function () {
 =============================================================================================*/
 function showChannelLog() {     //Shows differences between versions
     var channelLog =
+    "1.6.1.2 Add more cool cars, and a new subheader. 03/04/20</br></br>" +
     "1.6.1.1 Removed decode from vin history copy. 11/30/19</br></br>" +
     "1.6.1.0 Removed some Acuras, code overhaul, tweaks: plaid function, randomness, history listings. 11/24/19</br></br>" +
     "1.6.0.1 Note: Don't remove stuff from background.js if you don't know what it does. 11/09/19</br></br>" +
@@ -457,7 +458,8 @@ var subheaderArray = [
     "First hit's free",
     "Powered by Vin Diesel",
     "From the inventor of vin humor",
-    "Over 100 <strike>suckers</strike> <b>daily users!</b>"]
+    "Over 100 <strike>suckers</strike> <b>daily users!</b>",
+    "\"Super helpful for work\" -Charles"]
 
 //get subheader on load
 //must come after subheader array is declared
