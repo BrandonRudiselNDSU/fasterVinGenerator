@@ -21,10 +21,14 @@ submitButton.onclick = function () {
             { superUserTips(); page = "s"; }
         else if (input.charAt(1) == "i") //is an info request
             { showInfo(); page = "i"; }
+        else if (input.charAt(1) == "m") //open vin manager
+            { vinManager(); page = "m"; }
         else if (input.charAt(1) == "c") //is a clear history command
             { clearHistory(); page = "c"; }
         else if (input.charAt(1) == "v") //is a channel Log command
             { showChannelLog(); page = "v"; }
+        else if (input.charAt(1) == "p") //is a channel Log command
+            { privacyPolicy(); page = "p"; } //is a privacy policy command
         else if (input.charAt(1) == "b") //is a back command
             { if(previousVin != "Something's wrong here...") { back(); } }  //if a previous vin exists, we can go back to it
 
@@ -379,8 +383,21 @@ hinButton.onclick = function () {
 /*=============================================================================================
 *****************************************     TEXT    *****************************************
 =============================================================================================*/
+function vinManager() {
+    var infoString = "It actually doesn't generate anything. It just randomly returns a hard coded vin.</br>" +
+    "Hover over options to learn their function.</br>" +
+    "Made by Brandon Rudisel.<br>To send money: paypal.me/fasterVin</br>To send hate mail: 1600 Amphitheatre Parkway</br></br></br>" +
+    "<b>Hit enter to go back</b></br>" +
+    "Powered by hatred, and NHTSA </br><i>Version: " + version + "</i>";
+
+    document.getElementById("SearchResults").innerHTML =
+        "<font color=\"white\">" + infoString + "</font>";
+}
+
 function showChannelLog() {     //Shows differences between versions
     var channelLog =
+    "1.6.1.4 Add new feature, privacy policy 06/10/20</br></br>" +
+    "1.6.1.3 Add new feature, VIN manager. Allows user to add and remove VINs. 03/06/20</br></br>" +
     "1.6.1.2 Add more cool cars, and a new subheader. 03/04/20</br></br>" +
     "1.6.1.1 Removed decode from vin history copy. 11/30/19</br></br>" +
     "1.6.1.0 Removed some Acuras, code overhaul, tweaks: plaid function, randomness, history listings. 11/24/19</br></br>" +
@@ -402,6 +419,13 @@ function showChannelLog() {     //Shows differences between versions
                     "<font color=\"white\">" + channelLog + "</font>";
 }
 
+function privacyPolicy() {
+    var channelLog =
+    "No personal information is collected, or transmitted. </br>Ever."
+        document.getElementById("SearchResults").innerHTML =
+                    "<font color=\"white\">" + channelLog + "</font>";
+}
+
 function superUserTips(){
     var superUserTips =
     "These are the super-user shortcuts and commands for Faster Vin Generator.</br>" +
@@ -414,6 +438,7 @@ function superUserTips(){
     "Commands:</br>" +
     "/h || List history of copied VINS</br>" +
     "/d || List history of decoded VINS</br>" +
+    "/m || Manage VINs</br>" +
     "/b || Back one VIN</br>" +
     "/c || Clears history</br>" +
     "/i || Displays info about Faster Vin Generator</br>" +
@@ -450,7 +475,7 @@ var subheaderArray = [
     "It puts the 'vin' into <i>'time-saving'</i>",
     "It puts the 'vin' into <i>'vinaigrette'</i>",
     "Send your money: paypal.me/fasterVin",
-    "Send your hate mail: <i>brandonrudisel@gmail.com</i>",
+    "Send your hate mail: <i>1600 Amphitheatre Parkway</i>",
     "Banned in Mississippi",
     "Mostly tested",
     "<i>Version: " + version + "</i>",
