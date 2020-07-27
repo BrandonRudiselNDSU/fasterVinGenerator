@@ -396,6 +396,7 @@ function vinManager() {
 
 function showChannelLog() {     //Shows differences between versions
     var channelLog =
+    "1.6.1.5 CSS Fix 7/27/20</br></br>" +
     "1.6.1.4 Add new feature, privacy policy 06/10/20</br></br>" +
     "1.6.1.3 Add new feature, VIN manager. Allows user to add and remove VINs. 03/06/20</br></br>" +
     "1.6.1.2 Add more cool cars, and a new subheader. 03/04/20</br></br>" +

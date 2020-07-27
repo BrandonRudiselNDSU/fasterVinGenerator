@@ -18,6 +18,10 @@ p {
     color: white;
 }
 
+#searchBox {
+outline: none;
+}
+
 #SearchResults {
     overflow: auto;
 }
