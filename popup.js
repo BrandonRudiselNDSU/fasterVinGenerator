@@ -485,7 +485,8 @@ var subheaderArray = [
     "Powered by Vin Diesel",
     "From the inventor of vin humor",
     "Over 100 <strike>suckers</strike> <b>daily users!</b>",
-    "\"Super helpful for work\" -Charles"]
+    "\"Super helpful for work\" -Charles",
+    "Now available for Microsoft Edge!"]
 
 //get subheader on load
 //must come after subheader array is declared
