@@ -1,11 +1,10 @@
 {
   "name": "Faster Vin Generator",
   "short_name": "FVG",
-  "version": "1.6.1.5",
+  "version": "1.6.1.6",
   "description": "The world's fastest and most feature rich Vehicle Identification Number Generator",
   "options_page": "options.html",
   "permissions": [
-    "declarativeContent",
     "storage"
   ],
   "background": {
@@ -14,7 +13,7 @@
     ],
     "persistent": false
   },
-  "page_action": {
+  "browser_action": {
     "default_title": "Clear Options:  CTRL + SHIFT + Y",
     "default_popup": "popup.html",
     "default_icon": {
@@ -31,16 +30,16 @@
     "128": "images/v.png"
   },
   "commands": {
-     "clearOptions": {
+    "_execute_browser_action": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+Z"
+      }
+    },
+    "clearOptions": {
        "suggested_key": {
          "default": "Ctrl+Shift+Y"
        },
          "description": "Clear Options"
-     },
-     "_execute_page_action": {
-       "suggested_key": {
-         "default": "Ctrl+Shift+Z"
-       }
      }
    },
   "web_accessible_resources":[
