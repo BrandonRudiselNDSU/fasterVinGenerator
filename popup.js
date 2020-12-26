@@ -21,8 +21,6 @@ submitButton.onclick = function () {
             { superUserTips(); page = "s"; }
         else if (input.charAt(1) == "i") //is an info request
             { showInfo(); page = "i"; }
-        /*else if (input.charAt(1) == "m") //open vin manager
-            { vinManager(); page = "m"; }*/
         else if (input.charAt(1) == "c") //is a clear history command
             { clearHistory(); page = "c"; }
         else if (input.charAt(1) == "v") //is a channel Log command
@@ -396,6 +394,7 @@ function vinManager() {
 
 function showChannelLog() {     //Shows differences between versions
     var channelLog =
+    "1.6.1.7 Remove vestigial VIN manager, Remove storage permission, Merry Christmas 12/25/20</br></br>" +
     "1.6.1.6 Remove Declarative Content permission 7/29/20</br></br>" +
     "1.6.1.5 CSS Fix 7/27/20</br></br>" +
     "1.6.1.4 Add new feature, privacy policy 06/10/20</br></br>" +
@@ -440,7 +439,6 @@ function superUserTips(){
     "Commands:</br>" +
     "/h || List history of copied VINS</br>" +
     "/d || List history of decoded VINS</br>" +
-    "/m || Manage VINs</br>" +
     "/b || Back one VIN</br>" +
     "/c || Clears history</br>" +
     "/i || Displays info about Faster Vin Generator</br>" +
